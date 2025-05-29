@@ -1,7 +1,7 @@
 from transformers import AutoTokenizer
 
-model_path = "/data/lucasjia/models/gemma-2-27b-it-tokenizer"
-new_path = "/data/lucasjia/models/gemma-2-27b-it-tokenizer"
+model_path = "/data/lucasjia/models/gemma-7b-it"
+new_path = "/data/lucasjia/models/gemma-7b-it-tokenizer2"
 tokenizer = AutoTokenizer.from_pretrained(model_path)
 
 tokenizer.chat_template = """{{ bos_token }}
