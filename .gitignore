@@ -1,2 +1,4 @@
 /NutriBench\ ReFT/train_v2.csv
 /src/SFT/train_v2.jsonl
+.env
+*.pyc
