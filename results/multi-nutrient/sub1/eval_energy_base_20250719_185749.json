@@ -1,0 +1,21 @@
+{
+  "nutrient": "energy",
+  "arguments": {
+    "method": "base",
+    "prompt": "For the given query including a meal description, calculate the amount of energy in kilocalories (kcal). If the serving size of any item in the\nmeal is not specified, assume it is a single standard serving based on common nutritional guidelines (e.g., USDA).\nRespond with a dictionary object containing the total energy in kilocalories as follows:\n{\"total_energy\": total kilocalories for the serving}\nFor the total energy, respond with just the numeric amount without extra text. If you don't know the answer,\nrespond with:\n{\"total_energy\": -1}.\n\nQuery: \"This morning, I had a cup of oatmeal with half a sliced banana and a glass of orange juice.\"\nAnswer: {\"total_energy\": 312}\n\nQuery: \"I ate scrambled eggs made with 2 eggs and a toast for breakfast\"\nAnswer: {\"total_energy\": 277.2}\n\nQuery: \"Half a peanut butter and jelly sandwich.\"\nAnswer: {\"total_energy\": 202}",
+    "model": "gpt-4o-2024-08-06",
+    "temperature": 0.1,
+    "top_p": 0.1
+  },
+  "data_path": "/data/lucasjia/projects/nutri/src/multi-nutrient/nb_v2_sub_laya.csv",
+  "test_flag": false,
+  "save_json": true,
+  "threshold": 50,
+  "percent": false,
+  "eval_result": {
+    "acc": 0.5716981132075472,
+    "mae": 95.58522641509435,
+    "mse": 203.49954558523277,
+    "answer_rate": 0.960377358490566
+  }
+}

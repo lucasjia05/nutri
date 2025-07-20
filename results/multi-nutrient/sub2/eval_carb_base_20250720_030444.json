@@ -1,0 +1,21 @@
+{
+  "nutrient": "carb",
+  "arguments": {
+    "method": "base",
+    "prompt": "For the given query including a meal description, calculate the amount of carbohydrates in grams. If the serving size of any item in the\nmeal is not specified, assume it is a single standard serving based on common nutritional guidelines (e.g., USDA).\nRespond with a dictionary object containing the total carbohydrates in grams as follows:\n{{\"total_carbohydrates\": total grams of carbohydrates for the serving}}\nFor the total carbohydrates, respond with just the numeric amount of carbohydrates without extra text. If you don't know the answer,\nrespond with:\n{{\"total_carbohydrates\": -1}}.\n\nQuery: \"This morning, I had a cup of oatmeal with half a sliced banana and a glass of orange juice.\"\nAnswer: {{\"total_carbohydrates\": 66.5}}\n\nQuery: \"I ate scrambled eggs made with 2 eggs and a toast for breakfast\"\nAnswer: {{\"total_carbohydrates\": 15}}\n\nQuery: \"Half a peanut butter and jelly sandwich.\"\nAnswer: {{\"total_carbohydrates\": 25.3}}",
+    "model": "gpt-4o",
+    "temperature": 0.1,
+    "top_p": 0.1
+  },
+  "data_path": "/data/lucasjia/projects/nutri/src/multi-nutrient/nb_v2_sub2_laya.csv",
+  "test_flag": false,
+  "save_json": true,
+  "threshold": 7.5,
+  "percent": false,
+  "eval_result": {
+    "acc": 0.5263492063492063,
+    "mae": 14.515739682539692,
+    "rmse": 27.55015914913845,
+    "answer_rate": 0.9828571428571429
+  }
+}

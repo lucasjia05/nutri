@@ -1,0 +1,21 @@
+{
+  "nutrient": "protein",
+  "arguments": {
+    "method": "base",
+    "prompt": "For the given query including a meal description, calculate the amount of protein in grams. If the serving size of any item in the\nmeal is not specified, assume it is a single standard serving based on common nutritional guidelines (e.g., USDA).\nRespond with a dictionary object containing the total protein in grams as follows:\n{\"total_protein\": total grams of protein for the serving}\nFor the total protein, respond with just the numeric amount of protein without extra text. If you don't know the answer,\nrespond with:\n{\"total_protein\": -1}.\n\nQuery: \"This morning, I had a cup of oatmeal with half a sliced banana and a glass of orange juice.\"\nAnswer: {\"total_protein\": 7.65}\n\nQuery: \"I ate scrambled eggs made with 2 eggs and a toast for breakfast\"\nAnswer: {\"total_protein\": 15.3}\n\nQuery: \"Half a peanut butter and jelly sandwich.\"\nAnswer: {\"total_protein\": 6.4}",
+    "model": "gpt-4o-2024-08-06",
+    "temperature": 0.1,
+    "top_p": 0.1
+  },
+  "data_path": "/data/lucasjia/projects/nutri/src/multi-nutrient/nb_v2_sub_laya.csv",
+  "test_flag": false,
+  "save_json": true,
+  "threshold": 2.0,
+  "percent": false,
+  "eval_result": {
+    "acc": 0.5547169811320755,
+    "mae": 3.585547169811317,
+    "mse": 6.49980458341953,
+    "answer_rate": 0.969811320754717
+  }
+}
