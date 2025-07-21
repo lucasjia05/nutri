@@ -42,7 +42,7 @@ def load_data0( # for unprocessed data
 
 
 # ------------------ GET RESPONSE ------------------
-def get_response(client, prompt, query, method_name, model="gpt-4o-2024-08-06", temp=0.1, top_p=0.1):
+def get_response(client, prompt, query, method_name, model="gpt-4o-2024-08-06", temp=0.1, top_p=0.1, n=1):
     # queries are pretty slow
     if "cot" in method_name.lower():
         answer_prompt = "Let's think step by step."
@@ -56,9 +56,10 @@ def get_response(client, prompt, query, method_name, model="gpt-4o-2024-08-06", 
         model=model,
         messages=messages,
         temperature=temp,
-        top_p=top_p
+        top_p=top_p,
+        n=n
     )
-    return response.choices[0].message.content
+    return [choice.message.content for choice in response.choices]
 
 
 
@@ -129,6 +130,10 @@ def process_output(doc, pred, threshold=7.5, nutrient="carb"):
     gt = doc[nutrient]
     mae = abs(pred - gt)
     mse = mae ** 2
+    # debug
+    # print(threshold, type(threshold))
+    # print(mae, type(mae))
+    # print("mae < threshold: ", mae < threshold)
 
     metrics = {
         "acc": mae < threshold,
@@ -142,8 +147,6 @@ def process_output(doc, pred, threshold=7.5, nutrient="carb"):
 
 # ------------------ JSON FUNCTIONS ------------------
 def construct_json_obj(doc_id, doc, nutrient, method_name, prompt, query, model, temp, top_p, mbr, n, response, pred, threshold, result):
-    # not the same as spencer sent me but simpler imo
-
     obj = {
         "doc_id" : doc_id,
         "doc" : doc, # metadata relating to query (country, nutrient values, serving_type)
@@ -166,7 +169,7 @@ def construct_json_obj(doc_id, doc, nutrient, method_name, prompt, query, model,
     }
     return obj
 
-def summary_json(nutrient, method, prompt, model, temp, top_p, path, test_flag, save_json, threshold, eval_result):
+def summary_json(nutrient, method, prompt, model, temp, top_p, mbr, n, path, test_flag, save_json, threshold, eval_result):
     summary = {
         "nutrient" : nutrient, # carb/fat/energy/protein
         "arguments" : { 
@@ -175,6 +178,8 @@ def summary_json(nutrient, method, prompt, model, temp, top_p, path, test_flag, 
             "model" : model,
             "temperature" : temp,
             "top_p" : top_p,
+            "mbr" : mbr,
+            "n" : n
         },
         "data_path" : path,
         "test_flag" : test_flag,
@@ -185,7 +190,7 @@ def summary_json(nutrient, method, prompt, model, temp, top_p, path, test_flag, 
     }
     return summary
 
-def combined_json_obj(doc_id, doc, method_name, prompt, query, model, temp, top_p, response, pred, thresholds, result):
+def combined_json_obj(doc_id, doc, method_name, prompt, query, model, temp, top_p, mbr, n, response, pred, thresholds, result):
     obj = {
         "doc_id" : doc_id,
         "doc" : doc,
@@ -197,6 +202,8 @@ def combined_json_obj(doc_id, doc, method_name, prompt, query, model, temp, top_
             "model" : model,
             "temperature" : temp,
             "top_p" : top_p,
+            "mbr" : mbr,
+            "n" : n,
         },
         "resps" : response,
         "pred" : pred,
@@ -211,11 +218,11 @@ def run_eval(
             prompt,
             nutrient="carb",
             method_name="cot",
-            mbr=None,
-            n=1,
             model="gpt-4o-2024-08-06",
             temp=0.1,
             top_p=0.1,
+            mbr=None,
+            n=1,
             path="/data/lucasjia/projects/nutri/src/multi-nutrient/nb_v2_sub_laya.csv",
             test_flag=False,
             save_json=True,
@@ -224,7 +231,7 @@ def run_eval(
             results_dir="/data/lucasjia/projects/nutri/results/multi-nutrient/"
             ):
     if nutrient.lower() == "combined":
-        return run_combined_eval(prompt=prompt, method_name=method_name, model=model, temp=temp, top_p=top_p, path=path, test_flag=test_flag, save_json=save_json, thresholds=thresholds, results_dir=results_dir)
+        return run_combined_eval(prompt=prompt, method_name=method_name, model=model, temp=temp, top_p=top_p, mbr=mbr, n=n, path=path, test_flag=test_flag, save_json=save_json, thresholds=thresholds, results_dir=results_dir)
     
     # OPENAI api
     load_dotenv()
@@ -243,21 +250,20 @@ def run_eval(
     for doc in tqdm(data):
         query = doc['queries']
         if not mbr:
-            responses = [get_response(client=client, prompt=prompt, query=query, method_name=method_name, model=model, temp=temp, top_p = top_p)]
+            responses = get_response(client=client, prompt=prompt, query=query, method_name=method_name, model=model, temp=temp, top_p = top_p)
             pred = clean_output(responses[0], query, method_name, nutrient)
         else:
-            responses = []
             preds = []
-            for i in range(n):
-                responses.append(get_response(client=client, prompt=prompt, query=query, method_name=method_name, model=model, temp=temp, top_p = top_p))
-                preds.append(clean_output(responses[i], query, method_name, nutrient))
+            responses = get_response(client=client, prompt=prompt, query=query, method_name=method_name, model=model, temp=temp, top_p=top_p, n=n)
+            for response in responses:
+                preds.append(clean_output(response, query, method_name, nutrient))
 
             if mbr.lower() == "mae":
-                pred = np.median(np.array(preds))
+                pred = float(np.median(np.array(preds)))
             elif mbr.lower() == "rmse":
-                pred = np.mean(np.array(preds))
+                pred = float(np.mean(np.array(preds)))
             elif mbr.lower() == "mode":
-                pred = stats.mode(np.array(preds), keepdims=True)[0]
+                pred = float(stats.mode(np.array(preds), keepdims=True).mode[0])
             else:
                 raise ValueError(f"Unsupported mbr option: {mbr}")
         
@@ -294,7 +300,7 @@ def run_eval(
     print(f"\nFinal Results - {nutrient} - {method_name}: Acc={acc:.3f}, MAE={mae:.3f}, RMSE={rmse:.3f}")
 
     results_path = results_dir + f"eval_{nutrient}_{method_name}_{timestamp}.json"
-    summary = summary_json(nutrient, method_name, prompt, model, temp, top_p, path, test_flag, save_json, threshold, eval_results)
+    summary = summary_json(nutrient, method_name, prompt, model, temp, top_p, mbr, n, path, test_flag, save_json, threshold, eval_results)
     with open(results_path, "w") as f:
         f.write(json.dumps(summary, indent=2))
     print(f"\nSummary results saved to {results_path}")
@@ -303,13 +309,14 @@ def run_eval(
 
 
 # ------------------ RUN COMBINED EVAL ------------------
-# almost same code as run_eval
 def run_combined_eval(
             prompt,
             method_name="cot",
             model="gpt-4o-2024-08-06",
             temp=0.1,
             top_p=0.1,
+            mbr=None,
+            n=1,
             path="/data/lucasjia/projects/nutri/src/multi-nutrient/nb_v2_sub_laya.csv",
             test_flag=False,
             save_json=True,
@@ -336,21 +343,48 @@ def run_combined_eval(
     
     for doc in tqdm(data):
         query = doc['queries']
-        responses = [get_response(client=client, prompt=prompt, query=query, method_name=method_name, model=model, temp=temp, top_p = top_p)]
-        result = {}
-        pred = {}
-        for nutrient in ["carb", "fat", "energy", "protein"]:
-            threshold = thresholds[nutrient]
-            pred[nutrient] = clean_output(responses[0], query, method_name, nutrient)
-            result[nutrient] = process_output(doc=doc, pred=pred[nutrient], threshold=threshold, nutrient=nutrient)
+        if not mbr:
+            responses = get_response(client=client, prompt=prompt, query=query, method_name=method_name, model=model, temp=temp, top_p = top_p)
+            result = {}
+            pred = {}
+            for nutrient in ["carb", "fat", "energy", "protein"]:
+                threshold = thresholds[nutrient]
+                pred[nutrient] = clean_output(responses[0], query, method_name, nutrient)
+                result[nutrient] = process_output(doc=doc, pred=pred[nutrient], threshold=threshold, nutrient=nutrient)
 
-            acc_counts[nutrient] += result[nutrient]["acc"]
-            total_mae[nutrient] += result[nutrient]["mae"]
-            total_mse[nutrient] += result[nutrient]["mse"]
-            answers[nutrient] += result[nutrient]["answer_rate"]
+                acc_counts[nutrient] += result[nutrient]["acc"]
+                total_mae[nutrient] += result[nutrient]["mae"]
+                total_mse[nutrient] += result[nutrient]["mse"]
+                answers[nutrient] += result[nutrient]["answer_rate"]
+
+        else:
+            preds = {"carb" : [], "fat" : [], "energy" : [], "protein" : []}
+            result = {}
+            pred = {}
+            responses = get_response(client=client, prompt=prompt, query=query, method_name=method_name, model=model, temp=temp, top_p = top_p, n=n)
+            for i in range(n):
+                for nutrient in ["carb", "fat", "energy", "protein"]:
+                    preds[nutrient].append(clean_output(responses[i], query, method_name, nutrient))
+            
+            for nutrient in ["carb", "fat", "energy", "protein"]:
+                threshold = thresholds[nutrient]
+                if mbr.lower() == "mae":
+                    pred[nutrient] = float(np.median(np.array(preds[nutrient])))
+                elif mbr.lower() == "rmse":
+                    pred[nutrient] = float(np.mean(np.array(preds[nutrient])))
+                elif mbr.lower() == "mode":
+                    pred[nutrient] = float(stats.mode(np.array(preds[nutrient]), keepdims=True).mode[0])
+                else:
+                    raise ValueError(f"Unsupported mbr option: {mbr}")
+            
+                result[nutrient] = process_output(doc=doc, pred=pred[nutrient], threshold=threshold, nutrient=nutrient)
+                acc_counts[nutrient] += result[nutrient]["acc"]
+                total_mae[nutrient] += result[nutrient]["mae"]
+                total_mse[nutrient] += result[nutrient]["mse"]
+                answers[nutrient] += result[nutrient]["answer_rate"]
 
         if save_json:
-            obj = combined_json_obj(doc_id, doc, method_name, prompt, query, model, temp, top_p, responses, pred, thresholds, result) 
+            obj = combined_json_obj(doc_id, doc, method_name, prompt, query, model, temp, top_p, mbr, n, responses, pred, thresholds, result) 
             json_list.append(obj)
             doc_id += 1
 
@@ -381,7 +415,7 @@ def run_combined_eval(
 
     # save final results to json
     results_path = os.path.join(results_dir, f"eval_combined_{method_name}_{timestamp}.json")
-    summary = summary_json("combined", method_name, prompt, model, temp, top_p, path, test_flag, save_json, thresholds, eval_results)
+    summary = summary_json("combined", method_name, prompt, model, temp, top_p, mbr, n, path, test_flag, save_json, thresholds, eval_results)
     with open(results_path, "w") as f:
         f.write(json.dumps(summary, indent=2))
     print(f"\nSummary results saved to {results_path}")
@@ -430,7 +464,7 @@ Answer: {{"total_carbohydrates": 15}}
 Query: "Half a peanut butter and jelly sandwich."
 Answer: {{"total_carbohydrates": 25.3}}'''
 
-prompt_protein_temp = '''For the given query including a meal description, calculate the amount of protein in grams. If the serving size of any item in the
+prompt_protein = '''For the given query including a meal description, calculate the amount of protein in grams. If the serving size of any item in the
 meal is not specified, assume it is a single standard serving based on common nutritional guidelines (e.g., USDA).
 Respond with a dictionary object containing the total protein in grams as follows:
 {"total_protein": total grams of protein for the serving}
@@ -447,7 +481,7 @@ Answer: {"total_protein": 15.3}
 Query: "Half a peanut butter and jelly sandwich."
 Answer: {"total_protein": 6.4}'''
 
-prompt_fat_temp = '''For the given query including a meal description, calculate the amount of fat in grams. If the serving size of any item in the
+prompt_fat = '''For the given query including a meal description, calculate the amount of fat in grams. If the serving size of any item in the
 meal is not specified, assume it is a single standard serving based on common nutritional guidelines (e.g., USDA).
 Respond with a dictionary object containing the total fat in grams as follows:
 {"total_fat": total grams of fat for the serving}
@@ -464,7 +498,7 @@ Answer: {"total_fat": 17.5}
 Query: "Half a peanut butter and jelly sandwich."
 Answer: {"total_fat": 9.3}'''
 
-prompt_energy_temp = '''For the given query including a meal description, calculate the amount of energy in kilocalories (kcal). If the serving size of any item in the
+prompt_energy = '''For the given query including a meal description, calculate the amount of energy in kilocalories (kcal). If the serving size of any item in the
 meal is not specified, assume it is a single standard serving based on common nutritional guidelines (e.g., USDA).
 Respond with a dictionary object containing the total energy in kilocalories as follows:
 {"total_energy": total kilocalories for the serving}
@@ -481,7 +515,7 @@ Answer: {"total_energy": 277.2}
 Query: "Half a peanut butter and jelly sandwich."
 Answer: {"total_energy": 202}'''
 
-prompt_combined_temp = '''For the given query including a meal description, calculate the total amounts of carbohydrates (grams), protein (grams), fat (grams), and energy (kilocalories). 
+prompt_combined = '''For the given query including a meal description, calculate the total amounts of carbohydrates (grams), protein (grams), fat (grams), and energy (kilocalories). 
 If the serving size of any item in the meal is not specified, assume it is a single standard serving based on common nutritional guidelines (e.g., USDA).
 Respond with a dictionary object containing four key-value pairs as follows:
 {
@@ -705,11 +739,11 @@ Output: {
 }'''
 
 if __name__ == "__main__":
-    # base - about $1 per eval (530 samples)
+    # base - about 50 cents per MBR per eval (530 samples, n=5)
     # cot - about $1.50-$2 per eval
     # change these params
-    nutrient="combined"
-    prompt = prompt_combined_cot
+    nutrient="fat"
+    prompt = prompt_fat_cot
     method="CoT"
     # model="gpt-4o"
     model = "gpt-4o-2024-08-06"
@@ -717,15 +751,22 @@ if __name__ == "__main__":
     # path = "/data/lucasjia/projects/nutri/src/multi-nutrient/nb_v2_sub_laya.csv"
     test_flag=False
     thresholds = {"carb" : 7.5, "protein" : 2.0, "fat" : 2.5, "energy" : 50.0}
-    results_dir = "/data/lucasjia/projects/nutri/results/multi-nutrient/sub1/"
+    results_dir = "/data/lucasjia/projects/nutri/results/multi-nutrient/sub1_mbr"
+
+    temp=0.1
+    top_p=0.1
+    mbr="mae"
+    n=5
 
     results = run_eval( prompt=prompt, 
                         nutrient=nutrient, 
                         method_name=method, 
                         model=model,
                         path=path,
-                        temp=0.1,
-                        top_p=0.1,
+                        temp=temp,
+                        top_p=top_p,
+                        mbr=mbr,
+                        n=n,
                         test_flag=test_flag,
                         save_json=True,
                         thresholds = thresholds,
