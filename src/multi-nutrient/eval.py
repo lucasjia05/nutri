@@ -242,6 +242,8 @@ def run_eval(
     if test_flag:
         data = data[1:6]
     threshold = thresholds[nutrient]
+    if not mbr:
+        n=1
 
     # initialize
     acc_count = total_mae = total_mse = answers = doc_id = 0
@@ -332,6 +334,8 @@ def run_combined_eval(
     data = load_data(path=path)
     if test_flag:
         data = data[1:6]
+    if not mbr:
+        n=1
 
     # initialize
     acc_counts = {"carb":0, "fat":0, "energy":0, "protein":0}
@@ -739,24 +743,23 @@ Output: {
 }'''
 
 if __name__ == "__main__":
-    # base - about 50 cents per MBR per eval (530 samples, n=5)
-    # cot - about $1.50-$2 per eval
+    # cot mbr - $2 per eval
     # change these params
-    nutrient="fat"
-    prompt = prompt_fat_cot
-    method="CoT"
+    nutrient="carb"
+    prompt = prompt_carb
+    method="base"
     # model="gpt-4o"
     model = "gpt-4o-2024-08-06"
     path="/data/lucasjia/projects/nutri/src/multi-nutrient/nb_v2_sub_laya.csv"
     # path = "/data/lucasjia/projects/nutri/src/multi-nutrient/nb_v2_sub_laya.csv"
     test_flag=False
     thresholds = {"carb" : 7.5, "protein" : 2.0, "fat" : 2.5, "energy" : 50.0}
-    results_dir = "/data/lucasjia/projects/nutri/results/multi-nutrient/sub1_mbr"
+    results_dir = "/data/lucasjia/projects/nutri/results/multi-nutrient/sub1/"
 
     temp=0.1
     top_p=0.1
-    mbr="mae"
-    n=5
+    mbr=None
+    n=1
 
     results = run_eval( prompt=prompt, 
                         nutrient=nutrient, 
