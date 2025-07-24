@@ -22,7 +22,7 @@ import hashlib
 # run_combined_eval - full eval pipeline for multiple nutrients
 
 # utils
-# prompts - carb,  TO ADD: fat, calorie, protein, joint
+# prompts 
 
 
 # ------------------ LOAD DATA ------------------
@@ -743,15 +743,12 @@ Output: {
 }'''
 
 if __name__ == "__main__":
-    # cot mbr - $2 per eval
     # change these params
     nutrient="carb"
     prompt = prompt_carb
     method="base"
-    # model="gpt-4o"
     model = "gpt-4o-2024-08-06"
     path="/data/lucasjia/projects/nutri/src/multi-nutrient/nb_v2_sub_laya.csv"
-    # path = "/data/lucasjia/projects/nutri/src/multi-nutrient/nb_v2_sub_laya.csv"
     test_flag=False
     thresholds = {"carb" : 7.5, "protein" : 2.0, "fat" : 2.5, "energy" : 50.0}
     results_dir = "/data/lucasjia/projects/nutri/results/multi-nutrient/sub1/"
