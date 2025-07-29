@@ -1,0 +1,26 @@
+{
+  "nutrient": "carb",
+  "context": [
+    "energy"
+  ],
+  "arguments": {
+    "method": "CoT",
+    "prompt": "For the given query including a meal description, think step by step as follows:\n1. Parse the meal description into discrete food or beverage items along with their serving size. If the serving size of any item is not specified, assume it is a single standard serving based on common nutritional guidelines (e.g., USDA).\n2. If the query includes additional known nutrient information (such as total energy in kilocalories), use this information to improve your estimate by clarifying serving size assumptions or resolving ambiguities.\n3. For each food or beverage item, estimate the amount of carbohydrates in grams based on its serving size.\n4. Add up the carbohydrates across all items. Respond with a dictionary object containing the total carbohydrates in grams as follows:\n{\"total_carbohydrates\": total grams of carbohydrates for the serving}\nFor the total carbohydrates, respond with just the numeric amount of carbohydrates without extra text. If you don't know the answer, set the value of \"total_carbohydrates\" to -1.\n\nFollow the format of the following examples when answering:\n\nQuery: \"The following meal contains 312 kcal. This morning, I had a cup of oatmeal with half a sliced banana and a glass of orange juice.\"\nAnswer: Let's think step by step.\nThe meal consists of 1 cup of oatmeal, 1/2 a banana, and 1 glass of orange juice.\n1 cup of oatmeal has 27g carbs.\n1 banana has 27g carbs, so half a banana has (27*(1/2)) = 13.5g carbs.\n1 glass of orange juice has 26g carbs.\nThe total carbs = (27 + 13.5 + 26) = 66.5\nOutput: {\"total_carbohydrates\": 66.5}\n\nQuery: \"I ate scrambled eggs made with 2 eggs and a toast for breakfast.\"\nAnswer: Let's think step by step.\nThe meal consists of scrambled eggs made with 2 eggs and 1 toast.\nScrambled eggs made with 2 eggs has 2g carbs.\n1 toast has 13g carbs.\nTotal = 2 + 13 = 15\nOutput: {\"total_carbohydrates\": 15}\n\nQuery: \"The following meal contains 106.6 kcal. I've got a drink made from 248 grams of oatmeal and water for breakfast.\"\nAnswer: Let's think step by step.\nThe meal consists of a drink made from 248g of oatmeal and water.\nWithout context, 248g could refer to dry oatmeal. But the total energy (106.6 kcal) is far too low for that \u2014 248g of dry oatmeal would be over 900 kcal.\nSo it's more likely that this refers to cooked oatmeal, which has about 12g of carbs per 100g.\n248g * (12 / 100) = 29.76g carbs\nWater contributes 0g carbs.\nOutput: {\"total_carbohydrates\": 29.76}\n\nQuery: \"Half a peanut butter and jelly sandwich.\"\nAnswer: Let's think step by step.\nThe meal consists of 1/2 a peanut butter and jelly sandwich.\n1 full sandwich has 50.6g carbs, so half has 50.6 * 0.5 = 25.3g carbs.\nOutput: {\"total_carbohydrates\": 25.3}",
+    "model": "gpt-4o-2024-08-06",
+    "temperature": 0.1,
+    "top_p": 0.1,
+    "mbr": null,
+    "n": 1
+  },
+  "data_path": "/data/lucasjia/projects/nutri/src/multi-nutrient/nb_v2_sub_laya.csv",
+  "test_flag": false,
+  "save_json": true,
+  "threshold": 7.5,
+  "percent": false,
+  "eval_result": {
+    "acc": 0.6509433962264151,
+    "mae": 10.613597358490562,
+    "rmse": 21.899869724086333,
+    "answer_rate": 1.0
+  }
+}

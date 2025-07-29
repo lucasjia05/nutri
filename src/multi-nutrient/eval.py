@@ -43,7 +43,6 @@ def load_data0( # for unprocessed data
 
 # ------------------ GET RESPONSE ------------------
 def get_response(client, prompt, query, method_name, model="gpt-4o-2024-08-06", temp=0.1, top_p=0.1, n=1):
-    # queries are pretty slow
     if "cot" in method_name.lower():
         answer_prompt = "Let's think step by step."
     else:
@@ -146,11 +145,12 @@ def process_output(doc, pred, threshold=7.5, nutrient="carb"):
 
 
 # ------------------ JSON FUNCTIONS ------------------
-def construct_json_obj(doc_id, doc, nutrient, method_name, prompt, query, model, temp, top_p, mbr, n, response, pred, threshold, result):
+def construct_json_obj(doc_id, doc, nutrient, context, method_name, prompt, query, model, temp, top_p, mbr, n, response, pred, threshold, result):
     obj = {
         "doc_id" : doc_id,
         "doc" : doc, # metadata relating to query (country, nutrient values, serving_type)
         "nutrient" : nutrient, # carb/fat/energy/protein
+        "context" : context,
         "arguments" : { 
             "method" : method_name,
             "prompt" : prompt,
@@ -169,9 +169,10 @@ def construct_json_obj(doc_id, doc, nutrient, method_name, prompt, query, model,
     }
     return obj
 
-def summary_json(nutrient, method, prompt, model, temp, top_p, mbr, n, path, test_flag, save_json, threshold, eval_result):
+def summary_json(nutrient, context, method, prompt, model, temp, top_p, mbr, n, path, test_flag, save_json, threshold, eval_result):
     summary = {
         "nutrient" : nutrient, # carb/fat/energy/protein
+        "context" : context,
         "arguments" : { 
             "method" : method,
             "prompt" : prompt,
@@ -228,7 +229,8 @@ def run_eval(
             save_json=True,
             thresholds = {"carb" : 7.5, "protein" : 2.0, "fat" : 2.5, "energy" : 50.0},
             # percentage will likely be more informative, probably pass as another argument later
-            results_dir="/data/lucasjia/projects/nutri/results/multi-nutrient/"
+            results_dir="/data/lucasjia/projects/nutri/results/multi-nutrient/",
+            context=None
             ):
     if nutrient.lower() == "combined":
         return run_combined_eval(prompt=prompt, method_name=method_name, model=model, temp=temp, top_p=top_p, mbr=mbr, n=n, path=path, test_flag=test_flag, save_json=save_json, thresholds=thresholds, results_dir=results_dir)
@@ -250,7 +252,11 @@ def run_eval(
     json_list = []
     
     for doc in tqdm(data):
-        query = doc['queries']
+        if context is not None:
+            query = query_add_context(doc, context)
+        else:
+            query = doc['queries']
+
         if not mbr:
             responses = get_response(client=client, prompt=prompt, query=query, method_name=method_name, model=model, temp=temp, top_p = top_p)
             pred = clean_output(responses[0], query, method_name, nutrient)
@@ -276,7 +282,7 @@ def run_eval(
         answers += result["answer_rate"]
 
         if save_json:
-            obj = construct_json_obj(doc_id, doc, nutrient, method_name, prompt, query, model, temp, top_p, mbr, n, responses, pred, threshold, result) 
+            obj = construct_json_obj(doc_id, doc, nutrient, context, method_name, prompt, query, model, temp, top_p, mbr, n, responses, pred, threshold, result) 
             json_list.append(obj)
             doc_id += 1
 
@@ -302,7 +308,7 @@ def run_eval(
     print(f"\nFinal Results - {nutrient} - {method_name}: Acc={acc:.3f}, MAE={mae:.3f}, RMSE={rmse:.3f}")
 
     results_path = results_dir + f"eval_{nutrient}_{method_name}_{timestamp}.json"
-    summary = summary_json(nutrient, method_name, prompt, model, temp, top_p, mbr, n, path, test_flag, save_json, threshold, eval_results)
+    summary = summary_json(nutrient, context, method_name, prompt, model, temp, top_p, mbr, n, path, test_flag, save_json, threshold, eval_results)
     with open(results_path, "w") as f:
         f.write(json.dumps(summary, indent=2))
     print(f"\nSummary results saved to {results_path}")
@@ -444,19 +450,35 @@ def process_gt(x):
     else:
         return float(x)
     
-# not used (for obtain_json_obj() function)
-def get_hash(v):
-    return hashlib.sha256(v.encode('utf-8')).hexdigest()
+def query_add_context(doc, context):
+    base_query = doc['queries']
+    base_context = "The following meal contains "
+    if len(context) == 1:
+        key = context[0]
+        value = doc[key]
+        unit = "kcal" if key == "energy" else "grams"
+        info = f"{value} {unit}"
+    elif len(context) == 2:
+        key1, key2 = context
+        val1 = doc[key1]
+        val2 = doc[key2]
+        unit1 = "kcal" if key1 == "energy" else "grams"
+        unit2 = "kcal" if key2 == "energy" else "grams"
+        info = f"{val1} {unit1} and {val2} {unit2}"
+    else:
+        raise ValueError("Only 1 or 2 context nutrients are supported.")
+    
+    query = base_context + info + ". " + base_query
+    return query
+
     
 
 # ------------------ PROMPTS ------------------
 # refine prompts, and refine prompt handling in jsons (store prompt path instead of full prompt)
-prompt_carb = '''For the given query including a meal description, calculate the amount of carbohydrates in grams. If the serving size of any item in the
-meal is not specified, assume it is a single standard serving based on common nutritional guidelines (e.g., USDA).
+prompt_carb = '''For the given query including a meal description, calculate the amount of carbohydrates in grams. If the serving size of any item in the meal is not specified, assume it is a single standard serving based on common nutritional guidelines (e.g., USDA).
 Respond with a dictionary object containing the total carbohydrates in grams as follows:
 {"total_carbohydrates": total grams of carbohydrates for the serving}
-For the total carbohydrates, respond with just the numeric amount of carbohydrates without extra text. If you don't know the answer,
-respond with:
+For the total carbohydrates, respond with just the numeric amount of carbohydrates without extra text. If you don't know the answer, respond with:
 {"total_carbohydrates": -1}.
 
 Query: "This morning, I had a cup of oatmeal with half a sliced banana and a glass of orange juice."
@@ -468,8 +490,7 @@ Answer: {"total_carbohydrates": 15}
 Query: "Half a peanut butter and jelly sandwich."
 Answer: {"total_carbohydrates": 25.3}'''
 
-prompt_protein = '''For the given query including a meal description, calculate the amount of protein in grams. If the serving size of any item in the
-meal is not specified, assume it is a single standard serving based on common nutritional guidelines (e.g., USDA).
+prompt_protein = '''For the given query including a meal description, calculate the amount of protein in grams. If the serving size of any item in the meal is not specified, assume it is a single standard serving based on common nutritional guidelines (e.g., USDA).
 Respond with a dictionary object containing the total protein in grams as follows:
 {"total_protein": total grams of protein for the serving}
 For the total protein, respond with just the numeric amount of protein without extra text. If you don't know the answer,
@@ -485,12 +506,10 @@ Answer: {"total_protein": 15.3}
 Query: "Half a peanut butter and jelly sandwich."
 Answer: {"total_protein": 6.4}'''
 
-prompt_fat = '''For the given query including a meal description, calculate the amount of fat in grams. If the serving size of any item in the
-meal is not specified, assume it is a single standard serving based on common nutritional guidelines (e.g., USDA).
+prompt_fat = '''For the given query including a meal description, calculate the amount of fat in grams. If the serving size of any item in the meal is not specified, assume it is a single standard serving based on common nutritional guidelines (e.g., USDA).
 Respond with a dictionary object containing the total fat in grams as follows:
 {"total_fat": total grams of fat for the serving}
-For the total fat, respond with just the numeric amount of fat without extra text. If you don't know the answer,
-respond with:
+For the total fat, respond with just the numeric amount of fat without extra text. If you don't know the answer, respond with:
 {"total_fat": -1}.
 
 Query: "This morning, I had a cup of oatmeal with half a sliced banana and a glass of orange juice."
@@ -502,12 +521,10 @@ Answer: {"total_fat": 17.5}
 Query: "Half a peanut butter and jelly sandwich."
 Answer: {"total_fat": 9.3}'''
 
-prompt_energy = '''For the given query including a meal description, calculate the amount of energy in kilocalories (kcal). If the serving size of any item in the
-meal is not specified, assume it is a single standard serving based on common nutritional guidelines (e.g., USDA).
+prompt_energy = '''For the given query including a meal description, calculate the amount of energy in kilocalories (kcal). If the serving size of any item in the meal is not specified, assume it is a single standard serving based on common nutritional guidelines (e.g., USDA).
 Respond with a dictionary object containing the total energy in kilocalories as follows:
 {"total_energy": total kilocalories for the serving}
-For the total energy, respond with just the numeric amount without extra text. If you don't know the answer,
-respond with:
+For the total energy, respond with just the numeric amount without extra text. If you don't know the answer, respond with:
 {"total_energy": -1}.
 
 Query: "This morning, I had a cup of oatmeal with half a sliced banana and a glass of orange juice."
@@ -742,11 +759,129 @@ Output: {
   "total_energy": 202
 }'''
 
+prompt_carb_context_energy = '''For the given query including a meal's energy content in kilocalories (kcal) followed by the meal description, calculate the amount of carbohydrates in grams. If the serving size of any item in the meal is not specified, assume it is a single standard serving based on common nutritional guidelines (e.g., USDA).
+Respond with a dictionary object containing the total carbohydrates in grams as follows:
+{"total_carbohydrates": total grams of carbohydrates for the serving}
+For the total carbohydrates, respond with just the numeric amount of carbohydrates without extra text. If you don't know the answer,
+respond with: {"total_carbohydrates": -1}.
+
+Query: "The following meal contains 312 kcal. This morning, I had a cup of oatmeal with half a sliced banana and a glass of orange juice."
+Answer: {"total_carbohydrates": 66.5}
+
+Query: "The following meal contains 277.2 kcal. I ate scrambled eggs made with 2 eggs and a toast for breakfast"
+Answer: {"total_carbohydrates": 15}
+
+Query: "The following meal contains 202 kcal. Half a peanut butter and jelly sandwich."
+Answer: {"total_carbohydrates": 25.3}'''
+
+
+prompt_carb_context_energy2 = '''For the given query including a meal description, calculate the amount of carbohydrates in grams. The query may include additional known nutrient information (e.g., energy in kilocalories). If provided, use this information to improve your estimate. If the serving size of any item in the meal is not specified, assume it is a single standard serving based on common nutritional guidelines (e.g., USDA).
+Respond with a dictionary object containing the total carbohydrates in grams as follows:
+{"total_carbohydrates": total grams of carbohydrates for the serving}
+For the total carbohydrates, respond with just the numeric amount of carbohydrates without extra text. If you don't know the answer, respond with:
+{"total_carbohydrates": -1}.
+
+Query: "The following meal contains 312 kcal. This morning, I had a cup of oatmeal with half a sliced banana and a glass of orange juice."
+Answer: {"total_carbohydrates": 66.5}
+
+Query: "I ate scrambled eggs made with 2 eggs and a toast for breakfast"
+Answer: {"total_carbohydrates": 15}
+
+Query: "The following meal contains 202 kcal. Half a peanut butter and jelly sandwich."
+Answer: {"total_carbohydrates": 25.3}
+
+Query: "A large cup of cappuccino made with whole milk."
+Answer: {"total_carbohydrates": 16.5}'''
+
+prompt_carb_cot_context_energy = '''For the given query including a meal description, think step by step as follows:
+1. Parse the meal description into discrete food or beverage items along with their serving size. If the serving size of any item is not specified, assume it is a single standard serving based on common nutritional guidelines (e.g., USDA).
+2. If the query includes additional known nutrient information (such as total energy in kilocalories), consider this information when estimating the carbohydrate content. Use it as supporting context to refine your estimates, but prioritize food-specific carb data when available.
+3. For each food or beverage item, estimate the amount of carbohydrates in grams based on its serving size.
+4. Add up the carbohydrates across all items. Respond with a dictionary object containing the total carbohydrates in grams as follows:
+{"total_carbohydrates": total grams of carbohydrates for the serving}
+For the total carbohydrates, respond with just the numeric amount of carbohydrates without extra text. If you don't know the answer, set the value of "total_carbohydrates" to -1.
+
+Follow the format of the following examples when answering:
+
+Query: "The following meal contains 312 kcal. This morning, I had a cup of oatmeal with half a sliced banana and a glass of orange juice."
+Answer: Let's think step by step.
+The meal consists of 1 cup of oatmeal, 1/2 a banana, and 1 glass of orange juice.
+1 cup of oatmeal has 27g carbs.
+1 banana has 27g carbs, so half a banana has (27*(1/2)) = 13.5g carbs.
+1 glass of orange juice has 26g carbs.
+The total carbs = (27 + 13.5 + 26) = 66.5
+Output: {"total_carbohydrates": 66.5}
+
+Query: "I ate scrambled eggs made with 2 eggs and a toast for breakfast."
+Answer: Let's think step by step.
+The meal consists of scrambled eggs made with 2 eggs and 1 toast.
+Scrambled eggs made with 2 eggs has 2g carbs.
+1 toast has 13g carbs.
+Total = 2 + 13 = 15
+Output: {"total_carbohydrates": 15}
+
+Query: "The following meal contains 202 kcal. Half a peanut butter and jelly sandwich."
+Answer: Let's think step by step.
+The meal consists of 1/2 a peanut butter and jelly sandwich.
+1 full sandwich has 50.6g carbs, so half has 50.6 * 0.5 = 25.3g carbs.
+Energy information (202 kcal) aligns with a small portion, so this estimate is reasonable.
+Output: {"total_carbohydrates": 25.3}
+
+Query: "A large cup of cappuccino made with whole milk."
+Answer: Let's think step by step.
+The meal consists of 1 large cappuccino made with whole milk.
+This typically has 16.5g carbs.
+Output: {"total_carbohydrates": 16.5}'''
+
+prompt_carb_cot_context_energy2 = '''For the given query including a meal description, think step by step as follows:
+1. Parse the meal description into discrete food or beverage items along with their serving size. If the serving size of any item is not specified, assume it is a single standard serving based on common nutritional guidelines (e.g., USDA).
+2. If the query includes additional known nutrient information (such as total energy in kilocalories), use this information to improve your estimate by clarifying serving size assumptions or resolving ambiguities.
+3. For each food or beverage item, estimate the amount of carbohydrates in grams based on its serving size.
+4. Add up the carbohydrates across all items. Respond with a dictionary object containing the total carbohydrates in grams as follows:
+{"total_carbohydrates": total grams of carbohydrates for the serving}
+For the total carbohydrates, respond with just the numeric amount of carbohydrates without extra text. If you don't know the answer, set the value of "total_carbohydrates" to -1.
+
+Follow the format of the following examples when answering:
+
+Query: "The following meal contains 312 kcal. This morning, I had a cup of oatmeal with half a sliced banana and a glass of orange juice."
+Answer: Let's think step by step.
+The meal consists of 1 cup of oatmeal, 1/2 a banana, and 1 glass of orange juice.
+1 cup of oatmeal has 27g carbs.
+1 banana has 27g carbs, so half a banana has (27*(1/2)) = 13.5g carbs.
+1 glass of orange juice has 26g carbs.
+The total carbs = (27 + 13.5 + 26) = 66.5
+Output: {"total_carbohydrates": 66.5}
+
+Query: "I ate scrambled eggs made with 2 eggs and a toast for breakfast."
+Answer: Let's think step by step.
+The meal consists of scrambled eggs made with 2 eggs and 1 toast.
+Scrambled eggs made with 2 eggs has 2g carbs.
+1 toast has 13g carbs.
+Total = 2 + 13 = 15
+Output: {"total_carbohydrates": 15}
+
+Query: "The following meal contains 106.6 kcal. I've got a drink made from 248 grams of oatmeal and water for breakfast."
+Answer: Let's think step by step.
+The meal consists of a drink made from 248g of oatmeal and water.
+Without context, 248g could refer to dry oatmeal. But the total energy (106.6 kcal) is far too low for that — 248g of dry oatmeal would be over 900 kcal.
+So it's more likely that this refers to cooked oatmeal, which has about 12g of carbs per 100g.
+248g * (12 / 100) = 29.76g carbs
+Water contributes 0g carbs.
+Output: {"total_carbohydrates": 29.76}
+
+Query: "Half a peanut butter and jelly sandwich."
+Answer: Let's think step by step.
+The meal consists of 1/2 a peanut butter and jelly sandwich.
+1 full sandwich has 50.6g carbs, so half has 50.6 * 0.5 = 25.3g carbs.
+Output: {"total_carbohydrates": 25.3}'''
+
+
+
 if __name__ == "__main__":
     # change these params
     nutrient="carb"
-    prompt = prompt_carb
-    method="base"
+    prompt = prompt_carb_cot_context_energy2
+    method="CoT"
     model = "gpt-4o-2024-08-06"
     path="/data/lucasjia/projects/nutri/src/multi-nutrient/nb_v2_sub_laya.csv"
     test_flag=False
@@ -757,6 +892,7 @@ if __name__ == "__main__":
     top_p=0.1
     mbr=None
     n=1
+    context = ["energy"]
 
     results = run_eval( prompt=prompt, 
                         nutrient=nutrient, 
@@ -770,7 +906,8 @@ if __name__ == "__main__":
                         test_flag=test_flag,
                         save_json=True,
                         thresholds = thresholds,
-                        results_dir=results_dir
+                        results_dir=results_dir,
+                        context=context
                         )
 
     # results = run_combined_eval(prompt=prompt, 
