@@ -1,0 +1,26 @@
+{
+  "nutrient": "carb",
+  "context": [
+    "energy"
+  ],
+  "arguments": {
+    "method": "CoT",
+    "prompt": "For the given query including a meal description, think step by step as follows:\n1. Parse the meal description into discrete food or beverage items along with their serving size. If the serving size of any item is not specified, assume it is a single standard serving based on common nutritional guidelines (e.g., USDA).\n2. If the query includes additional known nutrient information (such as total energy in kilocalories), consider this information when estimating the carbohydrate content. Use it as supporting context to refine your estimates, but prioritize food-specific carb data when available.\n3. For each food or beverage item, estimate the amount of carbohydrates in grams based on its serving size.\n4. Add up the carbohydrates across all items. Respond with a dictionary object containing the total carbohydrates in grams as follows:\n{\"total_carbohydrates\": total grams of carbohydrates for the serving}\nFor the total carbohydrates, respond with just the numeric amount of carbohydrates without extra text. If you don't know the answer, set the value of \"total_carbohydrates\" to -1.\n\nFollow the format of the following examples when answering:\n\nQuery: \"The following meal contains 312 kcal. This morning, I had a cup of oatmeal with half a sliced banana and a glass of orange juice.\"\nAnswer: Let's think step by step.\nThe meal consists of 1 cup of oatmeal, 1/2 a banana, and 1 glass of orange juice.\n1 cup of oatmeal has 27g carbs.\n1 banana has 27g carbs, so half a banana has (27*(1/2)) = 13.5g carbs.\n1 glass of orange juice has 26g carbs.\nThe total carbs = (27 + 13.5 + 26) = 66.5\nOutput: {\"total_carbohydrates\": 66.5}\n\nQuery: \"I ate scrambled eggs made with 2 eggs and a toast for breakfast.\"\nAnswer: Let's think step by step.\nThe meal consists of scrambled eggs made with 2 eggs and 1 toast.\nScrambled eggs made with 2 eggs has 2g carbs.\n1 toast has 13g carbs.\nTotal = 2 + 13 = 15\nOutput: {\"total_carbohydrates\": 15}\n\nQuery: \"The following meal contains 202 kcal. Half a peanut butter and jelly sandwich.\"\nAnswer: Let's think step by step.\nThe meal consists of 1/2 a peanut butter and jelly sandwich.\n1 full sandwich has 50.6g carbs, so half has 50.6 * 0.5 = 25.3g carbs.\nEnergy information (202 kcal) aligns with a small portion, so this estimate is reasonable.\nOutput: {\"total_carbohydrates\": 25.3}\n\nQuery: \"A large cup of cappuccino made with whole milk.\"\nAnswer: Let's think step by step.\nThe meal consists of 1 large cappuccino made with whole milk.\nThis typically has 16.5g carbs.\nOutput: {\"total_carbohydrates\": 16.5}",
+    "model": "gpt-4o-2024-08-06",
+    "temperature": 0.1,
+    "top_p": 0.1,
+    "mbr": null,
+    "n": 1
+  },
+  "data_path": "/data/lucasjia/projects/nutri/src/multi-nutrient/nb_v2_sub_laya.csv",
+  "test_flag": false,
+  "save_json": true,
+  "threshold": 7.5,
+  "percent": false,
+  "eval_result": {
+    "acc": 0.6150943396226415,
+    "mae": 11.937937867924516,
+    "rmse": 27.99525183797838,
+    "answer_rate": 1.0
+  }
+}
