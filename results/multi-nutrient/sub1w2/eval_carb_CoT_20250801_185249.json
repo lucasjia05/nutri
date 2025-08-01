@@ -1,0 +1,26 @@
+{
+  "nutrient": "carb",
+  "context": [
+    "energy"
+  ],
+  "arguments": {
+    "method": "CoT",
+    "prompt": "For the given query including a meal description, think step by step as follows:\n1. Parse the meal description into discrete food or beverage items along with their serving size. If the serving size of any item is not specified, assume it is a single standard serving based on common nutritional guidelines (e.g., USDA).\n2. If the query includes additional known nutrient information (such as total energy in kilocalories), use this information to improve your assessment of portion sizes and food forms (e.g., cooked vs. raw).\n3. For each food or beverage item, estimate the amount of carbohydrates in grams based on its serving size.\n4. Add up the carbohydrates across all items. If the estimated carbohydrate total seems implausible or inconsistent with known nutrient information, revise your assumptions and recompute. \n5. Respond with a dictionary object containing the total carbohydrates in grams as follows:\n{\"total_carbohydrates\": total grams of carbohydrates for the serving}\nFor the total carbohydrates, respond with just the numeric amount of carbohydrates without extra text. If you don't know the answer, set the value of \"total_carbohydrates\" to -1.\n\nFollow the format of the following examples when answering:\n\nQuery: \"The following meal contains 106.6 kcal. I've got a drink made from 248 grams of oatmeal and water for breakfast.\"\nAnswer: Let's think step by step.\nThe meal consists of a drink made from 248g of oatmeal and water.\nWithout context, 248g could refer to dry oatmeal. But the total energy (106.6 kcal) is far too low for that \u2014 248g of dry oatmeal would be over 900 kcal.\nSo it's more likely that this refers to cooked oatmeal, which has about 12g of carbs per 100g.\n248g * (12 / 100) = 29.76g carbs\nWater contributes 0g carbs.\nConsistency check: 29.76g carbs * 4 kcal/g = 119.04 kcal.\nThis exceeds the stated energy (106.6 kcal), which suggests the carb content may be slightly overestimated.\nRevised estimate: Reduce the carb content of oatmeal slightly \u2014 use 10.5g carbs per 100g to better reflect the total energy.\n248g (10.5 / 100) = 26.04g carbs.\nOutput: {\"total_carbohydrates\": 26.04}\n\nQuery: \"I ate scrambled eggs made with 2 eggs and a toast for breakfast.\"\nAnswer: Let's think step by step.\nThe meal consists of scrambled eggs made with 2 eggs and 1 toast.\nScrambled eggs made with 2 eggs has 2g carbs.\n1 toast has 13g carbs.\nTotal = 2 + 13 = 15\nOutput: {\"total_carbohydrates\": 15}\n\nQuery: \"The following meal contains 383.8 kcal. Tonight's dinner is 250 grams of pasta with cream sauce and seafood.\"\nAnswer: Let's think step by step.\nThe meal consists of 250 grams of pasta with cream sauce and seafood\n250 grams of pasta with cream sauce and seafood typically contains about 30g of carbohydrates per 100g.\nTherefore, 250g would contain (30 * 2.5) = 75g of carbohydrates.\nConsistency check: 75g carbs * 4kcal/g = 300 kcal. That leaves only 83.8 kcal for all fat and protein in a 383.8 kcal meal, which is unlikely given the presence of cream sauce, seafood, and poultry \u2014 all rich in fat and protein. \nSo, the assumed carb density is likely too high. \nA more realistic estimate would use 16.5g of carbs per 100g, accounting for more calories from fat and protein.\nRevised estimate = 250 * 0.165 = 41.25g carbs.\nThis leaves 383.8 kcal - (41.25g * 4kcal/g) = 218.3 kcal coming from fat and protein which is reasonable.\nOutput: {\"total_carbohydrates\": 41.25}']\n\nQuery: \"Half a peanut butter and jelly sandwich.\"\nAnswer: Let's think step by step.\nThe meal consists of 1/2 a peanut butter and jelly sandwich.\n1 full sandwich has 50.6g carbs, so half has 50.6 * 0.5 = 25.3g carbs.\nOutput: {\"total_carbohydrates\": 25.3}",
+    "model": "gpt-4o-2024-08-06",
+    "temperature": 0.1,
+    "top_p": 0.1,
+    "mbr": null,
+    "n": 1
+  },
+  "data_path": "/data/lucasjia/projects/nutri/src/multi-nutrient/nb_v2_sub_laya.csv",
+  "test_flag": false,
+  "save_json": true,
+  "threshold": 7.5,
+  "percent": false,
+  "eval_result": {
+    "acc": 0.6660377358490566,
+    "mae": 9.175033396226416,
+    "rmse": 16.9626459156878,
+    "answer_rate": 1.0
+  }
+}

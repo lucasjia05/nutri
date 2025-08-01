@@ -44,7 +44,7 @@ def load_data0( # for unprocessed data
 # ------------------ GET RESPONSE ------------------
 def get_response(client, prompt, query, method_name, model="gpt-4o-2024-08-06", temp=0.1, top_p=0.1, n=1):
     if "cot" in method_name.lower():
-        answer_prompt = "Let's think step by step."
+        answer_prompt = "Let's think step by step.\n"
     else:
         answer_prompt = ""
     messages = [
@@ -875,18 +875,119 @@ The meal consists of 1/2 a peanut butter and jelly sandwich.
 1 full sandwich has 50.6g carbs, so half has 50.6 * 0.5 = 25.3g carbs.
 Output: {"total_carbohydrates": 25.3}'''
 
+prompt_carb_cot_context_energy3 = '''For the given query including a meal description, think step by step as follows:
+1. Parse the meal description into discrete food or beverage items along with their serving size. If the serving size of any item is not specified, assume it is a single standard serving based on common nutritional guidelines (e.g., USDA).
+2. If the query includes additional known nutrient information (such as total energy in kilocalories), use this information to improve your assessment of portion sizes and food forms (e.g., cooked vs. raw).
+3. For each food or beverage item, estimate the amount of carbohydrates in grams based on its serving size.
+4. Add up the carbohydrates across all items. If the estimated carbohydrate total seems implausible or inconsistent with known nutrient information, revise your assumptions and recompute. 
+5. Respond with a dictionary object containing the total carbohydrates in grams as follows:
+{"total_carbohydrates": total grams of carbohydrates for the serving}
+For the total carbohydrates, respond with just the numeric amount of carbohydrates without extra text. If you don't know the answer, set the value of "total_carbohydrates" to -1.
+
+Follow the format of the following examples when answering:
+
+Query: "The following meal contains 106.6 kcal. I've got a drink made from 248 grams of oatmeal and water for breakfast."
+Answer: Let's think step by step.
+The meal consists of a drink made from 248g of oatmeal and water. The total energy content is 106.6 kcal.
+Without context, 248g could refer to dry oatmeal. But the total energy (106.6 kcal) is far too low for that — 248g of dry oatmeal would be over 900 kcal.
+So it's more likely that this refers to cooked oatmeal, which has about 12g of carbs per 100g.
+248g * (12 / 100) = 29.76g carbs
+Water contributes 0g carbs.
+Consistency check: 
+- 29.76g carbs * 4 kcal/g = 119.04 kcal.
+- This exceeds the stated energy (106.6 kcal), which suggests the carb content may be slightly overestimated.
+Revised estimate: 
+Reduce the carb content of oatmeal slightly — use 10.5g carbs per 100g to better reflect the total energy.
+248g (10.5 / 100) = 26.04g carbs.
+Output: {"total_carbohydrates": 26.04}
+
+Query: "I ate scrambled eggs made with 2 eggs and a toast for breakfast."
+Answer: Let's think step by step.
+The meal consists of scrambled eggs made with 2 eggs and 1 toast.
+Scrambled eggs made with 2 eggs has 2g carbs.
+1 toast has 13g carbs.
+Total = 2 + 13 = 15
+Output: {"total_carbohydrates": 15}
+
+Query: "The following meal contains 383.8 kcal. Tonight's dinner is 250 grams of pasta with cream sauce and seafood."
+Answer: Let's think step by step.
+The meal consists of 250 grams of pasta with cream sauce and seafood. The total energy content is 383.8 kcal.
+250 grams of pasta with cream sauce and seafood typically contains about 30g of carbohydrates per 100g.
+Therefore, 250g would contain (30 * 2.5) = 75g of carbohydrates.
+Consistency check: 
+- 75g carbs * 4kcal/g = 300 kcal. That leaves only 83.8 kcal for all fat and protein in a 383.8 kcal meal, which is unlikely given the presence of cream sauce, seafood, and poultry — all rich in fat and protein. 
+- So, the assumed carb density is likely too high. 
+Revised estimate: 
+A more realistic estimate would use 16.5g of carbs per 100g, accounting for more calories from fat and protein.
+250 * 0.165 = 41.25g carbs. This leaves 383.8 kcal - (41.25g * 4kcal/g) = 218.3 kcal coming from fat and protein which is reasonable.
+Output: {"total_carbohydrates": 41.25}
+
+Query: "Half a peanut butter and jelly sandwich."
+Answer: Let's think step by step.
+The meal consists of 1/2 a peanut butter and jelly sandwich.
+1 full sandwich has 50.6g carbs, so half has 50.6 * 0.5 = 25.3g carbs.
+Output: {"total_carbohydrates": 25.3}'''
+
+
+prompt_carb_cot_context_energy4 = '''For the given query including a meal description and the total energy in kilocalories (kcal), think step by step as follows:
+1. Parse the meal description into discrete food or beverage items along with their serving size. Use the total energy information to improve your assessment of portion sizes and food forms (e.g., cooked vs. raw). If the serving size of any item is not specified, assume it is a single standard serving based on common nutritional guidelines (e.g., USDA).
+2. For each food or beverage item, estimate the amount of carbohydrates in grams based on its serving size.
+3. Add up the carbohydrates across all items. If the estimated carbohydrate total seems implausible or inconsistent with known energy information, revise your assumptions and recompute. 
+4. Respond with a dictionary object containing the total carbohydrates in grams as follows:
+{"total_carbohydrates": total grams of carbohydrates for the serving}
+For the total carbohydrates, respond with just the numeric amount of carbohydrates without extra text. If you don't know the answer, set the value of "total_carbohydrates" to -1.
+
+Follow the format of the following examples when answering:
+
+Query: "The following meal contains 106.6 kcal. I've got a drink made from 248 grams of oatmeal and water for breakfast."
+Answer: Let's think step by step.
+The meal consists of a drink made from 248g of oatmeal and water. The total energy content is 106.6 kcal.
+Without context, 248g could refer to dry oatmeal. But the total energy (106.6 kcal) is far too low for that — 248g of dry oatmeal would be over 900 kcal.
+So it's more likely that this refers to cooked oatmeal, which has about 12g of carbs per 100g.
+248g * (12 / 100) = 29.76g carbs
+Water contributes 0g carbs.
+Consistency check: 
+- 29.76g carbs * 4 kcal/g = 119.04 kcal.
+- This exceeds the stated energy (106.6 kcal), which suggests the carb content may be slightly overestimated.
+Revised estimate: 
+Reduce the carb content of oatmeal slightly — use 10.5g carbs per 100g to better reflect the total energy.
+248g (10.5 / 100) = 26.04g carbs.
+Output: {"total_carbohydrates": 26.04}
+
+Query: "The following meal contains 248.25 kcal. For a snack, I have a chocolate-coated vanilla ice cream bar weighing 75 grams."
+Answer: Let's think step by step.
+The meal consists of a chocolate-coated vanilla ice cream bar weighing 75 grams.
+1. A typical chocolate-coated vanilla ice cream bar contains about 25g of carbohydrates per 100g.
+2. Therefore, for a 75g bar, the carbohydrate content would be (25 * 0.75) = 18.75g of carbohydrates.
+Consistency check:
+- 18.75g of carbohydrates * 4 kcal/g = 75 kcal from carbohydrates.
+- The remaining 248.25 kcal - 75 kcal = 173.25 kcal would come from fat and protein, which is reasonable for an ice cream bar with chocolate coating.
+Output: {"total_carbohydrates": 18.75}
+
+Query: "The following meal contains 383.8 kcal. Tonight's dinner is 250 grams of pasta with cream sauce and seafood."
+Answer: Let's think step by step.
+The meal consists of 250 grams of pasta with cream sauce and seafood. The total energy content is 383.8 kcal.
+250 grams of pasta with cream sauce and seafood typically contains about 30g of carbohydrates per 100g.
+Therefore, 250g would contain (30 * 2.5) = 75g of carbohydrates.
+Consistency check: 
+- 75g carbs * 4kcal/g = 300 kcal. That leaves only 83.8 kcal for all fat and protein in a 383.8 kcal meal, which is unlikely given the presence of cream sauce, seafood, and poultry — all rich in fat and protein. 
+- So, the assumed carb density is likely too high. 
+Revised estimate: 
+A more realistic estimate would use 16.5g of carbs per 100g, accounting for more calories from fat and protein.
+250 * 0.165 = 41.25g carbs. This leaves 383.8 kcal - (41.25g * 4kcal/g) = 218.3 kcal coming from fat and protein which is reasonable.
+Output: {"total_carbohydrates": 41.25}'''
 
 
 if __name__ == "__main__":
     # change these params
     nutrient="carb"
-    prompt = prompt_carb_cot_context_energy2
+    prompt = prompt_carb_cot_context_energy3
     method="CoT"
     model = "gpt-4o-2024-08-06"
     path="/data/lucasjia/projects/nutri/src/multi-nutrient/nb_v2_sub_laya.csv"
     test_flag=False
     thresholds = {"carb" : 7.5, "protein" : 2.0, "fat" : 2.5, "energy" : 50.0}
-    results_dir = "/data/lucasjia/projects/nutri/results/multi-nutrient/sub1/"
+    results_dir = "/data/lucasjia/projects/nutri/results/multi-nutrient/sub1w2/"
 
     temp=0.1
     top_p=0.1
