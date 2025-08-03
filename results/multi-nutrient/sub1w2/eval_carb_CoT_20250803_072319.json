@@ -1,0 +1,26 @@
+{
+  "nutrient": "carb",
+  "context": [
+    "energy"
+  ],
+  "arguments": {
+    "method": "CoT",
+    "prompt": "For the given query including a meal description, think step by step as follows:\n1. Identify each food or beverage item and its serving size. If no size is given, assume one standard serving based on common guidelines. Use USDA references for meals typically associated with Western/U.S. diets. For other regional or traditional meals, prefer FAO/WHO food composition data.\n2. If total energy (kcal) is provided, estimate the amount of energy each item contributes to the total. If the total energy estimated differs by more than 20%, reconsider the assumed form of every single relevant item (e.g. concentration, dry vs wet vs dehydrated). Repeat this step until a consistent energy estimate is obtained.\n3. For each item settled on, estimate its carbohydrate content in grams.\n4. Add the carbohydrates from all items. Respond with a dictionary object containing the total carbohydrates in grams as follows:\n{\"total_carbohydrates\": total grams of carbohydrates for the meal}\nFor the total carbohydrates, respond with just the numeric amount of carbohydrates without extra text. If you don't know the answer, set the value of \"total_carbohydrates\" to -1.",
+    "model": "gpt-4o-2024-08-06",
+    "temperature": 0.1,
+    "top_p": 0.1,
+    "mbr": null,
+    "n": 1
+  },
+  "data_path": "/data/lucasjia/projects/nutri/src/multi-nutrient/nb_v2_sub_laya.csv",
+  "test_flag": false,
+  "save_json": true,
+  "threshold": 7.5,
+  "percent": false,
+  "eval_result": {
+    "acc": 0.6490566037735849,
+    "mae": 10.83846245283019,
+    "rmse": 21.919310722868993,
+    "answer_rate": 1.0
+  }
+}

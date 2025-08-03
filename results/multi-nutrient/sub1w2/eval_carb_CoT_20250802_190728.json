@@ -1,0 +1,26 @@
+{
+  "nutrient": "carb",
+  "context": [
+    "energy"
+  ],
+  "arguments": {
+    "method": "CoT",
+    "prompt": "For the given query including a meal description and the total energy in kilocalories (kcal), think step by step as follows:\n1. Parse the meal description into discrete food or beverage items along with their serving size. Use the total energy information to improve your assessment of portion sizes and food forms (e.g., cooked vs. raw). If the serving size of any item is not specified, assume it is a single standard serving based on common nutritional guidelines (e.g., USDA).\n2. For each food or beverage item, estimate the amount of carbohydrates in grams based on its serving size.\n3. Add up the carbohydrates across all items. If the estimated carbohydrate total seems implausible or inconsistent with known energy information, revise your assumptions and recompute. \n4. Respond with a dictionary object containing the total carbohydrates in grams as follows:\n{\"total_carbohydrates\": total grams of carbohydrates for the serving}\nFor the total carbohydrates, respond with just the numeric amount of carbohydrates without extra text. If you don't know the answer, set the value of \"total_carbohydrates\" to -1.\n\nFollow the format of the following examples when answering:\n\nQuery: \"The following meal contains 106.6 kcal. I've got a drink made from 248 grams of oatmeal and water for breakfast.\"\nAnswer: Let's think step by step.\nThe meal consists of a drink made from 248g of oatmeal and water. The total energy content is 106.6 kcal.\nWithout context, 248g could refer to dry oatmeal. But the total energy (106.6 kcal) is far too low for that \u2014 248g of dry oatmeal would be over 900 kcal.\nSo it's more likely that this refers to cooked oatmeal, which has about 12g of carbs per 100g.\nTherefore, 248g * (12 / 100) = 29.76g carbs\nWater contributes 0g carbs.\nConsistency check: \n- 29.76g carbs * 4 kcal/g = 119.04 kcal.\n- This exceeds the stated energy (106.6 kcal), which suggests the carb content may be slightly overestimated.\nRevised estimate: \nReduce the carb content of oatmeal slightly \u2014 use 10.5g carbs per 100g to better reflect the total energy.\n248g (10.5 / 100) = 26.04g carbs.\nOutput: {\"total_carbohydrates\": 26.04}\n\nQuery: \"The following meal contains 248.25 kcal. For a snack, I have a chocolate-coated vanilla ice cream bar weighing 75 grams.\"\nAnswer: Let's think step by step.\nThe meal consists of a chocolate-coated vanilla ice cream bar weighing 75 grams. The total energy content is 248.25 kcal.\nA typical chocolate-coated vanilla ice cream bar contains about 25g of carbohydrates per 100g.\nTherefore, for a 75g bar, the carbohydrate content would be (25 * 0.75) = 18.75g of carbohydrates.\nConsistency check:\n- 18.75g of carbohydrates * 4 kcal/g = 75 kcal from carbohydrates.\n- The remaining 248.25 kcal - 75 kcal = 173.25 kcal would come from fat and protein, which is reasonable for an ice cream bar with chocolate coating.\nOutput: {\"total_carbohydrates\": 18.75}\n\nQuery: \"The following meal contains 383.8 kcal. Tonight's dinner is 250 grams of pasta with cream sauce and seafood.\"\nAnswer: Let's think step by step.\nThe meal consists of 250 grams of pasta with cream sauce and seafood. The total energy content is 383.8 kcal.\n250 grams of pasta with cream sauce and seafood typically contains about 30g of carbohydrates per 100g.\nTherefore, 250g would contain (30 * 2.5) = 75g of carbohydrates.\nConsistency check: \n- 75g carbs * 4 kcal/g = 300 kcal. That leaves only 83.8 kcal for all fat and protein in a 383.8 kcal meal, which is unlikely given the presence of cream sauce, seafood, and poultry \u2014 all rich in fat and protein. \n- So, the assumed carb density is likely too high. \nRevised estimate: \nA more realistic estimate would use 16.5g of carbs per 100g, accounting for more calories from fat and protein.\n250 * 0.165 = 41.25g carbs. \nThis leaves 383.8 kcal - (41.25g * 4 kcal/g) = 218.3 kcal coming from fat and protein which is reasonable.\nOutput: {\"total_carbohydrates\": 41.25}",
+    "model": "gpt-4o-2024-08-06",
+    "temperature": 0.1,
+    "top_p": 0.1,
+    "mbr": null,
+    "n": 1
+  },
+  "data_path": "/data/lucasjia/projects/nutri/src/multi-nutrient/nb_v2_sub_laya.csv",
+  "test_flag": false,
+  "save_json": true,
+  "threshold": 7.5,
+  "percent": false,
+  "eval_result": {
+    "acc": 0.6622641509433962,
+    "mae": 9.08741811320755,
+    "rmse": 17.08234956301442,
+    "answer_rate": 1.0
+  }
+}

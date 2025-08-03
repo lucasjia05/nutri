@@ -793,88 +793,6 @@ Answer: {"total_carbohydrates": 25.3}
 Query: "A large cup of cappuccino made with whole milk."
 Answer: {"total_carbohydrates": 16.5}'''
 
-prompt_carb_cot_context_energy = '''For the given query including a meal description, think step by step as follows:
-1. Parse the meal description into discrete food or beverage items along with their serving size. If the serving size of any item is not specified, assume it is a single standard serving based on common nutritional guidelines (e.g., USDA).
-2. If the query includes additional known nutrient information (such as total energy in kilocalories), consider this information when estimating the carbohydrate content. Use it as supporting context to refine your estimates, but prioritize food-specific carb data when available.
-3. For each food or beverage item, estimate the amount of carbohydrates in grams based on its serving size.
-4. Add up the carbohydrates across all items. Respond with a dictionary object containing the total carbohydrates in grams as follows:
-{"total_carbohydrates": total grams of carbohydrates for the serving}
-For the total carbohydrates, respond with just the numeric amount of carbohydrates without extra text. If you don't know the answer, set the value of "total_carbohydrates" to -1.
-
-Follow the format of the following examples when answering:
-
-Query: "The following meal contains 312 kcal. This morning, I had a cup of oatmeal with half a sliced banana and a glass of orange juice."
-Answer: Let's think step by step.
-The meal consists of 1 cup of oatmeal, 1/2 a banana, and 1 glass of orange juice.
-1 cup of oatmeal has 27g carbs.
-1 banana has 27g carbs, so half a banana has (27*(1/2)) = 13.5g carbs.
-1 glass of orange juice has 26g carbs.
-The total carbs = (27 + 13.5 + 26) = 66.5
-Output: {"total_carbohydrates": 66.5}
-
-Query: "I ate scrambled eggs made with 2 eggs and a toast for breakfast."
-Answer: Let's think step by step.
-The meal consists of scrambled eggs made with 2 eggs and 1 toast.
-Scrambled eggs made with 2 eggs has 2g carbs.
-1 toast has 13g carbs.
-Total = 2 + 13 = 15
-Output: {"total_carbohydrates": 15}
-
-Query: "The following meal contains 202 kcal. Half a peanut butter and jelly sandwich."
-Answer: Let's think step by step.
-The meal consists of 1/2 a peanut butter and jelly sandwich.
-1 full sandwich has 50.6g carbs, so half has 50.6 * 0.5 = 25.3g carbs.
-Energy information (202 kcal) aligns with a small portion, so this estimate is reasonable.
-Output: {"total_carbohydrates": 25.3}
-
-Query: "A large cup of cappuccino made with whole milk."
-Answer: Let's think step by step.
-The meal consists of 1 large cappuccino made with whole milk.
-This typically has 16.5g carbs.
-Output: {"total_carbohydrates": 16.5}'''
-
-prompt_carb_cot_context_energy2 = '''For the given query including a meal description, think step by step as follows:
-1. Parse the meal description into discrete food or beverage items along with their serving size. If the serving size of any item is not specified, assume it is a single standard serving based on common nutritional guidelines (e.g., USDA).
-2. If the query includes additional known nutrient information (such as total energy in kilocalories), use this information to improve your estimate by clarifying serving size assumptions or resolving ambiguities.
-3. For each food or beverage item, estimate the amount of carbohydrates in grams based on its serving size.
-4. Add up the carbohydrates across all items. Respond with a dictionary object containing the total carbohydrates in grams as follows:
-{"total_carbohydrates": total grams of carbohydrates for the serving}
-For the total carbohydrates, respond with just the numeric amount of carbohydrates without extra text. If you don't know the answer, set the value of "total_carbohydrates" to -1.
-
-Follow the format of the following examples when answering:
-
-Query: "The following meal contains 312 kcal. This morning, I had a cup of oatmeal with half a sliced banana and a glass of orange juice."
-Answer: Let's think step by step.
-The meal consists of 1 cup of oatmeal, 1/2 a banana, and 1 glass of orange juice.
-1 cup of oatmeal has 27g carbs.
-1 banana has 27g carbs, so half a banana has (27*(1/2)) = 13.5g carbs.
-1 glass of orange juice has 26g carbs.
-The total carbs = (27 + 13.5 + 26) = 66.5
-Output: {"total_carbohydrates": 66.5}
-
-Query: "I ate scrambled eggs made with 2 eggs and a toast for breakfast."
-Answer: Let's think step by step.
-The meal consists of scrambled eggs made with 2 eggs and 1 toast.
-Scrambled eggs made with 2 eggs has 2g carbs.
-1 toast has 13g carbs.
-Total = 2 + 13 = 15
-Output: {"total_carbohydrates": 15}
-
-Query: "The following meal contains 106.6 kcal. I've got a drink made from 248 grams of oatmeal and water for breakfast."
-Answer: Let's think step by step.
-The meal consists of a drink made from 248g of oatmeal and water.
-Without context, 248g could refer to dry oatmeal. But the total energy (106.6 kcal) is far too low for that — 248g of dry oatmeal would be over 900 kcal.
-So it's more likely that this refers to cooked oatmeal, which has about 12g of carbs per 100g.
-248g * (12 / 100) = 29.76g carbs
-Water contributes 0g carbs.
-Output: {"total_carbohydrates": 29.76}
-
-Query: "Half a peanut butter and jelly sandwich."
-Answer: Let's think step by step.
-The meal consists of 1/2 a peanut butter and jelly sandwich.
-1 full sandwich has 50.6g carbs, so half has 50.6 * 0.5 = 25.3g carbs.
-Output: {"total_carbohydrates": 25.3}'''
-
 prompt_carb_cot_context_energy3 = '''For the given query including a meal description, think step by step as follows:
 1. Parse the meal description into discrete food or beverage items along with their serving size. If the serving size of any item is not specified, assume it is a single standard serving based on common nutritional guidelines (e.g., USDA).
 2. If the query includes additional known nutrient information (such as total energy in kilocalories), use this information to improve your assessment of portion sizes and food forms (e.g., cooked vs. raw).
@@ -929,59 +847,166 @@ The meal consists of 1/2 a peanut butter and jelly sandwich.
 Output: {"total_carbohydrates": 25.3}'''
 
 
-prompt_carb_cot_context_energy4 = '''For the given query including a meal description and the total energy in kilocalories (kcal), think step by step as follows:
-1. Parse the meal description into discrete food or beverage items along with their serving size. Use the total energy information to improve your assessment of portion sizes and food forms (e.g., cooked vs. raw). If the serving size of any item is not specified, assume it is a single standard serving based on common nutritional guidelines (e.g., USDA).
-2. For each food or beverage item, estimate the amount of carbohydrates in grams based on its serving size.
-3. Add up the carbohydrates across all items. If the estimated carbohydrate total seems implausible or inconsistent with known energy information, revise your assumptions and recompute. 
-4. Respond with a dictionary object containing the total carbohydrates in grams as follows:
-{"total_carbohydrates": total grams of carbohydrates for the serving}
+prompt_carb_cot_context_energy5= '''For the given query including a meal description, think step by step as follows:
+1. Identify each food or beverage item and its serving size. If no size is given, assume one standard serving based on common guidelines (e.g., USDA).
+2. If total energy (kcal) is provided, use it to consider multiple plausible forms of each item (e.g. thick vs. thin porridge, dry vs cooked oatmeal) and choose the one most consistent with the total kcal.
+3. For each item, estimate its carbohydrate content in grams.
+4. Add the carbohydrates from all items. Respond with a dictionary object containing the total carbohydrates in grams as follows:
+{"total_carbohydrates": total grams of carbohydrates for the meal}
 For the total carbohydrates, respond with just the numeric amount of carbohydrates without extra text. If you don't know the answer, set the value of "total_carbohydrates" to -1.
 
 Follow the format of the following examples when answering:
 
+Query: "I ate scrambled eggs made with 2 eggs and a toast for breakfast."
+Answer: Let's think step by step.
+1. The meal consists of:
+- Scrambled eggs made with 2 eggs
+- 1 toast
+2. No energy provided.
+3. Estimate carbohydrate content in grams.
+Scrambled eggs made with 2 eggs has 2g carbs. 1 toast has 13g carbs.
+4. Add carbohydrate values and respond with total.
+Total = 2 + 13 = 15
+Output: {"total_carbohydrates": 15}
+
 Query: "The following meal contains 106.6 kcal. I've got a drink made from 248 grams of oatmeal and water for breakfast."
 Answer: Let's think step by step.
-The meal consists of a drink made from 248g of oatmeal and water. The total energy content is 106.6 kcal.
-Without context, 248g could refer to dry oatmeal. But the total energy (106.6 kcal) is far too low for that — 248g of dry oatmeal would be over 900 kcal.
-So it's more likely that this refers to cooked oatmeal, which has about 12g of carbs per 100g.
-248g * (12 / 100) = 29.76g carbs
-Water contributes 0g carbs.
-Consistency check: 
-- 29.76g carbs * 4 kcal/g = 119.04 kcal.
-- This exceeds the stated energy (106.6 kcal), which suggests the carb content may be slightly overestimated.
-Revised estimate: 
-Reduce the carb content of oatmeal slightly — use 10.5g carbs per 100g to better reflect the total energy.
-248g (10.5 / 100) = 26.04g carbs.
+1. Identify each food or beverage item and its serving size.
+- A drink made from 248g of oatmeal and water
+The total energy content is 106.6 kcal.
+2. Use total energy (106.6 kcal) to guide assumptions.
+248g of dry oats would contain far more than 900 kcal, so this must refer to a very diluted mixture—either cooked oatmeal or an oat-based drink.
+This energy density = 106.6 kcal / 248g ≈ 0.43 kcal/g, indicating a highly water-diluted product.
+This is consistent with an oat drink.
+3. Estimate carbohydrate content in grams.
+Cooked oatmeal (or a thin oat drink) typically has around 10-12g carbs per 100g.
+Using a conservative mid-range value of 10.5g/100g:
+248g * 0.105 = 26.04g carbs
+4. Add carbohydrate values and respond with total.
 Output: {"total_carbohydrates": 26.04}
 
-Query: "The following meal contains 248.25 kcal. For a snack, I have a chocolate-coated vanilla ice cream bar weighing 75 grams."
+Query: "The following meal contains 1470 kcal. For breakfast, I had 61.9g of red palm oil and 729.0g of ready-to-eat maize porridge."
 Answer: Let's think step by step.
-The meal consists of a chocolate-coated vanilla ice cream bar weighing 75 grams.
-1. A typical chocolate-coated vanilla ice cream bar contains about 25g of carbohydrates per 100g.
-2. Therefore, for a 75g bar, the carbohydrate content would be (25 * 0.75) = 18.75g of carbohydrates.
-Consistency check:
-- 18.75g of carbohydrates * 4 kcal/g = 75 kcal from carbohydrates.
-- The remaining 248.25 kcal - 75 kcal = 173.25 kcal would come from fat and protein, which is reasonable for an ice cream bar with chocolate coating.
-Output: {"total_carbohydrates": 18.75}
+1. Identify each food or beverage item and its serving size.
+- 61.9g of red palm oil
+- 729g of ready-to-eat maize porridge
+The total energy content is 1470 kcal.
+2. Use total energy (1470 kcal) to guide assumptions.
+Palm oil has 0g carbohydrates and is almost entirely fat (~9 kcal/g), so:
+61.9g * 9 = 557.1 kcal from fat
+That leaves 1470 - 557.1 = 912.9 kcal from the porridge.
+Energy density of the porridge = 912.9 kcal / 729g ≈ 1.25 kcal/g, indicating a thicker porridge (not watery).
+3. Estimate carbohydrate content in grams.
+Thicker maize porridges can have 25-30g of carbs per 100g.
+Using 28.4g/100g as a realistic estimate:
+729g * 0.284 = 207.04g carbs
+4. Add carbohydrate values and respond with total.
+Output: {"total_carbohydrates": 207.04}
 
 Query: "The following meal contains 383.8 kcal. Tonight's dinner is 250 grams of pasta with cream sauce and seafood."
 Answer: Let's think step by step.
-The meal consists of 250 grams of pasta with cream sauce and seafood. The total energy content is 383.8 kcal.
-250 grams of pasta with cream sauce and seafood typically contains about 30g of carbohydrates per 100g.
-Therefore, 250g would contain (30 * 2.5) = 75g of carbohydrates.
-Consistency check: 
-- 75g carbs * 4kcal/g = 300 kcal. That leaves only 83.8 kcal for all fat and protein in a 383.8 kcal meal, which is unlikely given the presence of cream sauce, seafood, and poultry — all rich in fat and protein. 
-- So, the assumed carb density is likely too high. 
-Revised estimate: 
-A more realistic estimate would use 16.5g of carbs per 100g, accounting for more calories from fat and protein.
-250 * 0.165 = 41.25g carbs. This leaves 383.8 kcal - (41.25g * 4kcal/g) = 218.3 kcal coming from fat and protein which is reasonable.
-Output: {"total_carbohydrates": 41.25}'''
+1. Identify each food or beverage item and its serving size.
+- 250 grams of pasta with cream sauce and seafood
+The total energy content is 383.8 kcal.
+2. Use total energy (383.8 kcal) to guide assumptions.
+We're given that the total meal weighs 250g and provides 383.8 kcal, so:
+Energy density = 383.8 kcal / 250g ≈ 1.535 kcal/g
+This suggests a relatively low-fat, high-water content dish (e.g., light cream sauce, moderate seafood).
+High-fat sauces or large seafood portions would push the kcal/g higher (above 2).
+This energy density is consistent with a moderate portion of pasta, a bit of seafood (low fat), and a modest cream sauce.
+3. Estimate carbohydrate content in grams.
+Pasta is the main carbohydrate source here.
+Seafood has minimal carbs. Cream sauce may have some (milk, flour, etc.), but also fat.
+We'll estimate the dish as follows, based on weight proportions and typical recipes:
+Pasta (cooked): ~65% of the weight makes up 250g * 0.65 = 162.5g
+Cooked pasta has ~24g carbs per 100g so 162.5g * 0.24 = 39g carbs
+Cream sauce: ~25% of the weight makes up 62.5g
+Light cream sauce (mostly cream + milk + flour): ~5g carbs per 100g so 62.5g contains ~3.1g carbs
+Seafood: ~10% of the weight makes up 25g
+Minimal carbs ~0g
+4. Add carbohydrate values and respond with total.
+Estimated total carbs = 39 + 3.1 = 42.1 g.
+Output: {"total_carbohydrates": 42.1}'''
+
+
+prompt_carb_cot_context_energy6= '''For the given query including a meal description, think step by step as follows:
+1. Identify each food or beverage item and its serving size. If no size is given, assume one standard serving based on common guidelines. Use USDA references for meals typically associated with Western/U.S. diets. For other regional or traditional meals, prefer FAO/WHO food composition data.
+2. If total energy (kcal) is provided, estimate the amount of energy each item contributes to the total. If the total energy estimated differs by more than 20%, reconsider the assumed form of every single relevant item (e.g. concentration, dry vs wet vs dehydrated). Repeat this step until a consistent energy estimate is obtained.
+3. For each item settled on, estimate its carbohydrate content in grams.
+4. Add the carbohydrates from all items. Respond with a dictionary object containing the total carbohydrates in grams as follows:
+{"total_carbohydrates": total grams of carbohydrates for the meal}
+For the total carbohydrates, respond with just the numeric amount of carbohydrates without extra text. If you don't know the answer, set the value of "total_carbohydrates" to -1.'''
+
+
+
+prompt_carb_cot_context_energy7= '''For the given query including a meal description, think step by step as follows:
+1. Identify each food or beverage item and its serving size. If no size is given, assume one standard serving based on common guidelines. Use USDA references for meals typically associated with Western/U.S. diets. For other regional or traditional meals, prefer FAO/WHO food composition data.
+2. If total energy (kcal) is provided, estimate the amount of energy each item contributes to the total. If the total energy estimated differs by more than 20%, reconsider the assumed form of every single relevant item (e.g. concentration, dry vs wet vs dehydrated). Repeat this step until a consistent energy estimate is obtained.
+3. For each item settled on, estimate its carbohydrate content in grams.
+4. Add the carbohydrates from all items. Respond with a dictionary object containing the total carbohydrates in grams as follows:
+{"total_carbohydrates": total grams of carbohydrates for the meal}
+For the total carbohydrates, respond with just the numeric amount of carbohydrates without extra text. If you don't know the answer, set the value of "total_carbohydrates" to -1.
+
+Follow the format of the following examples when answering:
+
+Query: "I ate scrambled eggs made with 2 eggs and a toast for breakfast."
+Answer: Let's think step by step.
+1. The meal consists of:
+- Scrambled eggs made with 2 eggs
+- 1 toast
+2. No energy provided.
+3. Estimate carbohydrate content in grams.
+Scrambled eggs made with 2 eggs has 2g carbs. 1 toast has 13g carbs.
+4. Add carbohydrate values.
+Total = 2 + 13 = 15
+Output: {"total_carbohydrates": 15}
+
+Query: "The following meal contains 106.6 kcal. I've got a drink made from 248 grams of oatmeal and water for breakfast."
+Answer: Let's think step by step.
+1. The meal consists of:
+- A drink made from 248g of oatmeal and water
+2. Estimate energy contributions per item.
+248g of oatmeal: Approx. 70 kcal / 100g
+248g * 0.7 kcal / g =  173.6 kcal. This is far above 106.6 kcal, so something is off. 
+Reconsider oatmeal: 248g may be referring to the entire drink, rather than the amount of dry oatmeal.
+248g of oatmeal drink: Approx. 45 kcal / 100g
+248 * 0.45 kcal / g = 111.6 kcal - acceptable.
+3. Estimate carbohydrate content in grams.
+An oatmeal drink typically has around 10.5g carbs per 100g:
+248g * 0.105 = 26.04g carbs
+4. Add the carbs from all items and return the total as a dictionary.
+Output: {"total_carbohydrates": 26.04}
+
+Query: "The following meal contains 1470 kcal. For breakfast, I had 61.9g of red palm oil and 729.0g of ready-to-eat maize porridge."
+Answer: Let's think step by step.
+1. Identify each food or beverage item and its serving size.
+- 61.9g of red palm oil
+- 729g of ready-to-eat maize porridge
+2. Estimate energy contributions per item.
+Red palm oil: Energy content is about 884 kcal per 100g.
+For 61.9g: 884 * 0.619 = 547 kcal
+Ready-to-eat maize porridge: This depends heavily on its water content. A typial maize porridge (thin) has ~50-60 kcal per 100g.
+729g * 0.55 = 400.95 kcal.
+Total estimated: 547 + 401 = 948 kcal. This is far below the stated 1470 kcal.
+Adjustment needed: Either the maize porridge is more concentrated or oil quantity/energy is wrong.
+Let's assume a thicker maize porridge or less water content. Dense cooked maize porridge can have up to 160 kcal/100g (closer to stiff ugali or polenta consistency).
+Try 729 * 1.27 = 926.8 kcal. (127 kcal/100g assumption)
+New total: 547 (oil) + 927 (porridge) ≈ 1474 kcal, matching well. So, we assume maize porridge at 127 kcal/100g.
+3. Estimate carbohydrate content in grams.
+Red palm oil: 0g carbs (pure fat)
+Maize porridge: At 127 kcal/100g, and assuming 80% of energy is from carbs:
+127 kcal * 0.90 = 114.3 kcal from carbs
+So 114.3 / 4 = 28.6g carbs per 100g
+Using 28.6g/100g as a realistic estimate:
+729g * 0.286 = 208.5g carbs
+4. Add carbohydrate values and respond with total.
+Output: {"total_carbohydrates": 208.5}'''
 
 
 if __name__ == "__main__":
     # change these params
     nutrient="carb"
-    prompt = prompt_carb_cot_context_energy3
+    prompt = prompt_carb_cot_context_energy7
     method="CoT"
     model = "gpt-4o-2024-08-06"
     path="/data/lucasjia/projects/nutri/src/multi-nutrient/nb_v2_sub_laya.csv"
