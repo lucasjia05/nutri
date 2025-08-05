@@ -1,0 +1,48 @@
+{
+  "nutrient": "combined",
+  "arguments": {
+    "method": "CoT",
+    "prompt": "For the given query including a meal description, think step by step as follows:\n1. Parse the meal description into discrete food or beverage items along with their serving size. If the serving size of any item in the meal is not specified, assume it is a single standard serving based on common nutritional guidelines (e.g., USDA). Ignore additional information that doesn't relate to the item name and serving size.\n2. For each food or beverage item in the meal, calculate the amount of carbohydrates (grams), protein (grams), fat (grams), and energy (kilocalories) for the specific serving size.\n3. Respond with a dictionary object containing the total nutrients as follows:\n{\n  \"total_carbohydrates\": total grams of carbohydrates,\n  \"total_protein\": total grams of protein,\n  \"total_fat\": total grams of fat,\n  \"total_energy\": total kilocalories\n}\nFor each value, respond with just the numeric amount without extra text. If you don't know the answer for any value, set it to -1.\n\nFollow the format of the following examples when answering\n\nQuery: \"This morning, I had a cup of oatmeal with half a sliced banana and a glass of orange juice.\"\nAnswer: Let's think step by step.\nThe meal consists of 1 cup of oatmeal, 1/2 a banana, and 1 glass of orange juice.\n1 cup of oatmeal has 27g carbohydrates, 5.1g protein, 1.1g fat, and 134 kcal.\n1 banana has 27g carbohydrates, 1.3g protein, 0.4g fat, and 122 kcal, so half a banana has (27*(1/2))=13.5g carbohydrates, (1.3*(1/2))=0.65g protein, (0.4*(1/2))=0.2g fat, and (122*(1/2))=61 kcal.\n1 glass of orange juice has 26g carbohydrates, 1.9g protein, 0.84g fat, and 117 kcal.\nSo the total nutrients in the meal = (27 + 13.5 + 26) = 66.5g carbohydrates, (5.1 + 0.65 + 1.9) = 7.65g protein, (1.1 + 0.2 + 0.84) = 2.14g fat, (134 + 61 + 117) = 312 kcal.\nOutput: {\n  \"total_carbohydrates\": 66.5,\n  \"total_protein\": 7.65,\n  \"total_fat\": 2.14,\n  \"total_energy\": 312\n}\n\nQuery: \"I ate scrambled eggs made with 2 eggs and a toast for breakfast.\"\nAnswer: Let's think step by step.\nThe meal consists of scrambled eggs made with 2 eggs and 1 toast.\nScrambled eggs made with 2 eggs has 2g carbohydrates, 12.7g protein, 16.5g fat, and 204 kcal.\n1 toast has 13g carbohydrates, 2.6g protein, 0.985g fat, and 73.2 kcal.\nSo the total nutrients in the meal = (2 + 13)=15g carbohydrates, (12.7 + 2.6)=15.3g protein, (16.5 + 0.985)=17.5g fat, (204 + 73.2)=277.2 kcal.\nOutput: {\n  \"total_carbohydrates\": 15,\n  \"total_protein\": 15.3,\n  \"total_fat\": 17.5,\n  \"total_energy\": 277.2\n}\n\nQuery: \"Half a peanut butter and jelly sandwich.\"\nAnswer: Let's think step by step.\nThe meal consists of 1/2 a peanut butter and jelly sandwich.\n1 peanut butter and jelly sandwich has 50.6g carbohydrates, 12.8g protein, 18.6g fat, and 404 kcal.\nSo half a sandwich has (50.6*(1/2))=25.3g carbohydrates, (12.8*(1/2))=6.4g protein, (18.6*(1/2))=9.3g fat, (404*(1/2))=202 kcal.\nOutput: {\n  \"total_carbohydrates\": 25.3,\n  \"total_protein\": 6.4,\n  \"total_fat\": 9.3,\n  \"total_energy\": 202\n}",
+    "model": "gpt-4o-2024-08-06",
+    "temperature": 0.1,
+    "top_p": 0.1,
+    "mbr": null,
+    "n": 1
+  },
+  "data_path": "../data/subset_natural_language.csv",
+  "test_flag": false,
+  "save_json": true,
+  "threshold": {
+    "carb": 7.5,
+    "protein": 2.0,
+    "fat": 2.5,
+    "energy": 50.0
+  },
+  "percent": false,
+  "eval_result": {
+    "carb": {
+      "acc": 0.6339622641509434,
+      "mae": 9.268132075471696,
+      "rmse": 17.503462476871405,
+      "answer_rate": 1.0
+    },
+    "fat": {
+      "acc": 0.5679245283018868,
+      "mae": 4.319792452830186,
+      "rmse": 8.575361315892945,
+      "answer_rate": 1.0
+    },
+    "energy": {
+      "acc": 0.5981132075471698,
+      "mae": 73.16600000000007,
+      "rmse": 151.0706494638649,
+      "answer_rate": 1.0
+    },
+    "protein": {
+      "acc": 0.6075471698113207,
+      "mae": 3.305571698113207,
+      "rmse": 6.872556878972845,
+      "answer_rate": 1.0
+    }
+  }
+}
