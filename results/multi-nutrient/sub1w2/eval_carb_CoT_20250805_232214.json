@@ -1,0 +1,26 @@
+{
+  "nutrient": "carb",
+  "context": [
+    "energy"
+  ],
+  "arguments": {
+    "method": "CoT",
+    "prompt": "For the given query including a meal description, think step by step as follows:\n1. Identify each food or beverage item and its serving size. If no size is given, assume one standard serving based on common guidelines. Use USDA references for meals typically associated with Western/U.S. diets. For other regional or traditional meals, prefer FAO/WHO food composition data.\n2. If total energy (kcal) is provided, estimate the amount of energy each item contributes to the total. If the total energy estimated differs by more than 20%, reconsider the assumed form of every single relevant item (e.g. concentration, dry vs wet vs dehydrated). Repeat this step until a consistent energy estimate is obtained.\n3. For each item settled on, estimate its carbohydrate content in grams.\n4. Add the carbohydrates from all items. Respond with a dictionary object containing the total carbohydrates in grams as follows:\n{\"total_carbohydrates\": total grams of carbohydrates for the meal}\nFor the total carbohydrates, respond with just the numeric amount of carbohydrates without extra text. If you don't know the answer, set the value of \"total_carbohydrates\" to -1.\n\nFollow the format of the following examples when answering:\n\nQuery: \"I ate scrambled eggs made with 2 eggs and a toast for breakfast.\"\nAnswer: Let's think step by step.\n1. The meal consists of:\n- Scrambled eggs made with 2 eggs\n- 1 toast\n2. No energy provided.\n3. Estimate carbohydrate content in grams.\nScrambled eggs made with 2 eggs has 2g carbs. 1 toast has 13g carbs.\n4. Add carbohydrate values.\nTotal = 2 + 13 = 15\nOutput: {\"total_carbohydrates\": 15}\n\nQuery: \"The following meal contains 106.6 kcal. I've got a drink made from 248 grams of oatmeal and water for breakfast.\"\nAnswer: Let's think step by step.\n1. The meal consists of:\n- A drink made from 248g of oatmeal and water\n2. Estimate energy contributions per item.\n248g of oatmeal: Approx. 70 kcal / 100g\n248g * 0.7 kcal / g =  173.6 kcal. This is far above 106.6 kcal, so something is off. \nReconsider oatmeal: 248g may be referring to the entire drink, rather than the amount of dry oatmeal.\n248g of oatmeal drink: Approx. 45 kcal / 100g\n248 * 0.45 kcal / g = 111.6 kcal - acceptable.\n3. Estimate carbohydrate content in grams.\nAn oatmeal drink typically has around 10.5g carbs per 100g:\n248g * 0.105 = 26.04g carbs\n4. Add the carbs from all items and return the total as a dictionary.\nOutput: {\"total_carbohydrates\": 26.04}\n\nQuery: \"The following meal contains 1470 kcal. For breakfast, I had 61.9g of red palm oil and 729.0g of ready-to-eat maize porridge.\"\nAnswer: Let's think step by step.\n1. Identify each food or beverage item and its serving size.\n- 61.9g of red palm oil\n- 729g of ready-to-eat maize porridge\n2. Estimate energy contributions per item.\nRed palm oil: Energy content is about 884 kcal per 100g.\nFor 61.9g: 884 * 0.619 = 547 kcal\nReady-to-eat maize porridge: This depends heavily on its water content. A typical maize porridge (thin) has ~50-60 kcal per 100g.\n729g * 0.55 = 400.95 kcal\nTotal estimated: 547 + 401 = 948 kcal. This is far below the stated 1470 kcal.\nAdjustment needed: Either the maize porridge is more concentrated or oil quantity/energy is wrong.\nLet's assume a thicker maize porridge or less water content. Dense cooked maize porridge can have up to 160 kcal/100g (closer to stiff ugali or polenta consistency).\nTry 729 * 1.27 = 926.8 kcal (127 kcal/100g assumption)\nNew total: 547 (oil) + 927 (porridge) \u2248 1474 kcal, matching well. So, we'll assume maize porridge at 127 kcal/100g.\n3. Estimate carbohydrate content in grams.\nRed palm oil: 0g carbs (pure fat)\nThick maize porridge: Based on FAO data for stiff maize porridge (e.g. ugali or sadza), carb content is typically ~27-28g per 100g. \nWe'll use 28g carbs per 100g. \n729g * 0.28 = 204.12g of carbohydrates\n4. Add carbohydrate values and respond with total.\n0g (oil) + 204.12g (porridge) = 204.12g\nOutput: {\"total_carbohydrates\": 204.12}",
+    "model": "gpt-4o-2024-08-06",
+    "temperature": 0.1,
+    "top_p": 0.1,
+    "mbr": null,
+    "n": 1
+  },
+  "data_path": "/data/lucasjia/projects/nutri/src/multi-nutrient/nb_v2_sub_laya.csv",
+  "test_flag": false,
+  "save_json": true,
+  "threshold": 7.5,
+  "percent": false,
+  "eval_result": {
+    "acc": 0.6849056603773584,
+    "mae": 8.30808226415094,
+    "rmse": 16.698120506698544,
+    "answer_rate": 0.9981132075471698
+  }
+}

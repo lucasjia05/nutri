@@ -127,6 +127,8 @@ def clean_output(raw_output, query, method_name, nutrition_name):
 # ------------------ PROCESS OUTPUT ------------------
 def process_output(doc, pred, threshold=7.5, nutrient="carb"):
     gt = doc[nutrient]
+    if not is_number(gt):
+        gt = process_gt(gt)
     mae = abs(pred - gt)
     mse = mae ** 2
     # debug
@@ -456,6 +458,8 @@ def query_add_context(doc, context):
     if len(context) == 1:
         key = context[0]
         value = doc[key]
+        if not is_number(value):
+            value = process_gt(value)
         unit = "kcal" if key == "energy" else "grams"
         info = f"{value} {unit}"
     elif len(context) == 2:
@@ -938,7 +942,6 @@ prompt_carb_cot_context_energy6= '''For the given query including a meal descrip
 For the total carbohydrates, respond with just the numeric amount of carbohydrates without extra text. If you don't know the answer, set the value of "total_carbohydrates" to -1.'''
 
 
-
 prompt_carb_cot_context_energy7= '''For the given query including a meal description, think step by step as follows:
 1. Identify each food or beverage item and its serving size. If no size is given, assume one standard serving based on common guidelines. Use USDA references for meals typically associated with Western/U.S. diets. For other regional or traditional meals, prefer FAO/WHO food composition data.
 2. If total energy (kcal) is provided, estimate the amount of energy each item contributes to the total. If the total energy estimated differs by more than 20%, reconsider the assumed form of every single relevant item (e.g. concentration, dry vs wet vs dehydrated). Repeat this step until a consistent energy estimate is obtained.
@@ -967,7 +970,7 @@ Answer: Let's think step by step.
 - A drink made from 248g of oatmeal and water
 2. Estimate energy contributions per item.
 248g of oatmeal: Approx. 70 kcal / 100g
-248g * 0.7 kcal / g =  173.6 kcal. This is far above 106.6 kcal, so something is off. 
+248g * 0.7 kcal / g =  173.6 kcal. This is far above 106.6 kcal, so something is off.
 Reconsider oatmeal: 248g may be referring to the entire drink, rather than the amount of dry oatmeal.
 248g of oatmeal drink: Approx. 45 kcal / 100g
 248 * 0.45 kcal / g = 111.6 kcal - acceptable.
@@ -985,7 +988,7 @@ Answer: Let's think step by step.
 2. Estimate energy contributions per item.
 Red palm oil: Energy content is about 884 kcal per 100g.
 For 61.9g: 884 * 0.619 = 547 kcal
-Ready-to-eat maize porridge: This depends heavily on its water content. A typial maize porridge (thin) has ~50-60 kcal per 100g.
+Ready-to-eat maize porridge: This depends heavily on its water content. A typical maize porridge (thin) has ~50-60 kcal per 100g.
 729g * 0.55 = 400.95 kcal.
 Total estimated: 547 + 401 = 948 kcal. This is far below the stated 1470 kcal.
 Adjustment needed: Either the maize porridge is more concentrated or oil quantity/energy is wrong.
@@ -1002,6 +1005,135 @@ Using 28.6g/100g as a realistic estimate:
 4. Add carbohydrate values and respond with total.
 Output: {"total_carbohydrates": 208.5}'''
 
+prompt_carb_cot_context_energy8 = '''For the given query including a meal description, think step by step as follows:
+1. Identify each food or beverage item and its serving size. If no size is given, assume one standard serving based on common guidelines. Based on these items, classify the meal's regional context by determining whether it is best characterized as primarily Western (e.g., U.S./European) or non-Western/traditional (e.g., African, Asian, Latin American). Use USDA food composition data for Western meals, and FAO/WHO or local sources for non-Western/traditional meals.
+2. If total energy (kcal) is provided, estimate the amount of energy each item contributes to the total. If the total energy estimated differs by more than 20%, reconsider the assumed form of every single relevant item (e.g., concentration, dry vs. wet vs. dehydrated). Repeat this step until a consistent energy estimate is obtained.
+3. For each item settled on, estimate its carbohydrate content in grams.
+4. Add the carbohydrates from all items. Respond with a dictionary object containing the total carbohydrates in grams as follows:
+{"total_carbohydrates": total grams of carbohydrates for the meal}
+For the total carbohydrates, respond with just the numeric amount of carbohydrates without extra text. If you don't know the answer, set the value of "total_carbohydrates" to -1.
+
+Follow the format of the following examples when answering:
+
+Query: "I ate scrambled eggs made with 2 eggs and a toast for breakfast."
+Answer: Let's think step by step.
+1. The meal consists of:
+- Scrambled eggs made with 2 eggs
+- 1 toast
+This is best characterized as a Western meal.
+2. No energy provided.
+3. Estimate carbohydrate content in grams.
+Scrambled eggs made with 2 eggs has 2g carbs. 1 toast has 13g carbs.
+4. Add carbohydrate values.
+Total = 2 + 13 = 15
+Output: {"total_carbohydrates": 15}
+
+Query: "The following meal contains 106.6 kcal. I've got a drink made from 248 grams of oatmeal and water for breakfast."
+Answer: Let's think step by step.
+1. The meal consists of:
+- A drink made from 248g of oatmeal and water
+This is best characterized as a Western meal.
+2. Estimate energy contributions per item.
+248g of oatmeal: Approx. 70 kcal / 100g
+248g * 0.7 kcal/g = 173.6 kcal. This is far above 106.6 kcal, so something is off.
+Reconsider oatmeal: 248g may be referring to the entire drink, rather than the amount of dry oatmeal.
+248g of oatmeal drink: Approx. 45 kcal / 100g
+248 * 0.45 kcal/g = 111.6 kcal - acceptable.
+3. Estimate carbohydrate content in grams.
+An oatmeal drink typically has around 10.5g carbs per 100g:
+248g * 0.105 = 26.04g carbs
+4. Add the carbs from all items and return the total as a dictionary.
+Output: {"total_carbohydrates": 26.04}
+
+Query: "The following meal contains 1470 kcal. For breakfast, I had 61.9g of red palm oil and 729.0g of ready-to-eat maize porridge."
+Answer: Let's think step by step.
+1. Identify each food or beverage item and its serving size.
+- 61.9g of red palm oil
+- 729g of ready-to-eat maize porridge
+This is best characterized as a non-Western/traditional meal, likely African in context, based on the ingredients (e.g., palm oil, maize porridge).
+2. Estimate energy contributions per item.
+Red palm oil: Energy content is about 884 kcal per 100g.
+For 61.9g: 884 * 0.619 = 547 kcal
+Ready-to-eat maize porridge: This depends heavily on its water content. A typical maize porridge (thin) has ~50-60 kcal per 100g.
+729g * 0.55 = 400.95 kcal
+Total estimated: 547 + 401 = 948 kcal. This is far below the stated 1470 kcal.
+Adjustment needed: Either the maize porridge is more concentrated or oil quantity/energy is wrong.
+Let's assume a thicker maize porridge or less water content. Dense cooked maize porridge can have up to 160 kcal/100g (closer to stiff ugali or polenta consistency).
+Try 729 * 1.27 = 926.8 kcal (127 kcal/100g assumption)
+New total: 547 (oil) + 927 (porridge) ≈ 1474 kcal, matching well. So, we assume maize porridge at 127 kcal/100g.
+3. Estimate carbohydrate content in grams.
+Red palm oil: 0g carbs (pure fat)
+Maize porridge: At 127 kcal/100g, and assuming 80% of energy is from carbs:
+127 kcal * 0.90 = 114.3 kcal from carbs
+So 114.3 / 4 = 28.6g carbs per 100g
+Using 28.6g/100g as a realistic estimate:
+729g * 0.286 = 208.5g carbs
+4. Add carbohydrate values and respond with total.
+Output: {"total_carbohydrates": 208.5}'''
+
+prompt_carb_cot_context_energy9 = '''For the given query including a meal description, think step by step as follows:
+1. Identify each food or beverage item and its serving size. If no size is given, assume one standard serving based on common guidelines. Use USDA references for meals typically associated with Western/U.S. diets. For other regional or traditional meals, prefer FAO/WHO food composition data.
+2. If total energy (kcal) is provided, estimate the amount of energy each item contributes to the total. If the total energy estimated differs by more than 20%, reconsider the assumed form of every single relevant item (e.g. concentration, dry vs wet vs dehydrated). Repeat this step until a consistent energy estimate is obtained.
+3. For each item settled on, estimate its carbohydrate content in grams based on its serving size.
+4. Add the carbohydrates from all items. Respond with a dictionary object containing the total carbohydrates in grams as follows:
+{"total_carbohydrates": total grams of carbohydrates for the meal}
+For the total carbohydrates, respond with just the numeric amount of carbohydrates without extra text. If you don't know the answer, set the value of "total_carbohydrates" to -1.
+
+Follow the format of the following examples when answering:
+
+Query: "I ate scrambled eggs made with 2 eggs and a toast for breakfast."
+Answer: Let's think step by step.
+1. The meal consists of:
+- Scrambled eggs made with 2 eggs
+- 1 toast
+2. No energy provided.
+3. Estimate carbohydrate content in grams.
+Scrambled eggs made with 2 eggs has 2g carbs. 1 toast has 13g carbs.
+4. Add carbohydrate values.
+Total = 2 + 13 = 15
+Output: {"total_carbohydrates": 15}
+
+Query: "The following meal contains 106.6 kcal. I've got a drink made from 248 grams of oatmeal and water for breakfast."
+Answer: Let's think step by step.
+1. The meal consists of:
+- A drink made from 248g of oatmeal and water
+2. Estimate energy contributions per item.
+248g of oatmeal: Approx. 70 kcal / 100g
+248g * 0.7 kcal / g =  173.6 kcal. This is far above 106.6 kcal, so something is off.
+Reconsider oatmeal: 248g may be referring to the entire drink, rather than the amount of dry oatmeal.
+248g of oatmeal drink: Approx. 45 kcal / 100g
+248 * 0.45 kcal / g = 111.6 kcal - acceptable.
+3. Estimate carbohydrate content in grams.
+An oatmeal drink typically has around 10.5g carbs per 100g:
+248g * 0.105 = 26.04g carbs
+4. Add the carbs from all items and return the total as a dictionary.
+Output: {"total_carbohydrates": 26.04}
+
+Query: "The following meal contains 1470 kcal. For breakfast, I had 61.9g of red palm oil and 729.0g of ready-to-eat maize porridge."
+Answer: Let's think step by step.
+1. Identify each food or beverage item and its serving size.
+- 61.9g of red palm oil
+- 729g of ready-to-eat maize porridge
+2. Estimate energy contributions per item.
+Red palm oil: Energy content is about 884 kcal per 100g.
+For 61.9g: 884 * 0.619 = 547 kcal
+Ready-to-eat maize porridge: This depends heavily on its water content. A typical maize porridge (thin) has ~50-60 kcal per 100g.
+729g * 0.55 = 400.95 kcal
+Total estimated: 547 + 401 = 948 kcal. This is far below the stated 1470 kcal.
+Adjustment needed: Either the maize porridge is more concentrated or oil quantity/energy is wrong.
+Let's assume a thicker maize porridge or less water content. Dense cooked maize porridge can have up to 160 kcal/100g (closer to stiff ugali or polenta consistency).
+Try 729 * 1.27 = 926.8 kcal (127 kcal/100g assumption)
+New total: 547 (oil) + 927 (porridge) ≈ 1474 kcal, matching well. So, we'll assume maize porridge at 127 kcal/100g.
+3. Estimate carbohydrate content in grams.
+Red palm oil: 0g carbs (pure fat)
+Thick maize porridge: Based on FAO data for stiff maize porridge (e.g. ugali or sadza), carb content is typically ~27-28g per 100g.
+We'll use 28g carbs per 100g.
+729g * 0.28 = 204.12g of carbohydrates
+4. Add carbohydrate values and respond with total.
+0g (oil) + 204.12g (porridge) = 204.12g
+Output: {"total_carbohydrates": 204.12}'''
+
+
 
 if __name__ == "__main__":
     # change these params
@@ -1009,10 +1141,15 @@ if __name__ == "__main__":
     prompt = prompt_carb_cot_context_energy7
     method="CoT"
     model = "gpt-4o-2024-08-06"
-    path="/data/lucasjia/projects/nutri/src/multi-nutrient/nb_v2_sub_laya.csv"
-    test_flag=False
+    # path="/data/lucasjia/projects/nutri/src/multi-nutrient/nb_v2_sub_laya.csv"
+    # path = "/data/lucasjia/projects/nutri/src/multi-nutrient/sub4_metric.csv"
+    path = "/data/lucasjia/projects/nutri/src/multi-nutrient/sub5_natural_language.csv"
+
+    test_flag=True
     thresholds = {"carb" : 7.5, "protein" : 2.0, "fat" : 2.5, "energy" : 50.0}
-    results_dir = "/data/lucasjia/projects/nutri/results/multi-nutrient/sub1w2/"
+    # results_dir = "/data/lucasjia/projects/nutri/results/multi-nutrient/sub1w2/"
+    # results_dir = "/data/lucasjia/projects/nutri/results/multi-nutrient/sub4/"
+    results_dir = "/data/lucasjia/projects/nutri/results/multi-nutrient/sub5"
 
     temp=0.1
     top_p=0.1
