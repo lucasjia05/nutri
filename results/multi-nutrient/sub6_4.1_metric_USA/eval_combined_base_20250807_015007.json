@@ -1,0 +1,48 @@
+{
+  "nutrient": "combined",
+  "arguments": {
+    "method": "base",
+    "prompt": "For the given query including a meal description, calculate the total amounts of carbohydrates (grams), protein (grams), fat (grams), and energy (kilocalories). \nIf the serving size of any item in the meal is not specified, assume it is a single standard serving based on common nutritional guidelines (e.g., USDA).\nRespond with a dictionary object containing four key-value pairs as follows:\n{\n  \"total_carbohydrates\": total grams of carbohydrates,\n  \"total_protein\": total grams of protein,\n  \"total_fat\": total grams of fat,\n  \"total_energy\": total kilocalories\n}\nFor each value, respond with just the numeric amount without extra text. If you don't know the answer for any value, set it to -1.\n\nQuery: \"This morning, I had a cup of oatmeal with half a sliced banana and a glass of orange juice.\"\nAnswer: {\n  \"total_carbohydrates\": 66.5,\n  \"total_protein\": 7.65,\n  \"total_fat\": 2.14,\n  \"total_energy\": 312\n}\n\nQuery: \"I ate scrambled eggs made with 2 eggs and a toast for breakfast.\"\nAnswer: {\n  \"total_carbohydrates\": 15,\n  \"total_protein\": 15.3,\n  \"total_fat\": 17.5,\n  \"total_energy\": 277.2\n}\n\nQuery: \"Half a peanut butter and jelly sandwich.\"\nAnswer: {\n  \"total_carbohydrates\": 25.3,\n  \"total_protein\": 6.4,\n  \"total_fat\": 9.3,\n  \"total_energy\": 202\n}",
+    "model": "gpt-4.1-2025-04-14",
+    "temperature": 0.1,
+    "top_p": 0.1,
+    "mbr": null,
+    "n": 1
+  },
+  "data_path": "sub6_metric_USA.csv",
+  "test_flag": false,
+  "save_json": true,
+  "threshold": {
+    "carb": 7.5,
+    "protein": 2.0,
+    "fat": 2.5,
+    "energy": 50.0
+  },
+  "percent": false,
+  "eval_result": {
+    "carb": {
+      "acc": 0.6490566037735849,
+      "mae": 7.858433962264148,
+      "rmse": 13.084619683588468,
+      "answer_rate": 0.9981132075471698
+    },
+    "fat": {
+      "acc": 0.5716981132075472,
+      "mae": 3.7262641509433934,
+      "rmse": 6.28069918593073,
+      "answer_rate": 0.9981132075471698
+    },
+    "energy": {
+      "acc": 0.6528301886792452,
+      "mae": 55.41590566037739,
+      "rmse": 88.84218060005946,
+      "answer_rate": 1.0
+    },
+    "protein": {
+      "acc": 0.6188679245283019,
+      "mae": 2.7865849056603778,
+      "rmse": 4.928776705362165,
+      "answer_rate": 0.9981132075471698
+    }
+  }
+}
