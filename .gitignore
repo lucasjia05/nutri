@@ -2,3 +2,6 @@
 /src/SFT/train_v2.jsonl
 .env
 *.pyc
+*.egg-info/
+dist/
+build/

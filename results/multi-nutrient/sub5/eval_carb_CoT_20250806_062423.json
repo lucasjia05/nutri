@@ -13,14 +13,14 @@
     "n": 1
   },
   "data_path": "/data/lucasjia/projects/nutri/src/multi-nutrient/sub5_natural_language.csv",
-  "test_flag": true,
+  "test_flag": false,
   "save_json": true,
   "threshold": 7.5,
   "percent": false,
   "eval_result": {
-    "acc": 0.8,
-    "mae": 3.036000000000001,
-    "rmse": 4.403121619941923,
+    "acc": 0.6962264150943396,
+    "mae": 6.593226415094342,
+    "rmse": 10.587376215667202,
     "answer_rate": 1.0
   }
 }

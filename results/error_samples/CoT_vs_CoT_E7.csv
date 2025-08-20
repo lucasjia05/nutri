@@ -1,0 +1,673 @@
+doc_id,CoT_E7_pred,CoT_E7_resp,description,country,queries,carb,fat,energy,protein,CoT_E7_mae,CoT_pred,CoT_resp,CoT_mae
+106,43.2,"['1. Identify each food or beverage item and its serving size.\n- 1200 grams of beer\n\n2. Estimate energy contributions per item.\nBeer typically has about 43 kcal per 100g.\nFor 1200g: 43 kcal/100g * 12 = 516 kcal.\nThis matches the provided total energy of 516 kcal.\n\n3. Estimate carbohydrate content in grams.\nBeer typically has about 3.6g of carbohydrates per 100g.\nFor 1200g: 3.6g/100g * 12 = 43.2g of carbohydrates.\n\n4. Add the carbohydrates from all items and return the total as a dictionary.\nOutput: {""total_carbohydrates"": 43.2}']",['Beer'],USA,"For a snack, I'm having 1200 grams of beer.",42.6,0.0,516.0,5.52,0.6000000000000011,456.0,"The meal consists of 1200 grams of beer.  
+1 gram of beer has approximately 0.38g carbs.  
+So, 1200 grams of beer has (1200 * 0.38) = 456g carbs.  
+So the total grams of carbs in the meal = 456  
+Output: {""total_carbohydrates"": 456}",413.4
+515,193.98,"['Let\'s think step by step.\n\n1. Identify each food or beverage item and its serving size.\n- 56.4g of raw medium fat beef\n- 47g of chopped fresh red onion\n- 73.3g of raw pumpkin leaves\n- 43.5g of dry white rice\n- 0.9g of iodized salt\n- 68.7g of ripe raw tomato\n- 21.0g of vegetable oil\n- 600g of whole maize flour ugali\n\n2. Estimate energy contributions per item.\n- Raw medium fat beef: Approximately 250 kcal per 100g.\n  56.4g * 2.5 = 141 kcal\n- Chopped fresh red onion: Approximately 40 kcal per 100g.\n  47g * 0.4 = 18.8 kcal\n- Raw pumpkin leaves: Approximately 20 kcal per 100g.\n  73.3g * 0.2 = 14.66 kcal\n- Dry white rice: Approximately 365 kcal per 100g.\n  43.5g * 3.65 = 158.78 kcal\n- Iodized salt: 0 kcal\n- Ripe raw tomato: Approximately 18 kcal per 100g.\n  68.7g * 0.18 = 12.37 kcal\n- Vegetable oil: Approximately 884 kcal per 100g.\n  21.0g * 8.84 = 185.64 kcal\n- Whole maize flour ugali: Approximately 360 kcal per 100g.\n  600g * 3.6 = 2160 kcal\n\nTotal estimated energy: 141 + 18.8 + 14.66 + 158.78 + 0 + 12.37 + 185.64 + 2160 = 2691.25 kcal\n\nThis is far above the stated 845 kcal. The discrepancy suggests that the ugali or another component is not contributing as much energy as assumed. Let\'s reconsider the ugali.\n\nAssume a more realistic energy density for the cooked ugali, which is typically around 110 kcal per 100g when cooked with water.\n600g * 1.1 = 660 kcal\n\nRecalculate total energy:\n141 (beef) + 18.8 (onion) + 14.66 (pumpkin leaves) + 158.78 (rice) + 0 (salt) + 12.37 (tomato) + 185.64 (oil) + 660 (ugali) = 1191.25 kcal\n\nThis is still above 845 kcal, but closer. The ugali energy density might be even lower or the meal size is smaller than assumed.\n\n3. Estimate carbohydrate content in grams.\n- Raw medium fat beef: 0g carbs\n- Chopped fresh red onion: Approximately 9g carbs per 100g.\n  47g * 0.09 = 4.23g carbs\n- Raw pumpkin leaves: Approximately 3g carbs per 100g.\n  73.3g * 0.03 = 2.2g carbs\n- Dry white rice: Approximately 80g carbs per 100g.\n  43.5g * 0.8 = 34.8g carbs\n- Iodized salt: 0g carbs\n- Ripe raw tomato: Approximately 4g carbs per 100g.\n  68.7g * 0.04 = 2.75g carbs\n- Vegetable oil: 0g carbs\n- Whole maize flour ugali: Assuming cooked, approximately 25g carbs per 100g.\n  600g * 0.25 = 150g carbs\n\n4. Add carbohydrate values.\nTotal = 0 + 4.23 + 2.2 + 34.8 + 0 + 2.75 + 0 + 150 = 193.98\n\nOutput: {""total_carbohydrates"": 193.98}']","['Beef\t medium fat\t w/o bones\t raw\t corrected for stewing', 'Onion\t mature\t red skinned\t peeled\t fresh\t raw corrected for stewing', 'Pumpkin\t leaves (seveve)\t raw\t corrected for boling', 'Rice\t white\t milled\t polished grain\t dry\t raw corrected for stewing', 'Salt\t Iodized', 'Tomato\t red\t ripe\t raw\t corrected for stewing', 'Vegetable oil', 'Whole Maize Flour Ugali']",KEN,"For lunch, I’m having 56.4 grams of raw medium fat beef, 47 grams of chopped fresh red onion, and 73.3 grams of raw pumpkin leaves. I also cooked 43.5 grams of dry white rice with 0.9 grams of iodized salt, and added 68.7 grams of ripe raw tomato. I used 21.0 grams of vegetable oil and served it with 600 grams of whole maize flour ugali.",100.0,31.9,845.0,27.0,93.97999999999999,484.47,"The meal consists of the following items:
+
+1. 56.4 grams of raw medium fat beef
+2. 47 grams of chopped fresh red onion
+3. 73.3 grams of raw pumpkin leaves
+4. 43.5 grams of dry white rice
+5. 0.9 grams of iodized salt
+6. 68.7 grams of ripe raw tomato
+7. 21.0 grams of vegetable oil
+8. 600 grams of whole maize flour ugali
+
+Now, let's calculate the carbohydrates for each item:
+
+1. Raw medium fat beef: 0g carbs (beef does not contain carbohydrates).
+2. Chopped fresh red onion: Approximately 9g carbs per 100g, so for 47g, it is (9 * 47/100) = 4.23g carbs.
+3. Raw pumpkin leaves: Approximately 6.5g carbs per 100g, so for 73.3g, it is (6.5 * 73.3/100) = 4.76g carbs.
+4. Dry white rice: Approximately 80g carbs per 100g, so for 43.5g, it is (80 * 43.5/100) = 34.8g carbs.
+5. Iodized salt: 0g carbs (salt does not contain carbohydrates).
+6. Ripe raw tomato: Approximately 3.9g carbs per 100g, so for 68.7g, it is (3.9 * 68.7/100) = 2.68g carbs.
+7. Vegetable oil: 0g carbs (oil does not contain carbohydrates).
+8. Whole maize flour ugali: Approximately 73g carbs per 100g, so for 600g, it is (73 * 600/100) = 438g carbs.
+
+Now, sum up the carbohydrates:
+
+Total carbohydrates = 0 + 4.23 + 4.76 + 34.8 + 0 + 2.68 + 0 + 438 = 484.47g
+
+Output: {""total_carbohydrates"": 484.47}",384.47
+351,55.62,"['1. Identify each food or beverage item and its serving size.\n- 56g of white flour bread\n- 70g of stewed chicken wings cooked in butter\n- 281.8g of Tang fruit-flavored drink\n- 271g of tap water\n\n2. Estimate energy contributions per item.\n- White flour bread: Approximately 265 kcal per 100g.\n  For 56g: 265 * 0.56 = 148.4 kcal\n- Stewed chicken wings cooked in butter: Chicken wings (stewed) are approximately 250 kcal per 100g, but with butter, it could be higher. Let\'s estimate around 300 kcal per 100g.\n  For 70g: 300 * 0.7 = 210 kcal\n- Tang fruit-flavored drink: Approximately 40 kcal per 100g.\n  For 281.8g: 40 * 2.818 = 112.72 kcal\n- Tap water: 0 kcal\n\nTotal estimated energy: 148.4 (bread) + 210 (chicken wings) + 112.72 (Tang drink) = 471.12 kcal\n\nThe estimated total energy is slightly above the stated 433 kcal. This discrepancy could be due to variations in the preparation of the chicken wings or the concentration of the Tang drink. However, the difference is within a reasonable range, so we will proceed with these estimates.\n\n3. Estimate carbohydrate content in grams.\n- White flour bread: Approximately 49g of carbs per 100g.\n  For 56g: 49 * 0.56 = 27.44g carbs\n- Stewed chicken wings cooked in butter: Minimal carbs, approximately 0g.\n- Tang fruit-flavored drink: Approximately 10g of carbs per 100g.\n  For 281.8g: 10 * 2.818 = 28.18g carbs\n- Tap water: 0g carbs\n\n4. Add the carbohydrates from all items.\nTotal = 27.44 (bread) + 0 (chicken wings) + 28.18 (Tang drink) = 55.62\n\nOutput: {""total_carbohydrates"": 55.62}']","['Bread, white flour, commercial', 'Chicken, wing, stewed with butter', 'Fruit flavoured drink, Tang, powder mix, reconstituted with water', 'Water, tap']",KNA,"For dinner, I'm having 56g of white flour bread with 70g of stewed chicken wings cooked in butter. I also have 281.8g of Tang fruit-flavored drink and 271g of tap water.",55.9,13.63,433.0,20.91,0.280000000000001,292.332,"The meal consists of 56g of white flour bread, 70g of stewed chicken wings cooked in butter, 281.8g of Tang fruit-flavored drink, and 271g of tap water.
+
+1. 56g of white flour bread: White flour bread has approximately 49g of carbohydrates per 100g. Therefore, 56g of white flour bread has (49 * 56/100) = 27.44g of carbohydrates.
+
+2. 70g of stewed chicken wings cooked in butter: Chicken wings and butter do not contain significant carbohydrates. Therefore, the carbohydrates from this item are 0g.
+
+3. 281.8g of Tang fruit-flavored drink: Tang has approximately 94g of carbohydrates per 100g when prepared. Therefore, 281.8g of Tang has (94 * 281.8/100) = 264.892g of carbohydrates.
+
+4. 271g of tap water: Water does not contain carbohydrates. Therefore, the carbohydrates from this item are 0g.
+
+So the total grams of carbohydrates in the meal = (27.44 + 0 + 264.892 + 0) = 292.332
+
+Output: {""total_carbohydrates"": 292.332}",236.432
+522,87.4,"['1. Identify each food or beverage item and its serving size.\n- 420g of boiled maize flour\n- 16g of common sugar\n\n2. Estimate energy contributions per item.\n- Boiled maize flour: Energy content can vary, but a typical value is around 100 kcal per 100g for a cooked maize porridge.\n  For 420g: 420 * 1.0 = 420 kcal\n- Common sugar: Energy content is about 387 kcal per 100g.\n  For 16g: 387 * 0.16 = 61.92 kcal\n\nTotal estimated energy: 420 + 61.92 = 481.92 kcal. This is above the stated 419 kcal, suggesting the maize flour might be less dense or more diluted.\n\nReconsider maize flour: If the total is 419 kcal, the maize flour might be less dense. Let\'s adjust:\nAssume maize flour contributes 357.08 kcal (419 - 61.92).\n357.08 kcal / 420g = 0.85 kcal/g, or 85 kcal per 100g.\n\n3. Estimate carbohydrate content in grams.\n- Boiled maize flour: At 85 kcal/100g, assuming 80% of energy is from carbs:\n  85 kcal * 0.80 = 68 kcal from carbs\n  68 / 4 = 17g carbs per 100g\n  For 420g: 420 * 0.17 = 71.4g carbs\n\n- Common sugar: 100% of its weight is carbohydrates.\n  For 16g: 16g carbs\n\n4. Add carbohydrate values.\nTotal = 71.4 + 16 = 87.4\n\nOutput: {""total_carbohydrates"": 87.4}']","['Maize flour, PROCESS=Boiling', 'Sucrose (common sugar),  PROCESS=Boiling']",BFA,"For my snack, I used 420 grams of boiled maize flour along with 16 grams of common sugar.",94.5,3.4,419.0,11.8,7.099999999999994,322.6,"The meal consists of 420 grams of boiled maize flour and 16 grams of common sugar.
+
+1. 100 grams of boiled maize flour has approximately 73g of carbohydrates. Therefore, 420 grams of boiled maize flour has (73 * (420/100)) = 306.6g of carbohydrates.
+
+2. 100 grams of common sugar has approximately 100g of carbohydrates. Therefore, 16 grams of common sugar has (100 * (16/100)) = 16g of carbohydrates.
+
+So the total grams of carbs in the meal = (306.6 + 16) = 322.6
+
+Output: {""total_carbohydrates"": 322.6}",228.10000000000002
+259,26.04,"['1. The meal consists of:\n- A drink made from 248g of oatmeal and water\n\n2. Estimate energy contributions per item.\n248g of oatmeal: Approx. 70 kcal / 100g\n248g * 0.7 kcal / g = 173.6 kcal. This is far above 106.64 kcal, so something is off. \nReconsider oatmeal: 248g may be referring to the entire drink, rather than the amount of dry oatmeal.\n248g of oatmeal drink: Approx. 45 kcal / 100g\n248 * 0.45 kcal / g = 111.6 kcal - acceptable.\n\n3. Estimate carbohydrate content in grams.\nAn oatmeal drink typically has around 10.5g carbs per 100g:\n248g * 0.105 = 26.04g carbs\n\n4. Add the carbs from all items and return the total as a dictionary.\nOutput: {""total_carbohydrates"": 26.04}']",['Oatmeal beverage with water'],USA,I’ve got a drink made from 248 grams of oatmeal and water for breakfast.,26.31,0.37,106.64,0.62,0.269999999999999,168.64,"The meal consists of a drink made from 248 grams of oatmeal and water.
+
+1 gram of oatmeal has approximately 0.68g of carbs.
+
+So, 248 grams of oatmeal has (248 * 0.68) = 168.64g of carbs.
+
+Water does not contribute any carbohydrates.
+
+So the total grams of carbs in the meal = 168.64
+
+Output: {""total_carbohydrates"": 168.64}",142.32999999999998
+143,17.28,"['1. Identify each food or beverage item and its serving size.\n- Light beer weighing 480 grams\n\n2. Estimate energy contributions per item.\nLight beer typically has about 29 kcal per 100g.\n480g * 0.29 kcal/g = 139.2 kcal, which matches the provided total energy.\n\n3. Estimate carbohydrate content in grams.\nLight beer generally contains about 3.6g of carbohydrates per 100g.\n480g * 0.036 = 17.28g carbs\n\n4. Add the carbohydrates from all items and respond with the total as a dictionary.\nOutput: {""total_carbohydrates"": 17.28}']","['Beer, light']",USA,Having a light beer that weighs 480 grams for lunch.,7.87,0.0,139.2,1.15,9.41,144.0,"The meal consists of 480 grams of light beer.
+
+1 gram of light beer has approximately 0.3g carbs.
+
+So, 480 grams of light beer has (480 * 0.3) = 144g carbs.
+
+So the total grams of carbs in the meal = 144
+
+Output: {""total_carbohydrates"": 144}",136.13
+431,177.7,"['1. Identify each food or beverage item and its serving size.\n- 0.69g of Alfalfa Sprouts\n- 120g of Apple Green\n- 350g Hawaiian Feast Pizza from Domino\'s\n- 50.4g lemon\n- 12.1g Musk Lime\n- 51.35g Popia with Vegetarian Chicken\n- 150g syrup water and sugar\n\n2. Estimate energy contributions per item.\n- Alfalfa Sprouts: Negligible energy, approximately 0 kcal.\n- Apple Green: Approximately 52 kcal per 100g. For 120g: 62.4 kcal.\n- Hawaiian Feast Pizza: Approximately 250 kcal per 100g. For 350g: 875 kcal.\n- Lemon: Approximately 29 kcal per 100g. For 50.4g: 14.6 kcal.\n- Musk Lime: Approximately 30 kcal per 100g. For 12.1g: 3.6 kcal.\n- Popia with Vegetarian Chicken: Approximately 200 kcal per 100g. For 51.35g: 102.7 kcal.\n- Syrup water and sugar: Approximately 250 kcal per 100g. For 150g: 375 kcal.\n\nTotal estimated energy: 0 + 62.4 + 875 + 14.6 + 3.6 + 102.7 + 375 = 1433.3 kcal. This is significantly higher than the stated 1013 kcal. Reconsider the assumed form of items, especially the syrup water and sugar, which might be overestimated.\n\nAdjust syrup water and sugar: Assume a lower concentration, approximately 100 kcal per 100g. For 150g: 150 kcal.\n\nRecalculate total energy: 0 + 62.4 + 875 + 14.6 + 3.6 + 102.7 + 150 = 1208.3 kcal. This is still higher than 1013 kcal, but closer. Assume the pizza or Popia might have a lower energy density.\n\n3. Estimate carbohydrate content in grams.\n- Alfalfa Sprouts: Negligible carbs.\n- Apple Green: Approximately 14g carbs per 100g. For 120g: 16.8g carbs.\n- Hawaiian Feast Pizza: Approximately 30g carbs per 100g. For 350g: 105g carbs.\n- Lemon: Approximately 9g carbs per 100g. For 50.4g: 4.5g carbs.\n- Musk Lime: Approximately 9g carbs per 100g. For 12.1g: 1.1g carbs.\n- Popia with Vegetarian Chicken: Approximately 25g carbs per 100g. For 51.35g: 12.8g carbs.\n- Syrup water and sugar: Approximately 25g carbs per 100g. For 150g: 37.5g carbs.\n\n4. Add carbohydrate values.\nTotal = 0 + 16.8 + 105 + 4.5 + 1.1 + 12.8 + 37.5 = 177.7\n\nOutput: {""total_carbohydrates"": 177.7}']","['Alfalfa Sprouts', 'Apple Green', ""Domino'S Crunchy Thin Crust Hawaiian Feast Pizza 14 Inch"", 'Lemon', 'Musk Lime', 'Popia With Vegetarian Chicken', 'Syrup Water And Sugar']",MYS,"I had 0.69g of Alfalfa Sprouts and 120g of Apple Green for dinner, along with a 350g Hawaiian Feast Pizza from Domino's. I also had a 50.4g lemon and 12.1g of Musk Lime, plus some Popia with Vegetarian Chicken weighing 51.35g and 150g of syrup water and sugar.",109.86,47.31,1013.0,41.06999999999999,67.83999999999999,244.71,"The meal consists of the following items:
+
+1. 0.69g of Alfalfa Sprouts
+2. 120g of Apple Green
+3. 350g Hawaiian Feast Pizza from Domino's
+4. 50.4g lemon
+5. 12.1g of Musk Lime
+6. 51.35g of Popia with Vegetarian Chicken
+7. 150g of syrup water and sugar
+
+Now, let's calculate the carbohydrates for each item:
+
+1. Alfalfa Sprouts: 100g has approximately 0.2g carbs, so 0.69g has (0.2 * 0.69 / 100) = 0.00138g carbs.
+2. Apple Green: 100g has approximately 14g carbs, so 120g has (14 * 120 / 100) = 16.8g carbs.
+3. Hawaiian Feast Pizza from Domino's: 100g has approximately 27g carbs, so 350g has (27 * 350 / 100) = 94.5g carbs.
+4. Lemon: 100g has approximately 9g carbs, so 50.4g has (9 * 50.4 / 100) = 4.536g carbs.
+5. Musk Lime: 100g has approximately 8g carbs, so 12.1g has (8 * 12.1 / 100) = 0.968g carbs.
+6. Popia with Vegetarian Chicken: 100g has approximately 30g carbs, so 51.35g has (30 * 51.35 / 100) = 15.405g carbs.
+7. Syrup water and sugar: 100g has approximately 75g carbs, so 150g has (75 * 150 / 100) = 112.5g carbs.
+
+Now, sum up the carbohydrates:
+
+Total carbohydrates = 0.00138 + 16.8 + 94.5 + 4.536 + 0.968 + 15.405 + 112.5 = 244.71g
+
+Output: {""total_carbohydrates"": 244.71}",134.85000000000002
+476,51.2,"['1. Identify each food or beverage item and its serving size.\n- 33.1g of boiled eggs\n- 20.3g of boiled chicken with skin\n- 0.4g of fried chili peppers\n- 1.6g of steamed chives\n- 1.0g of fried garlic\n- 4.0g of peanut paste\n- 3.4g of palm oil\n- 160.0g of porridge\n- 210.7g of roasted pumpkin seeds\n- 1.6g of salt\n- 27.6g of smoked fish\n- 0.9g of beef stock\n- 1.2g of tomato paste\n- 0.4g of fried tomatoes\n\n2. Estimate energy contributions per item.\n- Boiled eggs: ~155 kcal/100g. For 33.1g: 33.1 * 1.55 = 51.3 kcal\n- Boiled chicken with skin: ~239 kcal/100g. For 20.3g: 20.3 * 2.39 = 48.5 kcal\n- Fried chili peppers: ~282 kcal/100g. For 0.4g: 0.4 * 2.82 = 1.1 kcal\n- Steamed chives: ~30 kcal/100g. For 1.6g: 1.6 * 0.3 = 0.5 kcal\n- Fried garlic: ~450 kcal/100g. For 1.0g: 1.0 * 4.5 = 4.5 kcal\n- Peanut paste: ~588 kcal/100g. For 4.0g: 4.0 * 5.88 = 23.5 kcal\n- Palm oil: ~884 kcal/100g. For 3.4g: 3.4 * 8.84 = 30.1 kcal\n- Porridge: ~50 kcal/100g. For 160.0g: 160.0 * 0.5 = 80 kcal\n- Roasted pumpkin seeds: ~574 kcal/100g. For 210.7g: 210.7 * 5.74 = 1209.2 kcal\n- Salt: 0 kcal\n- Smoked fish: ~117 kcal/100g. For 27.6g: 27.6 * 1.17 = 32.3 kcal\n- Beef stock: ~10 kcal/100g. For 0.9g: 0.9 * 0.1 = 0.1 kcal\n- Tomato paste: ~82 kcal/100g. For 1.2g: 1.2 * 0.82 = 1.0 kcal\n- Fried tomatoes: ~180 kcal/100g. For 0.4g: 0.4 * 1.8 = 0.7 kcal\n\nTotal estimated energy: 51.3 + 48.5 + 1.1 + 0.5 + 4.5 + 23.5 + 30.1 + 80 + 1209.2 + 0 + 32.3 + 0.1 + 1.0 + 0.7 = 1482.7 kcal. This is above the stated 1361 kcal, indicating a possible overestimation in one or more items, particularly the pumpkin seeds or porridge.\n\n3. Estimate carbohydrate content in grams.\n- Boiled eggs: ~1.1g carbs/100g. For 33.1g: 0.4g carbs\n- Boiled chicken with skin: ~0g carbs\n- Fried chili peppers: ~50g carbs/100g. For 0.4g: 0.2g carbs\n- Steamed chives: ~4.3g carbs/100g. For 1.6g: 0.1g carbs\n- Fried garlic: ~33g carbs/100g. For 1.0g: 0.3g carbs\n- Peanut paste: ~20g carbs/100g. For 4.0g: 0.8g carbs\n- Palm oil: 0g carbs\n- Porridge: ~11g carbs/100g. For 160.0g: 17.6g carbs\n- Roasted pumpkin seeds: ~15g carbs/100g. For 210.7g: 31.6g carbs\n- Salt: 0g carbs\n- Smoked fish: 0g carbs\n- Beef stock: ~1g carbs/100g. For 0.9g: 0g carbs\n- Tomato paste: ~19g carbs/100g. For 1.2g: 0.2g carbs\n- Fried tomatoes: ~7g carbs/100g. For 0.4g: 0g carbs\n\n4. Add carbohydrate values.\nTotal = 0.4 + 0 + 0.2 + 0.1 + 0.3 + 0.8 + 0 + 17.6 + 31.6 + 0 + 0 + 0 + 0.2 + 0 = 51.2\n\nOutput: {""total_carbohydrates"": 51.2}']","['Boiled eggs, SOURCE-COMMODITIES = Hen eggs', 'Chicken fresh meat, PROCESS = Boiling, QUALITATIVE-INFO = Dark, QUALITATIVE-INFO = Without added salt, PART-CONSUMED-ANALYSED = With skin', 'Chili peppers, PROCESS = Frying', 'Chives, PROCESS = Steaming', 'Garlic, PROCESS = Frying', 'Nut/seeds paste/emulsion/mass, SOURCE-COMMODITIES = Peanuts, PROCESS = Roasting', 'Palm oil/fat, QUALITATIVE-INFO = Red', 'Porridge water based (ready to eat), INGREDIENT = Maize grain, QUALITATIVE-INFO = Hard', 'Pumpkin seeds, PROCESS = Roasting, PHYSICAL-STATE = Whole/unsplit form, including artificial forms', 'Salt', 'Smoked fish, SOURCE-COMMODITIES = Whitefishes or coregonus', 'Stock cube or granulate, beef, PROCESS = Drying (dehydration), GENERIC-TERM = Other', 'Tomatoes, PHYSICAL-STATE = Paste', 'Tomatoes, PROCESS = Frying, QUALITATIVE-INFO = Red, QUALITATIVE-INFO = Ripe / mature']",COD,"For lunch, I had 33.1g of boiled eggs, 20.3g of boiled chicken with skin, and some fried chili peppers (0.4g). I also included 1.6g of steamed chives and 1.0g of fried garlic. To add a little more flavor, I tossed in some peanut paste (4.0g), a dollop of palm oil (3.4g), and a generous bowl of porridge (160.0g). I also snuck in 210.7g of roasted pumpkin seeds and a sprinkle of salt (1.6g). For an extra kick, I added some smoked fish (27.6g), a bit of beef stock (0.9g), and some tomato paste (1.2g) along with fried tomatoes (0.4g).",160.49999999999997,58.89999999999999,1361.0,57.50000000000001,109.29999999999997,38.8,"The meal consists of the following items with their respective serving sizes:
+
+1. Boiled eggs: 33.1g
+2. Boiled chicken with skin: 20.3g
+3. Fried chili peppers: 0.4g
+4. Steamed chives: 1.6g
+5. Fried garlic: 1.0g
+6. Peanut paste: 4.0g
+7. Palm oil: 3.4g
+8. Porridge: 160.0g
+9. Roasted pumpkin seeds: 210.7g
+10. Salt: 1.6g
+11. Smoked fish: 27.6g
+12. Beef stock: 0.9g
+13. Tomato paste: 1.2g
+14. Fried tomatoes: 0.4g
+
+Now, let's calculate the carbohydrates for each item:
+
+1. Boiled eggs: 33.1g of boiled eggs have approximately 0.5g of carbs.
+2. Boiled chicken with skin: 20.3g of boiled chicken has approximately 0g of carbs.
+3. Fried chili peppers: 0.4g of fried chili peppers have approximately 0g of carbs.
+4. Steamed chives: 1.6g of steamed chives have approximately 0.1g of carbs.
+5. Fried garlic: 1.0g of fried garlic has approximately 0.2g of carbs.
+6. Peanut paste: 4.0g of peanut paste has approximately 1.2g of carbs.
+7. Palm oil: 3.4g of palm oil has 0g of carbs.
+8. Porridge: 160.0g of porridge has approximately 18g of carbs.
+9. Roasted pumpkin seeds: 210.7g of roasted pumpkin seeds have approximately 18.5g of carbs.
+10. Salt: 1.6g of salt has 0g of carbs.
+11. Smoked fish: 27.6g of smoked fish has approximately 0g of carbs.
+12. Beef stock: 0.9g of beef stock has approximately 0g of carbs.
+13. Tomato paste: 1.2g of tomato paste has approximately 0.3g of carbs.
+14. Fried tomatoes: 0.4g of fried tomatoes have approximately 0g of carbs.
+
+Now, let's sum up the carbohydrates:
+
+Total carbohydrates = 0.5 + 0 + 0 + 0.1 + 0.2 + 1.2 + 0 + 18 + 18.5 + 0 + 0 + 0 + 0.3 + 0 = 38.8g
+
+Output: {""total_carbohydrates"": 38.8}",121.69999999999997
+517,74.116,"['Let\'s think step by step.\n\n1. Identify each food or beverage item and its serving size.\n- 54.1g of raw chicken egg\n- 17.5g of fresh red onion\n- 18.8g of iodized salt\n- 17.5g of vegetable oil\n- 200g of whole maize flour ugali\n\n2. Estimate energy contributions per item.\n- Raw chicken egg: Approximately 143 kcal per 100g.\n  For 54.1g: 143 * 0.541 = 77.3 kcal\n- Fresh red onion: Approximately 40 kcal per 100g.\n  For 17.5g: 40 * 0.175 = 7 kcal\n- Iodized salt: 0 kcal (no energy content)\n- Vegetable oil: Approximately 884 kcal per 100g.\n  For 17.5g: 884 * 0.175 = 154.7 kcal\n- Whole maize flour ugali: Approximately 360 kcal per 100g (assuming cooked ugali is about 1/3 of this due to water content).\n  For 200g: 360 * 0.2 = 72 kcal\n\nTotal estimated energy: 77.3 (egg) + 7 (onion) + 0 (salt) + 154.7 (oil) + 72 (ugali) = 311 kcal\n\nThis is significantly lower than the stated 494 kcal. The discrepancy likely arises from the energy density of the ugali. Let\'s adjust the ugali energy content to match the total.\n\nReconsider ugali: If we assume a denser ugali with more energy, say 180 kcal per 100g (closer to a stiffer consistency):\n200g * 1.8 = 360 kcal\n\nNew total: 77.3 (egg) + 7 (onion) + 0 (salt) + 154.7 (oil) + 360 (ugali) = 599 kcal, which is closer to the stated 494 kcal. Adjusting the oil or ugali slightly could account for the difference.\n\n3. Estimate carbohydrate content in grams.\n- Raw chicken egg: Approximately 1g carbs per 100g.\n  For 54.1g: 0.541g carbs\n- Fresh red onion: Approximately 9g carbs per 100g.\n  For 17.5g: 1.575g carbs\n- Iodized salt: 0g carbs\n- Vegetable oil: 0g carbs\n- Whole maize flour ugali: Assuming 180 kcal per 100g, with 80% of energy from carbs:\n  180 kcal * 0.8 = 144 kcal from carbs\n  144 / 4 = 36g carbs per 100g\n  For 200g: 72g carbs\n\n4. Add carbohydrate values.\nTotal = 0.541 + 1.575 + 0 + 0 + 72 = 74.116\n\nOutput: {""total_carbohydrates"": 74.116}']","['Egg\t chicken\t whole\t raw corrected for omelette', 'Onion\t mature\t red skinned\t peeled\t fresh\t raw corrected for stewing', 'Salt\t Iodized', 'Vegetable oil', 'Whole Maize Flour Ugali']",KEN,"For dinner, I’m having 54.1g of raw chicken egg, 17.5g of fresh red onion, 18.8g of iodized salt, 17.5g of vegetable oil, cooked in some vegetable oil, along with 200g of whole maize flour ugali.",30.3,40.0,494.0,4.6,43.816,147.0,"The meal consists of 54.1g of raw chicken egg, 17.5g of fresh red onion, 18.8g of iodized salt, 17.5g of vegetable oil, and 200g of whole maize flour ugali.
+
+1. 54.1g of raw chicken egg has approximately 0.4g of carbs (since 100g of raw egg has about 0.7g of carbs).
+2. 17.5g of fresh red onion has approximately 1.6g of carbs (since 100g of red onion has about 9.3g of carbs).
+3. 18.8g of iodized salt has 0g of carbs.
+4. 17.5g of vegetable oil has 0g of carbs.
+5. 200g of whole maize flour ugali has approximately 145g of carbs (since 100g of whole maize flour has about 72.5g of carbs).
+
+So the total grams of carbs in the meal = (0.4 + 1.6 + 0 + 0 + 145) = 147
+
+Output: {""total_carbohydrates"": 147}",116.7
+470,248.96,"['Let\'s think step by step.\n\n1. Identify each food or beverage item and its serving size.\n- 127.8g of boiled cassava leaves\n- 1.9g of steamed chives\n- 206.0g of raw mangoes\n- 61.9g of red palm oil\n- 729.0g of ready-to-eat maize porridge\n- 1.9g of salt\n- 0.3g of dried beef stock cube\n\n2. Estimate energy contributions per item.\n- Boiled cassava leaves: Approximately 37 kcal per 100g.\n  127.8g * 0.37 = 47.3 kcal\n- Steamed chives: Approximately 30 kcal per 100g.\n  1.9g * 0.30 = 0.57 kcal\n- Raw mangoes: Approximately 60 kcal per 100g.\n  206g * 0.60 = 123.6 kcal\n- Red palm oil: Approximately 884 kcal per 100g.\n  61.9g * 8.84 = 547 kcal\n- Ready-to-eat maize porridge: Assuming 127 kcal per 100g (as previously calculated).\n  729g * 1.27 = 926.8 kcal\n- Salt: 0 kcal\n- Dried beef stock cube: Approximately 250 kcal per 100g.\n  0.3g * 2.5 = 0.75 kcal\n\nTotal estimated energy: 47.3 + 0.57 + 123.6 + 547 + 926.8 + 0 + 0.75 = 1646.02 kcal\n\nThis is below the stated 1794 kcal. The discrepancy could be due to the maize porridge being more energy-dense or other factors. Let\'s assume the maize porridge is slightly more concentrated, contributing more energy.\n\n3. Estimate carbohydrate content in grams.\n- Boiled cassava leaves: Approximately 7.3g carbs per 100g.\n  127.8g * 0.073 = 9.33g carbs\n- Steamed chives: Approximately 4.4g carbs per 100g.\n  1.9g * 0.044 = 0.08g carbs\n- Raw mangoes: Approximately 15g carbs per 100g.\n  206g * 0.15 = 30.9g carbs\n- Red palm oil: 0g carbs (pure fat)\n- Ready-to-eat maize porridge: Assuming 28.6g carbs per 100g (as previously calculated).\n  729g * 0.286 = 208.5g carbs\n- Salt: 0g carbs\n- Dried beef stock cube: Approximately 50g carbs per 100g.\n  0.3g * 0.50 = 0.15g carbs\n\n4. Add carbohydrate values.\nTotal = 9.33 + 0.08 + 30.9 + 0 + 208.5 + 0 + 0.15 = 248.96\n\nOutput: {""total_carbohydrates"": 248.96}']","['Cassava leaves, PROCESS = Boiling, QUALITATIVE-INFO = Without added salt', 'Chives, PROCESS = Steaming', 'Mangoes, PROCESS = Raw, no heat treatment, QUALITATIVE-INFO = Orange', 'Palm oil/fat, QUALITATIVE-INFO = Red', 'Porridge water based (ready to eat), INGREDIENT = Maize grain, QUALITATIVE-INFO = Hard', 'Salt', 'Stock cube or granulate, beef, PROCESS = Drying (dehydration), GENERIC-TERM = Other']",COD,"For breakfast, I had 127.8g of boiled cassava leaves with no added salt, 1.9g of steamed chives, 206.0g of raw mangoes, 61.9g of red palm oil, 729.0g of ready-to-eat maize porridge, 1.9g of salt, and 0.3g of dried beef stock cube.",260.1,75.2,1794.0,31.5,11.140000000000015,149.65,"The meal consists of the following items with their respective serving sizes:
+- 127.8g of boiled cassava leaves
+- 1.9g of steamed chives
+- 206.0g of raw mangoes
+- 61.9g of red palm oil
+- 729.0g of ready-to-eat maize porridge
+- 1.9g of salt
+- 0.3g of dried beef stock cube
+
+Now, let's calculate the carbohydrates for each item:
+
+1. Boiled cassava leaves: Approximately 7.3g of carbs per 100g. So, for 127.8g, the carbs are (7.3 * 127.8 / 100) = 9.32g.
+2. Steamed chives: Approximately 4.35g of carbs per 100g. So, for 1.9g, the carbs are (4.35 * 1.9 / 100) = 0.08g.
+3. Raw mangoes: Approximately 15g of carbs per 100g. So, for 206.0g, the carbs are (15 * 206.0 / 100) = 30.9g.
+4. Red palm oil: Contains 0g of carbs.
+5. Ready-to-eat maize porridge: Approximately 15g of carbs per 100g. So, for 729.0g, the carbs are (15 * 729.0 / 100) = 109.35g.
+6. Salt: Contains 0g of carbs.
+7. Dried beef stock cube: Contains negligible carbs, approximately 0g.
+
+So the total grams of carbs in the meal = (9.32 + 0.08 + 30.9 + 0 + 109.35 + 0 + 0) = 149.65
+
+Output: {""total_carbohydrates"": 149.65}",110.45000000000002
+24,48.375,"['1. Identify each food or beverage item and its serving size.\n- 215g of Easy Mac\n- 70g of broiled chicken thigh\n\n2. Estimate energy contributions per item.\nEasy Mac: Typically, Easy Mac has about 350 kcal per 100g.\nFor 215g: 350 * 2.15 = 752.5 kcal\n\nBroiled chicken thigh: Typically, broiled chicken thigh has about 230 kcal per 100g.\nFor 70g: 230 * 0.7 = 161 kcal\n\nTotal estimated: 752.5 (Easy Mac) + 161 (chicken) = 913.5 kcal. This is far above the stated 361.1 kcal.\n\nAdjustment needed: The Easy Mac might be prepared with more water or less cheese sauce, reducing its energy density. Let\'s assume a lower energy density for Easy Mac, closer to 150 kcal per 100g.\nFor 215g: 150 * 2.15 = 322.5 kcal\n\nNew total: 322.5 (Easy Mac) + 161 (chicken) = 483.5 kcal. This is still above 361.1 kcal, but closer. Further adjustments might be needed, but we\'ll proceed with this estimate for carbohydrate calculation.\n\n3. Estimate carbohydrate content in grams.\nEasy Mac: At 150 kcal/100g, and assuming 60% of energy is from carbs:\n150 kcal * 0.60 = 90 kcal from carbs\nSo 90 / 4 = 22.5g carbs per 100g\nFor 215g: 215 * 0.225 = 48.375g carbs\n\nBroiled chicken thigh: 0g carbs (primarily protein and fat)\n\n4. Add carbohydrate values and respond with total.\nOutput: {""total_carbohydrates"": 48.375}']","['Macaroni or noodles with cheese, Easy Mac type', 'Chicken thigh, baked, broiled, or roasted, skin not eaten, from raw']",USA,"For my snack, I'm eating 215 grams of Easy Mac and 70 grams of broiled chicken thigh.",43.22,9.67,361.1,24.24,5.155000000000001,144.5,"The meal consists of 215 grams of Easy Mac and 70 grams of broiled chicken thigh.
+
+1. Easy Mac: 
+   - 1 serving of Easy Mac (about 70 grams) has approximately 47g of carbs.
+   - Therefore, 215 grams of Easy Mac has (47 * (215/70)) = 144.5g of carbs.
+
+2. Broiled chicken thigh:
+   - Chicken thigh is primarily protein and fat, with negligible carbohydrates.
+   - Therefore, 70 grams of broiled chicken thigh has 0g of carbs.
+
+So the total grams of carbs in the meal = 144.5 + 0 = 144.5
+
+Output: {""total_carbohydrates"": 144.5}",101.28
+471,81.5,"['Let\'s think step by step.\n\n1. Identify each food or beverage item and its serving size.\n- 2.2g of fried chili peppers\n- 17.4g of steamed chives\n- 181.6g of boiled cassava root powder\n- 71.1g of red palm oil\n- 8.3g of salt\n- 29.2g of smoked fish\n- 1.9g of a beef stock cube\n- 309.1g of boiled sweet potato leaves\n- 23.2g of boiled ripe tomatoes\n\n2. Estimate energy contributions per item.\n- Fried chili peppers: Minimal energy, negligible for this calculation.\n- Steamed chives: Minimal energy, negligible for this calculation.\n- Boiled cassava root powder: Approx. 160 kcal per 100g.\n  181.6g * 1.6 = 290.56 kcal\n- Red palm oil: Energy content is about 884 kcal per 100g.\n  71.1g * 8.84 = 628.524 kcal\n- Salt: 0 kcal\n- Smoked fish: Approx. 117 kcal per 100g.\n  29.2g * 1.17 = 34.164 kcal\n- Beef stock cube: Minimal energy, negligible for this calculation.\n- Boiled sweet potato leaves: Approx. 22 kcal per 100g.\n  309.1g * 0.22 = 67.002 kcal\n- Boiled ripe tomatoes: Approx. 18 kcal per 100g.\n  23.2g * 0.18 = 4.176 kcal\n\nTotal estimated energy: 290.56 (cassava) + 628.524 (oil) + 34.164 (fish) + 67.002 (leaves) + 4.176 (tomatoes) = 1024.426 kcal\n\nThis is below the stated 1100 kcal. The difference could be due to variations in the energy content of the cassava or oil, or other minor contributions not accounted for.\n\n3. Estimate carbohydrate content in grams.\n- Fried chili peppers: Negligible carbs\n- Steamed chives: Negligible carbs\n- Boiled cassava root powder: Approx. 38g carbs per 100g.\n  181.6g * 0.38 = 68.208g carbs\n- Red palm oil: 0g carbs (pure fat)\n- Salt: 0g carbs\n- Smoked fish: Negligible carbs\n- Beef stock cube: Negligible carbs\n- Boiled sweet potato leaves: Approx. 4g carbs per 100g.\n  309.1g * 0.04 = 12.364g carbs\n- Boiled ripe tomatoes: Approx. 4g carbs per 100g.\n  23.2g * 0.04 = 0.928g carbs\n\n4. Add the carbohydrate values.\nTotal = 68.208 (cassava) + 12.364 (leaves) + 0.928 (tomatoes) = 81.5g carbs\n\nOutput: {""total_carbohydrates"": 81.5}']","['Chili peppers, PROCESS = Frying', 'Chives, PROCESS = Steaming', 'Dried starchy roots and tuber products, SOURCE-COMMODITIES = Cassava roots, PROCESS = Boiling, PROCESS = Steaming, PHYSICAL-STATE = Powder', 'Palm oil/fat, QUALITATIVE-INFO = Red', 'Salt', 'Smoked fish, SOURCE-COMMODITIES = Whitefishes or coregonus', 'Stock cube or granulate, beef, PROCESS = Drying (dehydration), GENERIC-TERM = Other', 'Sweet potato leaves, PROCESS = Boiling, QUALITATIVE-INFO = Without added salt', 'Tomatoes, PROCESS = Boiling, QUALITATIVE-INFO = Ripe / mature, QUALITATIVE-INFO = Without added salt, QUALITATIVE-INFO = Red']",COD,"For lunch, I'm having 2.2g of fried chili peppers, 17.4g of steamed chives, and 181.6g of boiled cassava root powder. I added 71.1g of red palm oil, 8.3g of salt, and 29.2g of smoked fish. I also included 1.9g of a beef stock cube, 309.1g of boiled sweet potato leaves, and 23.2g of boiled ripe tomatoes.",77.0,76.99999999999999,1100.0,21.6,4.5,167.4,"The meal consists of the following items with their respective serving sizes:
+
+1. 2.2g of fried chili peppers
+2. 17.4g of steamed chives
+3. 181.6g of boiled cassava root powder
+4. 71.1g of red palm oil
+5. 8.3g of salt
+6. 29.2g of smoked fish
+7. 1.9g of a beef stock cube
+8. 309.1g of boiled sweet potato leaves
+9. 23.2g of boiled ripe tomatoes
+
+Now, let's calculate the carbohydrates for each item:
+
+1. Fried chili peppers: 2.2g serving has approximately 0.5g carbs.
+2. Steamed chives: 17.4g serving has approximately 1.2g carbs.
+3. Boiled cassava root powder: 181.6g serving has approximately 156.4g carbs.
+4. Red palm oil: 71.1g serving has 0g carbs (oil does not contain carbohydrates).
+5. Salt: 8.3g serving has 0g carbs (salt does not contain carbohydrates).
+6. Smoked fish: 29.2g serving has 0g carbs (fish does not contain carbohydrates).
+7. Beef stock cube: 1.9g serving has approximately 0.1g carbs.
+8. Boiled sweet potato leaves: 309.1g serving has approximately 7.7g carbs.
+9. Boiled ripe tomatoes: 23.2g serving has approximately 1.5g carbs.
+
+Now, let's sum up the carbohydrates:
+
+Total carbohydrates = 0.5 + 1.2 + 156.4 + 0 + 0 + 0 + 0.1 + 7.7 + 1.5 = 167.4g
+
+Output: {""total_carbohydrates"": 167.4}",90.4
+305,99.85,"['1. Identify each food or beverage item and its serving size.\n- 48g of boiled white navy beans\n- 16g of boiled kidney beans\n- 16g of boiled groundnut powder\n- 115g of boiled white maize flour\n- 13g of boiled large onion\n- 26g of boiled sweet potato leaves\n- 45g of boiled ripe tomato\n\n2. Estimate energy contributions per item.\n- Boiled white navy beans: ~140 kcal per 100g. For 48g: 140 * 0.48 = 67.2 kcal\n- Boiled kidney beans: ~127 kcal per 100g. For 16g: 127 * 0.16 = 20.32 kcal\n- Boiled groundnut powder: ~567 kcal per 100g. For 16g: 567 * 0.16 = 90.72 kcal\n- Boiled white maize flour: ~109 kcal per 100g. For 115g: 109 * 1.15 = 125.35 kcal\n- Boiled large onion: ~44 kcal per 100g. For 13g: 44 * 0.13 = 5.72 kcal\n- Boiled sweet potato leaves: ~22 kcal per 100g. For 26g: 22 * 0.26 = 5.72 kcal\n- Boiled ripe tomato: ~18 kcal per 100g. For 45g: 18 * 0.45 = 8.1 kcal\n\nTotal estimated energy: 67.2 + 20.32 + 90.72 + 125.35 + 5.72 + 5.72 + 8.1 = 323.13 kcal\n\nThe estimated total energy is significantly lower than the stated 703 kcal. This suggests that the energy content of one or more items is underestimated or the serving sizes are incorrect. Let\'s reconsider the maize flour, as it is a significant component.\n\nRe-evaluate boiled white maize flour: If it were more concentrated or less water content, it could be higher in energy. Let\'s assume a denser preparation at 360 kcal per 100g (similar to a thick porridge or polenta).\n\nFor 115g: 360 * 1.15 = 414 kcal\n\nRecalculate total energy: 67.2 + 20.32 + 90.72 + 414 + 5.72 + 5.72 + 8.1 = 611.78 kcal\n\nThis is still below 703 kcal, but closer. Assume the remaining difference is due to variations in preparation or measurement.\n\n3. Estimate carbohydrate content in grams.\n- Boiled white navy beans: ~25g carbs per 100g. For 48g: 25 * 0.48 = 12g carbs\n- Boiled kidney beans: ~22g carbs per 100g. For 16g: 22 * 0.16 = 3.52g carbs\n- Boiled groundnut powder: ~16g carbs per 100g. For 16g: 16 * 0.16 = 2.56g carbs\n- Boiled white maize flour: Assuming 360 kcal/100g, ~75% from carbs: 360 * 0.75 / 4 = 67.5g carbs per 100g. For 115g: 67.5 * 1.15 = 77.63g carbs\n- Boiled large onion: ~10g carbs per 100g. For 13g: 10 * 0.13 = 1.3g carbs\n- Boiled sweet potato leaves: ~4g carbs per 100g. For 26g: 4 * 0.26 = 1.04g carbs\n- Boiled ripe tomato: ~4g carbs per 100g. For 45g: 4 * 0.45 = 1.8g carbs\n\n4. Add carbohydrate values.\nTotal = 12 + 3.52 + 2.56 + 77.63 + 1.3 + 1.04 + 1.8 = 99.85\n\nOutput: {""total_carbohydrates"": 99.85}']","['* beans, white (navy), dried, raw *boiled*', '* beans,kidney(isweta),fresh,raw *boiled*', '* groundnuts, powder, raw, *boiled*', '* maize flour,white variety,roller meal (unrefined),raw *boi', '* onion, large bulb, fresh, raw *boiled*', '* sweetpotato leaves, fresh, raw, *boiled*', '* tomato,ripe,fresh,raw *boiled*']",ZMB,"For a snack, I had 48g of boiled white navy beans, 16g of boiled kidney beans, 16g of boiled groundnut powder, 115g of boiled white maize flour, 13g of boiled large onion, 26g of boiled sweet potato leaves, and 45g of boiled ripe tomato.",127.3,13.0,703.0,25.799999999999997,27.450000000000003,46.4052,"The meal consists of the following items with their respective serving sizes:
+- 48g of boiled white navy beans
+- 16g of boiled kidney beans
+- 16g of boiled groundnut powder
+- 115g of boiled white maize flour
+- 13g of boiled large onion
+- 26g of boiled sweet potato leaves
+- 45g of boiled ripe tomato
+
+Now, let's calculate the carbohydrates for each item:
+
+1. 100g of boiled white navy beans has approximately 21.1g of carbs. Therefore, 48g has (21.1 * 48/100) = 10.128g of carbs.
+2. 100g of boiled kidney beans has approximately 20.2g of carbs. Therefore, 16g has (20.2 * 16/100) = 3.232g of carbs.
+3. 100g of boiled groundnut powder has approximately 21.5g of carbs. Therefore, 16g has (21.5 * 16/100) = 3.44g of carbs.
+4. 100g of boiled white maize flour has approximately 21.5g of carbs. Therefore, 115g has (21.5 * 115/100) = 24.725g of carbs.
+5. 100g of boiled large onion has approximately 7.64g of carbs. Therefore, 13g has (7.64 * 13/100) = 0.9932g of carbs.
+6. 100g of boiled sweet potato leaves has approximately 8.2g of carbs. Therefore, 26g has (8.2 * 26/100) = 2.132g of carbs.
+7. 100g of boiled ripe tomato has approximately 3.9g of carbs. Therefore, 45g has (3.9 * 45/100) = 1.755g of carbs.
+
+Now, let's sum up the carbohydrates from all items:
+Total carbohydrates = 10.128 + 3.232 + 3.44 + 24.725 + 0.9932 + 2.132 + 1.755 = 46.4052
+
+Output: {""total_carbohydrates"": 46.4052}",80.8948
+54,182.25,"['1. Identify each food or beverage item and its serving size.\n- 468g of fried chicken, potatoes, and vegetables (large frozen meal)\n- 372g of soft drink cola\n\n2. Estimate energy contributions per item.\n- Fried chicken, potatoes, and vegetables: A typical frozen meal of this type can range from 150-250 kcal per 100g depending on the composition and preparation. Let\'s assume an average of 200 kcal per 100g for a large meal.\n  468g * 2 kcal/g = 936 kcal\n\n- Soft drink cola: Typically around 40-45 kcal per 100g.\n  372g * 0.45 kcal/g = 167.4 kcal\n\nTotal estimated energy: 936 + 167.4 = 1103.4 kcal. This is close to the provided 1092.24 kcal, so the assumptions are reasonable.\n\n3. Estimate carbohydrate content in grams.\n- Fried chicken, potatoes, and vegetables: Assuming 60% of the energy is from carbohydrates (common for meals with potatoes and vegetables):\n  936 kcal * 0.60 = 561.6 kcal from carbs\n  561.6 kcal / 4 kcal/g = 140.4g carbs\n\n- Soft drink cola: Almost all energy is from carbohydrates (sugars).\n  167.4 kcal / 4 kcal/g = 41.85g carbs\n\n4. Add the carbohydrates from all items.\nTotal = 140.4 + 41.85 = 182.25\n\nOutput: {""total_carbohydrates"": 182.25}']","['Chicken, fried, with potatoes, vegetable, dessert, frozen meal, large meat portion', 'Soft drink, cola']",USA,"For breakfast, I'm having a large frozen meal with 468.0g of fried chicken, potatoes, and vegetables, along with a 372.0g soft drink cola.",122.97,47.36,1092.24,50.87,59.28,203.232,"The meal consists of 468.0g of fried chicken, potatoes, and vegetables, and a 372.0g soft drink cola.
+
+1. For the large frozen meal:
+   - Fried chicken, potatoes, and vegetables can vary significantly in carbohydrate content. Without specific breakdowns, it's challenging to provide an exact carbohydrate count. However, a rough estimate for a mixed meal like this could be around 30-40g of carbs per 100g, depending on the proportion of potatoes and vegetables.
+   - Assuming an average of 35g of carbs per 100g, for 468.0g, the carbs would be approximately (35 * 4.68) = 163.8g of carbs.
+
+2. For the 372.0g soft drink cola:
+   - Soft drinks typically have about 10.6g of carbs per 100g.
+   - For 372.0g, the carbs would be (10.6 * 3.72) = 39.432g of carbs.
+
+So the total grams of carbs in the meal = (163.8 + 39.432) = 203.232
+
+Output: {""total_carbohydrates"": 203.232}",80.262
+480,62.34,"['1. Identify each food or beverage item and its serving size.\n- 400g of water\n- 50g of boiled egg\n- 145.5g of sticky rice\n- 95.3g of spicy Bon salad\n\n2. Estimate energy contributions per item.\n- Water: 0 kcal\n- Boiled egg: Approximately 155 kcal per 100g. For 50g: 155 * 0.5 = 77.5 kcal\n- Sticky rice: Approximately 130 kcal per 100g. For 145.5g: 130 * 1.455 = 189.15 kcal\n- Spicy Bon salad: This can vary widely, but let\'s assume a typical vegetable-based salad with some dressing, around 50 kcal per 100g. For 95.3g: 50 * 0.953 = 47.65 kcal\n\nTotal estimated energy: 0 (water) + 77.5 (egg) + 189.15 (rice) + 47.65 (salad) = 314.3 kcal\n\nThe estimated total energy (314.3 kcal) is below the stated 407 kcal. This suggests that the spicy Bon salad might be more calorie-dense than assumed, possibly due to additional ingredients like nuts, seeds, or a richer dressing. Let\'s adjust the salad to account for the difference.\n\nRevised estimate for spicy Bon salad: 407 - (77.5 + 189.15) = 140.35 kcal for 95.3g, which is approximately 147 kcal per 100g.\n\n3. Estimate carbohydrate content in grams.\n- Water: 0g carbs\n- Boiled egg: Approximately 1.1g carbs per 100g. For 50g: 1.1 * 0.5 = 0.55g carbs\n- Sticky rice: Approximately 28g carbs per 100g. For 145.5g: 28 * 1.455 = 40.74g carbs\n- Spicy Bon salad: Assuming the revised energy density, and estimating 60% of energy from carbs, 140.35 kcal * 0.60 = 84.21 kcal from carbs. 84.21 / 4 = 21.05g carbs\n\n4. Add carbohydrate values.\nTotal = 0 + 0.55 + 40.74 + 21.05 = 62.34\n\nOutput: {""total_carbohydrates"": 62.34}']","['Drink water/ Nam Deum', 'Hen egg whole, boiled/  Khai Kai Tom', 'Rice glutinous, polished, steamed/ Khao Niew', 'Spicy (stir-fried) Bon salad/ Lab Bon']",LAO,"I'm enjoying 400 grams of water along with 50 grams of boiled egg, 145.5 grams of sticky rice, and 95.3 grams of spicy Bon salad for lunch.",77.67,4.760000000000001,407.0,13.5,15.329999999999998,-1.0,"The meal consists of 400 grams of water, 50 grams of boiled egg, 145.5 grams of sticky rice, and 95.3 grams of spicy Bon salad.
+
+- Water has 0g carbs.
+- Boiled egg has approximately 1.1g carbs per 100g, so 50g of boiled egg has (1.1 * (50/100)) = 0.55g carbs.
+- Sticky rice has approximately 28.7g carbs per 100g, so 145.5g of sticky rice has (28.7 * (145.5/100)) = 41.7735g carbs.
+- Spicy Bon salad's carbohydrate content is not specified, and without specific nutritional information, we cannot accurately determine the carbs for this item.
+
+So the total grams of carbs in the meal, excluding the unknown salad, = (0 + 0.55 + 41.7735) = 42.3235
+
+Since we don't have the carbohydrate content for the spicy Bon salad, we cannot provide a complete total. Therefore, we set the value of ""total_carbohydrates"" to -1.
+
+Output: {""total_carbohydrates"": -1}",78.67
+482,29.37,"['1. Identify each food or beverage item and its serving size.\n- 100g of water\n- 206.4g of Dumex powdered milk\n- 21.6g of fried Nile tilapia\n- 43.2g of pear\n- 38.9g of steamed glutinous rice\n\n2. Estimate energy contributions per item.\n- Water: 0 kcal\n- Dumex powdered milk: Approx. 500 kcal per 100g\n  For 206.4g: 500 * 2.064 = 1032 kcal\n- Fried Nile tilapia: Approx. 200 kcal per 100g\n  For 21.6g: 200 * 0.216 = 43.2 kcal\n- Pear: Approx. 57 kcal per 100g\n  For 43.2g: 57 * 0.432 = 24.6 kcal\n- Steamed glutinous rice: Approx. 130 kcal per 100g\n  For 38.9g: 130 * 0.389 = 50.57 kcal\n\nTotal estimated energy: 1032 + 43.2 + 24.6 + 50.57 = 1150.37 kcal, which is far above the stated 297 kcal. This suggests the powdered milk is not fully used or diluted significantly.\n\nReconsider Dumex powdered milk: Assume it is diluted or only a portion is used. Let\'s assume a much lower energy contribution from the milk, closer to 100 kcal for the entire meal to match the total 297 kcal.\n\n3. Estimate carbohydrate content in grams.\n- Water: 0g carbs\n- Dumex powdered milk: Assuming 100 kcal contribution, estimate 12g carbs (as a portion of typical milk powder)\n- Fried Nile tilapia: 0g carbs (primarily protein and fat)\n- Pear: Approx. 15g carbs per 100g\n  For 43.2g: 15 * 0.432 = 6.48g carbs\n- Steamed glutinous rice: Approx. 28g carbs per 100g\n  For 38.9g: 28 * 0.389 = 10.89g carbs\n\n4. Add carbohydrate values.\nTotal = 12 + 0 + 6.48 + 10.89 = 29.37\n\nOutput: {""total_carbohydrates"": 29.37}']","['Drink water/ Nam Deum', 'Milk powdered, Dumex (1-plus)/ Nom Phong Dumex', 'Nile tilapia, fried/ Cheun Pa Nile', 'Peari/ Mak Sali', 'Rice glutinous, polished, steamed/ Khao Niew']",LAO,"This morning, I’m enjoying 100 grams of water, 206.4 grams of Dumex powdered milk, 21.6 grams of fried Nile tilapia, 43.2 grams of pear, and 38.9 grams of steamed glutinous rice.",39.32,9.409999999999998,297.0,13.64,9.95,117.849,"The meal consists of 100 grams of water, 206.4 grams of Dumex powdered milk, 21.6 grams of fried Nile tilapia, 43.2 grams of pear, and 38.9 grams of steamed glutinous rice.
+
+1. 100 grams of water has 0g carbs.
+2. 206.4 grams of Dumex powdered milk: Typically, 100 grams of powdered milk has about 50g of carbs. Therefore, 206.4 grams has (50 * 206.4 / 100) = 103.2g carbs.
+3. 21.6 grams of fried Nile tilapia has 0g carbs (fish generally contains negligible carbohydrates).
+4. 43.2 grams of pear: Typically, 100 grams of pear has about 15g of carbs. Therefore, 43.2 grams has (15 * 43.2 / 100) = 6.48g carbs.
+5. 38.9 grams of steamed glutinous rice: Typically, 100 grams of steamed glutinous rice has about 21g of carbs. Therefore, 38.9 grams has (21 * 38.9 / 100) = 8.169g carbs.
+
+So the total grams of carbs in the meal = (0 + 103.2 + 0 + 6.48 + 8.169) = 117.849
+
+Output: {""total_carbohydrates"": 117.849}",78.529
+233,29.34,"['1. Identify each food or beverage item and its serving size.\n- 163g of maple-flavored instant oatmeal\n\n2. Estimate energy contributions per item.\nInstant oatmeal (maple-flavored): Typically around 350 kcal per 100g when dry.\n163g * 3.5 = 570.5 kcal. This is far above the stated 166.26 kcal, indicating the oatmeal is likely prepared with water and the weight refers to the prepared form.\n\nReconsider oatmeal: Prepared instant oatmeal typically has around 70-100 kcal per 100g.\nAssume 100 kcal per 100g for a more concentrated version.\n163g * 1.0 = 163 kcal, which is close to the stated 166.26 kcal.\n\n3. Estimate carbohydrate content in grams.\nPrepared instant oatmeal typically has around 18g of carbs per 100g.\n163g * 0.18 = 29.34g carbs\n\n4. Add the carbs from all items and return the total as a dictionary.\nOutput: {""total_carbohydrates"": 29.34}']","['Oatmeal, instant, maple flavored, no added fat']",USA,"For breakfast today, it's 163 grams of instant oatmeal, and it's maple-flavored.",32.97,2.04,166.26,3.98,3.629999999999999,110.84,"The meal consists of 163 grams of instant oatmeal.
+
+1 gram of instant oatmeal has approximately 0.68g of carbs (based on the typical nutritional information for instant oatmeal).
+
+So, 163 grams of instant oatmeal has (163 * 0.68) = 110.84g of carbs.
+
+Output: {""total_carbohydrates"": 110.84}",77.87
+481,88.5,"['1. Identify each food or beverage item and its serving size.\n- 40.7g of boiled pork loin\n- 300g of water\n- 69.5g of ripe mango\n- 217g of steamed glutinous rice\n\n2. Estimate energy contributions per item.\n- Boiled pork loin: Approximately 242 kcal per 100g.\n  For 40.7g: 242 * 0.407 = 98.6 kcal\n- Water: 0 kcal\n- Ripe mango: Approximately 60 kcal per 100g.\n  For 69.5g: 60 * 0.695 = 41.7 kcal\n- Steamed glutinous rice: Approximately 97 kcal per 100g.\n  For 217g: 97 * 2.17 = 210.5 kcal\n\nTotal estimated energy: 98.6 (pork) + 0 (water) + 41.7 (mango) + 210.5 (rice) = 350.8 kcal\n\nThis is significantly below the stated 591 kcal. Reconsider the steamed glutinous rice, as it may be more energy-dense.\n\nAssume a higher energy density for glutinous rice, closer to 180 kcal per 100g (common for sticky rice):\n217g * 1.8 = 390.6 kcal\n\nNew total: 98.6 (pork) + 0 (water) + 41.7 (mango) + 390.6 (rice) = 530.9 kcal\n\nThis is still below 591 kcal, but closer. Assume the rice is slightly more concentrated or the pork is slightly more energy-dense.\n\n3. Estimate carbohydrate content in grams.\n- Boiled pork loin: 0g carbs (primarily protein and fat)\n- Water: 0g carbs\n- Ripe mango: Approximately 15g carbs per 100g.\n  For 69.5g: 15 * 0.695 = 10.4g carbs\n- Steamed glutinous rice: Assuming 180 kcal/100g, with 80% of energy from carbs:\n  180 kcal * 0.80 = 144 kcal from carbs\n  144 / 4 = 36g carbs per 100g\n  For 217g: 36 * 2.17 = 78.1g carbs\n\n4. Add carbohydrate values.\nTotal = 0 (pork) + 0 (water) + 10.4 (mango) + 78.1 (rice) = 88.5g carbs\n\nOutput: {""total_carbohydrates"": 88.5}']","['Boiled Pork loin with little water/ Or Mou', 'Drink water/ Nam Deum', 'Mango (Kaew variety), ripe / Mak Muang Keo', 'Rice glutinous, polished, steamed/ Khao Niew']",LAO,"Lunch included 40.7g of boiled pork loin, 300g of water, 69.5g of ripe mango, and 217g of steamed glutinous rice.",129.71,1.59,591.0,14.28,41.21000000000001,57.514,"The meal consists of 40.7g of boiled pork loin, 300g of water, 69.5g of ripe mango, and 217g of steamed glutinous rice.
+
+- Boiled pork loin has 0g of carbohydrates.
+- Water has 0g of carbohydrates.
+- Ripe mango has approximately 15g of carbohydrates per 100g, so 69.5g of ripe mango has (15 * 69.5 / 100) = 10.425g of carbohydrates.
+- Steamed glutinous rice has approximately 21.7g of carbohydrates per 100g, so 217g of steamed glutinous rice has (21.7 * 217 / 100) = 47.089g of carbohydrates.
+
+So the total grams of carbohydrates in the meal = (0 + 0 + 10.425 + 47.089) = 57.514
+
+Output: {""total_carbohydrates"": 57.514}",72.196
+122,112.5,"['1. Identify each food or beverage item and its serving size.\n- 250g of pasta with cream sauce and seafood\n- 250g of pasta with cream sauce and poultry\n\n2. Estimate energy contributions per item.\nThe total energy for the meal is 767.5 kcal.\n\nAssume pasta with cream sauce and seafood and pasta with cream sauce and poultry have similar energy densities. A typical pasta with cream sauce and protein (seafood or poultry) can have around 150-200 kcal per 100g.\n\nLet\'s assume an average of 175 kcal per 100g for both dishes:\n- 250g of pasta with cream sauce and seafood: 250g * 1.75 = 437.5 kcal\n- 250g of pasta with cream sauce and poultry: 250g * 1.75 = 437.5 kcal\n\nTotal estimated: 437.5 + 437.5 = 875 kcal. This is higher than the stated 767.5 kcal.\n\nAdjust the energy density to match the total:\nAssume 153.5 kcal per 100g for each dish:\n- 250g of pasta with cream sauce and seafood: 250g * 1.535 = 383.75 kcal\n- 250g of pasta with cream sauce and poultry: 250g * 1.535 = 383.75 kcal\n\nTotal estimated: 383.75 + 383.75 = 767.5 kcal, matching the provided total.\n\n3. Estimate carbohydrate content in grams.\nPasta with cream sauce and protein typically has around 20-25g of carbs per 100g.\n\nAssume 22.5g of carbs per 100g for both dishes:\n- 250g of pasta with cream sauce and seafood: 250g * 0.225 = 56.25g carbs\n- 250g of pasta with cream sauce and poultry: 250g * 0.225 = 56.25g carbs\n\n4. Add carbohydrate values.\nTotal = 56.25 + 56.25 = 112.5\n\nOutput: {""total_carbohydrates"": 112.5}']","['Pasta with cream sauce and seafood, home recipe', 'Pasta with cream sauce and poultry, home recipe']",USA,"Tonight’s dinner is 250 grams of pasta with cream sauce and seafood, plus 250 grams of pasta with cream sauce and poultry.",83.57,33.870000000000005,767.5,30.96,28.930000000000007,155.0,"The meal consists of 250 grams of pasta with cream sauce and seafood, and 250 grams of pasta with cream sauce and poultry.
+
+1. 250 grams of pasta with cream sauce and seafood:
+   - Pasta typically has about 31g of carbs per 100g. Assuming the cream sauce and seafood do not significantly alter the carbohydrate content, 250g of pasta would have (31 * 2.5) = 77.5g of carbs.
+
+2. 250 grams of pasta with cream sauce and poultry:
+   - Similarly, 250g of pasta with cream sauce and poultry would also have approximately 77.5g of carbs, assuming the cream sauce and poultry do not significantly alter the carbohydrate content.
+
+So the total grams of carbs in the meal = (77.5 + 77.5) = 155
+
+Output: {""total_carbohydrates"": 155}",71.43
+486,65.9,"['1. Identify each food or beverage item and its serving size.\n- 163.7g of bamboo shoots with pork ribs\n- 210g of steamed glutinous rice\n- 200g glass of water\n\n2. Estimate energy contributions per item.\n- Bamboo shoots with pork ribs: This dish can vary widely in energy content depending on the ratio of bamboo shoots to pork ribs and the cooking method. A rough estimate might be around 100-150 kcal per 100g.\n  Let\'s assume 125 kcal per 100g for this calculation.\n  163.7g * 1.25 = 204.6 kcal\n\n- Steamed glutinous rice: Typically around 130-150 kcal per 100g.\n  Let\'s assume 145 kcal per 100g.\n  210g * 1.45 = 304.5 kcal\n\n- Water: 0 kcal\n\nTotal estimated energy: 204.6 (bamboo shoots with pork ribs) + 304.5 (glutinous rice) = 509.1 kcal\n\nThis is close to the stated 517 kcal, so the estimates are reasonable.\n\n3. Estimate carbohydrate content in grams.\n- Bamboo shoots with pork ribs: Bamboo shoots are low in carbs, and pork ribs are primarily protein and fat. Assume minimal carbs, around 5g for the serving.\n- Steamed glutinous rice: High in carbohydrates, typically around 80% of its energy from carbs.\n  304.5 kcal * 0.80 = 243.6 kcal from carbs\n  243.6 / 4 = 60.9g carbs\n\n4. Add the carbohydrates from all items.\nTotal = 5 (bamboo shoots with pork ribs) + 60.9 (glutinous rice) = 65.9\n\nOutput: {""total_carbohydrates"": 65.9}']","['Bamboo shoot, boiled with Pork spare ribs/ Kheang Nor Mai Sai Ka Douk Mou', 'Drink water/ Nam Deum', 'Rice glutinous, polished, steamed/ Khao Niew']",LAO,"My lunch consisted of 163.7g of bamboo shoots with pork ribs, 210g of steamed glutinous rice, and a refreshing 200g glass of water.",116.28,0.8300000000000001,517.0,11.11,50.379999999999995,47.61,"The meal consists of 163.7g of bamboo shoots with pork ribs, 210g of steamed glutinous rice, and 200g of water.
+
+1. Bamboo shoots with pork ribs: Bamboo shoots are low in carbohydrates. For 163.7g of bamboo shoots, the carbohydrate content is approximately 3.3g. Pork ribs are primarily protein and fat, contributing negligible carbohydrates.
+
+2. Steamed glutinous rice: 100g of steamed glutinous rice contains approximately 21.1g of carbohydrates. Therefore, 210g of steamed glutinous rice contains (21.1 * 2.1) = 44.31g of carbohydrates.
+
+3. Water: Water contains 0g of carbohydrates.
+
+So the total grams of carbohydrates in the meal = (3.3 + 44.31) = 47.61
+
+Output: {""total_carbohydrates"": 47.61}",68.67
+346,273.62,"['1. Identify each food or beverage item and its serving size.\n- 436.1g of country soup\n- 727g of plum dumplings\n\n2. Estimate energy contributions per item.\nCountry soup: The energy content can vary widely depending on ingredients, but a typical vegetable or meat-based soup might have around 30-60 kcal per 100g.\nAssuming 50 kcal per 100g for a hearty soup:\n436.1g * 0.5 = 218.05 kcal\n\nPlum dumplings: These are typically more energy-dense due to the dough and filling. They might have around 200-250 kcal per 100g.\nAssuming 220 kcal per 100g:\n727g * 2.2 = 1599.4 kcal\n\nTotal estimated: 218.05 (soup) + 1599.4 (dumplings) = 1817.45 kcal. This is close to the stated 1838 kcal, so the assumptions are reasonable.\n\n3. Estimate carbohydrate content in grams.\nCountry soup: Assuming 50 kcal per 100g and 60% of energy from carbs:\n50 kcal * 0.6 = 30 kcal from carbs\n30 / 4 = 7.5g carbs per 100g\n436.1g * 0.075 = 32.71g carbs\n\nPlum dumplings: Assuming 220 kcal per 100g and 60% of energy from carbs:\n220 kcal * 0.6 = 132 kcal from carbs\n132 / 4 = 33g carbs per 100g\n727g * 0.33 = 240.91g carbs\n\n4. Add carbohydrate values and respond with total.\nTotal = 32.71 + 240.91 = 273.62\n\nOutput: {""total_carbohydrates"": 273.62}']","['COUNTRY SOUP', 'PLUM DUMPLINGS']",ROU,I'm enjoying 436.1 grams of country soup along with 727 grams of plum dumplings for lunch.,307.4,62.2,1838.0,23.700000000000003,33.77999999999997,239.905,"The meal consists of 436.1 grams of country soup and 727 grams of plum dumplings.
+
+1. For country soup:
+   - The carbohydrate content can vary significantly depending on the ingredients. However, a general estimate for a vegetable-based country soup is about 5g of carbohydrates per 100g.
+   - Therefore, 436.1 grams of country soup would have approximately (5 * 436.1 / 100) = 21.805g of carbohydrates.
+
+2. For plum dumplings:
+   - Plum dumplings typically have about 30g of carbohydrates per 100g.
+   - Therefore, 727 grams of plum dumplings would have approximately (30 * 727 / 100) = 218.1g of carbohydrates.
+
+So the total grams of carbohydrates in the meal = (21.805 + 218.1) = 239.905
+
+Output: {""total_carbohydrates"": 239.905}",67.49499999999998
+309,178.27,"['1. Identify each food or beverage item and its serving size.\n- 55g of boiled cranberry beans\n- 118g of raw white maize flour breakfast meal\n- 10g of boiled large onion\n- 34g of boiled ripe tomato\n- 453g of boiled groundnuts\n\n2. Estimate energy contributions per item.\n- Boiled cranberry beans: Approximately 140 kcal per 100g.\n  For 55g: 140 * 0.55 = 77 kcal\n- Raw white maize flour: Approximately 365 kcal per 100g.\n  For 118g: 365 * 1.18 = 430.7 kcal\n- Boiled large onion: Approximately 44 kcal per 100g.\n  For 10g: 44 * 0.10 = 4.4 kcal\n- Boiled ripe tomato: Approximately 18 kcal per 100g.\n  For 34g: 18 * 0.34 = 6.12 kcal\n- Boiled groundnuts: Approximately 570 kcal per 100g.\n  For 453g: 570 * 4.53 = 2582.1 kcal\n\nTotal estimated energy: 77 + 430.7 + 4.4 + 6.12 + 2582.1 = 3100.32 kcal\n\nThe estimated total energy (3100.32 kcal) is significantly higher than the stated 2070 kcal. This suggests that the energy content of one or more items is overestimated, particularly the groundnuts. Let\'s reconsider the groundnuts:\n\nBoiled groundnuts typically have a lower energy density than raw or roasted due to water content. Let\'s assume a lower energy density, around 317 kcal per 100g for boiled groundnuts.\nFor 453g: 317 * 4.53 = 1436.01 kcal\n\nRevised total energy: 77 + 430.7 + 4.4 + 6.12 + 1436.01 = 1954.23 kcal\n\nThis is closer to the stated 2070 kcal, but still slightly lower. The discrepancy might be due to variations in preparation or measurement.\n\n3. Estimate carbohydrate content in grams.\n- Boiled cranberry beans: Approximately 25g carbs per 100g.\n  For 55g: 25 * 0.55 = 13.75g carbs\n- Raw white maize flour: Approximately 76g carbs per 100g.\n  For 118g: 76 * 1.18 = 89.68g carbs\n- Boiled large onion: Approximately 10g carbs per 100g.\n  For 10g: 10 * 0.10 = 1g carbs\n- Boiled ripe tomato: Approximately 4g carbs per 100g.\n  For 34g: 4 * 0.34 = 1.36g carbs\n- Boiled groundnuts: Approximately 16g carbs per 100g.\n  For 453g: 16 * 4.53 = 72.48g carbs\n\n4. Add carbohydrate values.\nTotal = 13.75 + 89.68 + 1 + 1.36 + 72.48 = 178.27\n\nOutput: {""total_carbohydrates"": 178.27}']","['* beans,cranberry (solwezi),dried,raw *boiled*', '* maize flour,white variety,breakfast meal (refined),raw *bo', '* onion, large bulb, fresh, raw *boiled*', '* tomato,ripe,fresh,raw *boiled*', 'groundnuts,in-shell,dried,boiled']",ZMB,"For a snack, I had 55 grams of boiled cranberry beans, 118 grams of raw white maize flour breakfast meal, 10 grams of boiled large onion, 34 grams of boiled ripe tomato, and 453 grams of boiled groundnuts.",225.3,102.6,2070.0,82.9,47.03,162.6,"The meal consists of 55 grams of boiled cranberry beans, 118 grams of raw white maize flour breakfast meal, 10 grams of boiled large onion, 34 grams of boiled ripe tomato, and 453 grams of boiled groundnuts.
+
+1. 55 grams of boiled cranberry beans have approximately 10.5g of carbs (19g carbs per 100g).
+2. 118 grams of raw white maize flour breakfast meal has approximately 88.5g of carbs (75g carbs per 100g).
+3. 10 grams of boiled large onion has approximately 0.9g of carbs (9g carbs per 100g).
+4. 34 grams of boiled ripe tomato has approximately 1.5g of carbs (4.3g carbs per 100g).
+5. 453 grams of boiled groundnuts have approximately 61.2g of carbs (13.5g carbs per 100g).
+
+So the total grams of carbs in the meal = (10.5 + 88.5 + 0.9 + 1.5 + 61.2) = 162.6
+
+Output: {""total_carbohydrates"": 162.6}",62.70000000000002
+520,361.94,"['1. Identify each food or beverage item and its serving size.\n- 8g of fresh boiled baobab leaves\n- 1g of chicory coffee ingredient\n- 20g of boiled beef\n- 11g of fine powdered dried fish\n- 28g of boiled onions\n- 0g of paprika powder\n- 1007g of boiled rice\n- 5g of salt\n- 7g of liquid potassium salt\n- 24g of shea butter\n- 105g of boiled dried sorghum flour\n- 7g of stock cubes\n\n2. Estimate energy contributions per item.\n- Fresh boiled baobab leaves: Approx. 40 kcal/100g\n  8g * 0.4 = 3.2 kcal\n- Chicory coffee ingredient: Approx. 300 kcal/100g\n  1g * 3 = 3 kcal\n- Boiled beef: Approx. 250 kcal/100g\n  20g * 2.5 = 50 kcal\n- Fine powdered dried fish: Approx. 400 kcal/100g\n  11g * 4 = 44 kcal\n- Boiled onions: Approx. 40 kcal/100g\n  28g * 0.4 = 11.2 kcal\n- Paprika powder: 0g, 0 kcal\n- Boiled rice: Approx. 130 kcal/100g\n  1007g * 1.3 = 1309.1 kcal\n- Salt: 0 kcal\n- Liquid potassium salt: 0 kcal\n- Shea butter: Approx. 884 kcal/100g\n  24g * 8.84 = 212.16 kcal\n- Boiled dried sorghum flour: Approx. 360 kcal/100g\n  105g * 3.6 = 378 kcal\n- Stock cubes: Approx. 250 kcal/100g\n  7g * 2.5 = 17.5 kcal\n\nTotal estimated energy: 3.2 + 3 + 50 + 44 + 11.2 + 0 + 1309.1 + 0 + 0 + 212.16 + 378 + 17.5 = 2028.16 kcal\n\nThe estimated energy is slightly above the stated 1999 kcal, but within an acceptable range considering potential variations in food composition.\n\n3. Estimate carbohydrate content in grams.\n- Fresh boiled baobab leaves: Approx. 7g carbs/100g\n  8g * 0.07 = 0.56g carbs\n- Chicory coffee ingredient: Approx. 60g carbs/100g\n  1g * 0.6 = 0.6g carbs\n- Boiled beef: 0g carbs\n- Fine powdered dried fish: 0g carbs\n- Boiled onions: Approx. 9g carbs/100g\n  28g * 0.09 = 2.52g carbs\n- Paprika powder: 0g carbs\n- Boiled rice: Approx. 28g carbs/100g\n  1007g * 0.28 = 281.96g carbs\n- Salt: 0g carbs\n- Liquid potassium salt: 0g carbs\n- Shea butter: 0g carbs\n- Boiled dried sorghum flour: Approx. 72g carbs/100g\n  105g * 0.72 = 75.6g carbs\n- Stock cubes: Approx. 10g carbs/100g\n  7g * 0.1 = 0.7g carbs\n\n4. Add carbohydrate values.\nTotal = 0.56 + 0.6 + 0 + 0 + 2.52 + 0 + 281.96 + 0 + 0 + 0 + 75.6 + 0.7 = 361.94\n\nOutput: {""total_carbohydrates"": 361.94}']","['Baobab leaves, PROCESS = Boiling, QUALITATIVE-INFO = Fresh', 'Chicory coffee ingredient', 'Cow, ox or bull fresh meat,  PROCESS=Boiling', 'Dried fish,  STATE=Fine powder,  PROCESS=Boiling', 'Onions, PROCESS=Boiling', 'Paprika powder', 'Rice grain,  PROCESS=Boiling', 'Salt,  PROCESS=Boiling', 'Salt, INGREDIENT = Potassium, PHYSICAL-STATE = Liquid', 'Shea butter,  PROCESS=Boiling', 'Sorghum flour, PROCESS = Drying (dehydration), PROCESS = Boiling, QUALITATIVE-INFO = White, PART-CONSUMED-ANALYSED = With husks', 'Stock cubes or granulate (bouillon base)']",BFA,"For lunch, I made a dish with 8g of fresh boiled baobad leaves, 1g of chicory coffee ingredient, 20g of boiled beef, 11g of fine powdered dried fish, 28g of boiled onions, 0g of paprika powder, 1007g of boiled rice, 5g of salt, 7g of liquid potassium salt, 24g of shea butter, 105g of boiled dried sorghum flour, and 7g fo stock cubes for added flavor.",371.3,36.2,1999.0,73.10000000000001,9.360000000000014,308.76,"The meal consists of the following items with their respective serving sizes:
+
+1. 8g of fresh boiled baobab leaves
+2. 1g of chicory coffee ingredient
+3. 20g of boiled beef
+4. 11g of fine powdered dried fish
+5. 28g of boiled onions
+6. 0g of paprika powder
+7. 1007g of boiled rice
+8. 5g of salt
+9. 7g of liquid potassium salt
+10. 24g of shea butter
+11. 105g of boiled dried sorghum flour
+12. 7g of stock cubes
+
+Now, let's calculate the carbohydrates for each item:
+
+1. Fresh boiled baobab leaves have approximately 0.1g of carbs per 8g.
+2. Chicory coffee ingredient has approximately 0.5g of carbs per 1g.
+3. Boiled beef has 0g of carbs.
+4. Fine powdered dried fish has 0g of carbs.
+5. Boiled onions have approximately 2.6g of carbs per 28g.
+6. Paprika powder has 0g of carbs since the amount is 0g.
+7. Boiled rice has approximately 28g of carbs per 100g, so for 1007g, it has (28 * 10.07) = 281.96g of carbs.
+8. Salt has 0g of carbs.
+9. Liquid potassium salt has 0g of carbs.
+10. Shea butter has 0g of carbs.
+11. Boiled dried sorghum flour has approximately 22g of carbs per 100g, so for 105g, it has (22 * 1.05) = 23.1g of carbs.
+12. Stock cubes have approximately 0.5g of carbs per 7g.
+
+Now, summing up the carbohydrates:
+
+Total carbohydrates = 0.1 + 0.5 + 0 + 0 + 2.6 + 0 + 281.96 + 0 + 0 + 0 + 23.1 + 0.5 = 308.76g
+
+Output: {""total_carbohydrates"": 308.76}",62.54000000000002
+197,196.26,"['1. Identify each food or beverage item and its serving size.\n- 372g soft drink\n- 482g burrito with meat, beans, and rice\n\n2. Estimate energy contributions per item.\nSoft drink: Typically around 40 kcal per 100g.\n372g * 0.4 = 148.8 kcal\n\nBurrito with meat, beans, and rice: This can vary widely, but a typical burrito might have around 200-250 kcal per 100g.\nAssume 220 kcal per 100g for estimation.\n482g * 2.2 = 1060.4 kcal\n\nTotal estimated: 148.8 (soft drink) + 1060.4 (burrito) = 1209.2 kcal. This is close to the stated 1173.26 kcal, so the assumption is reasonable.\n\n3. Estimate carbohydrate content in grams.\nSoft drink: Typically around 10g carbs per 100g.\n372g * 0.1 = 37.2g carbs\n\nBurrito: Assuming 60% of energy is from carbs (common for mixed meals with rice and beans).\n220 kcal/100g * 0.6 = 132 kcal from carbs per 100g\n132 kcal / 4 = 33g carbs per 100g\n482g * 0.33 = 159.06g carbs\n\n4. Add carbohydrate values.\nTotal = 37.2 + 159.06 = 196.26\n\nOutput: {""total_carbohydrates"": 196.26}']","['Soft drink, cola', 'Burrito with meat, beans, and rice']",USA,"My lunch consists of a 372-gram soft drink and a burrito with meat, beans, and rice that weighs 482 grams.",123.37,53.08,1173.26,50.61,72.88999999999999,184.032,"The meal consists of a 372-gram soft drink and a 482-gram burrito with meat, beans, and rice.
+
+1. A 372-gram soft drink typically contains about 10.6g of carbohydrates per 100g. Therefore, the soft drink has (372/100) * 10.6 = 39.432g of carbohydrates.
+
+2. A burrito with meat, beans, and rice weighing 482 grams typically contains about 30g of carbohydrates per 100g. Therefore, the burrito has (482/100) * 30 = 144.6g of carbohydrates.
+
+So the total grams of carbs in the meal = 39.432 + 144.6 = 184.032
+
+Output: {""total_carbohydrates"": 184.032}",60.662000000000006
+59,47.058,"['1. Identify each food or beverage item and its serving size.\n- 341g high protein nutritional drink\n\n2. Estimate energy contributions per item.\nHigh protein nutritional drinks typically have around 150-200 kcal per 250ml (approx. 250g). For 341g, this would be approximately:\nAssume 180 kcal per 250g: (341g / 250g) * 180 kcal = 245.88 kcal\nThis is significantly lower than the stated 470.58 kcal, suggesting a more calorie-dense drink.\n\nReconsider: A more calorie-dense drink could be around 250 kcal per 250g.\n(341g / 250g) * 250 kcal = 341 kcal\nThis is still lower than 470.58 kcal, indicating a very high-calorie drink.\n\nAssume a very high-calorie drink at 345 kcal per 250g.\n(341g / 250g) * 345 kcal = 470.58 kcal\nThis matches the provided energy content.\n\n3. Estimate carbohydrate content in grams.\nHigh protein nutritional drinks can vary, but let\'s assume 40% of energy is from carbohydrates.\n470.58 kcal * 0.40 = 188.232 kcal from carbohydrates\n188.232 kcal / 4 kcal/g = 47.058g carbohydrates\n\n4. Add carbohydrate values and respond with total.\nOutput: {""total_carbohydrates"": 47.058}']","['Nutritional drink or shake, high protein, light, ready-to-drink, NFS']",USA,I have a 341g high protein nutritional drink for lunch.,58.96,18.35,470.58,18.35,11.902000000000001,-1.0,"The meal consists of a 341g high protein nutritional drink.
+
+The carbohydrate content of nutritional drinks can vary widely depending on the brand and formulation. Without specific nutritional information for this particular drink, it's difficult to provide an exact carbohydrate count. However, a typical high protein nutritional drink might have around 15-30g of carbohydrates per serving (usually around 240-350ml or grams).
+
+Since we don't have the exact nutritional information for this specific drink, we cannot accurately calculate the carbohydrates.
+
+Output: {""total_carbohydrates"": -1}",59.96
+407,32.4,"['1. Identify each food or beverage item and its serving size.\n- 108g of barley flour porridge\n\n2. Estimate energy contributions per item.\nBarley flour porridge: The energy content can vary based on preparation, but a typical barley porridge might have around 60-80 kcal per 100g if it\'s a thin porridge.\nAssuming 75 kcal per 100g:\n108g * 0.75 kcal/g = 81 kcal. This is far below the stated 162 kcal.\n\nAdjustment needed: The porridge might be more concentrated or have additional ingredients contributing to the energy.\nAssuming a thicker porridge or additional ingredients, let\'s try 150 kcal per 100g:\n108g * 1.5 kcal/g = 162 kcal, which matches the provided energy content.\n\n3. Estimate carbohydrate content in grams.\nBarley flour porridge: Assuming 150 kcal per 100g, and that approximately 80% of the energy is from carbohydrates:\n150 kcal * 0.80 = 120 kcal from carbs\nSo 120 / 4 = 30g carbs per 100g\n\nUsing 30g/100g as a realistic estimate:\n108g * 0.30 = 32.4g carbs\n\n4. Add carbohydrate values and respond with total.\nOutput: {""total_carbohydrates"": 32.4}']","['Porridge, barely flour']",ETH,I'm enjoying a snack of 108 grams of barley flour porridge.,22.7,6.8,162.0,2.6,9.7,79.38,"The meal consists of 108 grams of barley flour porridge.  
+100 grams of barley flour has approximately 73.5g of carbohydrates.  
+So, 108 grams of barley flour porridge has (73.5 * (108/100)) = 79.38g of carbohydrates.  
+So the total grams of carbs in the meal = 79.38  
+Output: {""total_carbohydrates"": 79.38}",56.67999999999999
+368,73.35,"['1. Identify each food or beverage item and its serving size.\n- 89.7g of macaroni prepared with goat and vegetable oil\n- 92.1g of a Tunisian brick stuffed with turkey and vegetable oil\n- 50g of white bread\n\n2. Estimate energy contributions per item.\n- Macaroni with goat and vegetable oil: A typical serving of macaroni with meat and oil can have around 150-200 kcal per 100g. Let\'s assume 175 kcal/100g.\n  89.7g * 1.75 = 157 kcal\n\n- Tunisian brick with turkey and vegetable oil: A brick (brik) is a deep-fried pastry, which can be quite calorie-dense, around 250-300 kcal per 100g. Let\'s assume 275 kcal/100g.\n  92.1g * 2.75 = 253 kcal\n\n- White bread: Typically around 265 kcal per 100g.\n  50g * 2.65 = 132.5 kcal\n\nTotal estimated energy: 157 + 253 + 132.5 = 542.5 kcal. This is slightly above the stated 500 kcal, but within a reasonable range considering estimation variability.\n\n3. Estimate carbohydrate content in grams.\n- Macaroni with goat and vegetable oil: Assuming 60% of energy from carbs.\n  157 kcal * 0.60 = 94.2 kcal from carbs\n  94.2 / 4 = 23.55g carbs\n\n- Tunisian brick with turkey and vegetable oil: Assuming 40% of energy from carbs.\n  253 kcal * 0.40 = 101.2 kcal from carbs\n  101.2 / 4 = 25.3g carbs\n\n- White bread: Typically around 49g of carbs per 100g.\n  50g * 0.49 = 24.5g carbs\n\n4. Add carbohydrate values.\nTotal = 23.55 + 25.3 + 24.5 = 73.35\n\nOutput: {""total_carbohydrates"": 73.35}']","['Macaroni with goat and vegetable oil', 'Tunisian brick with turkey and vegetable oil', 'Wheat bread and rolls, white (refined flour)']",TUN,"I ate 89.7g of macaroni prepared with goat and vegetable oil and 92.1g of a Tunisian brick stuffed with turkey and vegetable oil for lunch. Plus, I had 50g of white bread.",55.49999999999999,22.17,500.0,23.42,17.85,-1.0,"Let's think step by step.
+
+The meal consists of:
+- 89.7g of macaroni
+- 92.1g of a Tunisian brick
+- 50g of white bread
+
+1. For macaroni, 100g typically contains about 31g of carbohydrates. Therefore, 89.7g of macaroni contains (31 * 89.7 / 100) = 27.807g of carbohydrates.
+
+2. A Tunisian brick's carbohydrate content can vary significantly based on the specific ingredients and preparation method. Without specific nutritional information, it's challenging to provide an accurate carbohydrate count. Therefore, we will assume the carbohydrate content is unknown.
+
+3. For white bread, 100g typically contains about 49g of carbohydrates. Therefore, 50g of white bread contains (49 * 50 / 100) = 24.5g of carbohydrates.
+
+Since we don't have specific carbohydrate information for the Tunisian brick, we will set the total carbohydrates to -1.
+
+Output: {""total_carbohydrates"": -1}",56.49999999999999
+278,18.6,"['1. Identify each food or beverage item and its serving size.\n- 240g of water\n- 744g of a fruit juice drink\n\n2. Estimate energy contributions per item.\n- Water: 0 kcal (no energy content)\n- Fruit juice drink: Typically around 45 kcal per 100g for a standard fruit juice drink.\n\nEstimate for 744g of fruit juice drink:\n744g * 0.45 kcal/g = 334.8 kcal\n\nThis is far above the stated 74.4 kcal, indicating that the fruit juice drink is likely diluted or a low-calorie version.\n\nReconsider fruit juice drink: Assume a low-calorie version, approximately 10 kcal per 100g.\n744g * 0.10 kcal/g = 74.4 kcal, which matches the provided total energy.\n\n3. Estimate carbohydrate content in grams.\n- Water: 0g carbs\n- Low-calorie fruit juice drink: Typically around 2.5g carbs per 100g.\n\nFor 744g:\n744g * 0.025 = 18.6g carbs\n\n4. Add the carbohydrates from all items.\nTotal = 0 + 18.6 = 18.6\n\nOutput: {""total_carbohydrates"": 18.6}']","['Water, bottled, unsweetened', 'Fruit juice drink']",USA,I have a snack with 240 grams of water and 744 grams of a fruit juice drink.,18.6,0.0,74.4,0.0,0.0,74.4,"The meal consists of 240 grams of water and 744 grams of a fruit juice drink.
+
+1. Water has 0g of carbohydrates.
+2. For the fruit juice drink, we need to estimate the carbohydrates. A typical fruit juice drink has about 10g of carbohydrates per 100 grams. Therefore, 744 grams of a fruit juice drink would have (10 * 744/100) = 74.4g of carbohydrates.
+
+So the total grams of carbs in the meal = (0 + 74.4) = 74.4
+
+Output: {""total_carbohydrates"": 74.4}",55.800000000000004
+53,50.7,"['1. Identify each food or beverage item and its serving size.\n- 507g of sweetened carbonated water\n\n2. Estimate energy contributions per item.\nSweetened carbonated water typically contains calories due to added sugars. The claim of 0.0 kcal is likely incorrect for a sweetened beverage. A typical sweetened carbonated beverage has about 40 kcal per 100g.\n\n3. Estimate carbohydrate content in grams.\nSweetened carbonated water typically has around 10g of sugar (carbohydrates) per 100g.\n507g * 0.10 = 50.7g carbs\n\n4. Add the carbohydrates from all items and respond with the total.\nOutput: {""total_carbohydrates"": 50.7}']","['Carbonated water, sweetened, with low-calorie or no-calorie sweetener']",USA,I'm sipping on 507 grams of sweetened carbonated water as a quick snack.,0.0,0.0,0.0,0.51,50.7,55.77,"The meal consists of 507 grams of sweetened carbonated water.
+
+1 gram of sweetened carbonated water has approximately 0.11g carbs (assuming it's similar to a regular soda).
+
+So, 507 grams of sweetened carbonated water has (507 * 0.11) = 55.77g carbs.
+
+Output: {""total_carbohydrates"": 55.77}",55.77
+403,54.3,"['1. Identify each food or beverage item and its serving size.\n- 98g of Kurkuto made with wheat flour, oil, butter, red chili, and salt\n- 50g of unleavened corn bread\n- 148g of fresh whole cow\'s milk\n\n2. Estimate energy contributions per item.\n- Kurkuto: This is a traditional dish, and its energy content can vary. Assuming a dense wheat-based dish with added fats, let\'s estimate around 300 kcal per 100g.\n  For 98g: 300 * 0.98 = 294 kcal\n- Unleavened corn bread: Typically around 200 kcal per 100g.\n  For 50g: 200 * 0.5 = 100 kcal\n- Fresh whole cow\'s milk: Approximately 60 kcal per 100g.\n  For 148g: 60 * 1.48 = 88.8 kcal\n\nTotal estimated energy: 294 (Kurkuto) + 100 (corn bread) + 88.8 (milk) = 482.8 kcal. This is above the stated 392 kcal, suggesting the Kurkuto might be less dense or the portion sizes are different.\n\nReconsider Kurkuto: Let\'s assume a lower energy density, perhaps 200 kcal per 100g.\nFor 98g: 200 * 0.98 = 196 kcal\n\nNew total: 196 (Kurkuto) + 100 (corn bread) + 88.8 (milk) = 384.8 kcal, which is closer to the stated 392 kcal.\n\n3. Estimate carbohydrate content in grams.\n- Kurkuto: Assuming 60% of energy from carbs, 196 kcal * 0.6 = 117.6 kcal from carbs\n  117.6 / 4 = 29.4g carbs\n- Unleavened corn bread: Assuming 70% of energy from carbs, 100 kcal * 0.7 = 70 kcal from carbs\n  70 / 4 = 17.5g carbs\n- Fresh whole cow\'s milk: Approximately 5g carbs per 100g\n  For 148g: 5 * 1.48 = 7.4g carbs\n\n4. Add carbohydrate values.\nTotal = 29.4 (Kurkuto) + 17.5 (corn bread) + 7.4 (milk) = 54.3\n\nOutput: {""total_carbohydrates"": 54.3}']","['""Kurkuto"", wheat flour (oil, butter, red chili, salt)', 'Corn bread, unleavened (â\x80\x98Qitaâ\x80\x99)', ""Cow's milk,whole, fresh and not boiled""]",ETH,"For breakfast, I'm having 98g of Kurkuto made with wheat flour, oil, butter, red chili, and salt, alongside 50g of unleavened corn bread, and 148g of fresh whole cow's milk.",53.2,20.9,392.0,10.8,1.099999999999994,107.96,"The meal consists of 98g of Kurkuto, 50g of unleavened corn bread, and 148g of fresh whole cow's milk.
+
+1. Kurkuto: Since Kurkuto is made with wheat flour, oil, butter, red chili, and salt, we will focus on the wheat flour for carbohydrates. Wheat flour typically contains about 72g of carbohydrates per 100g. Assuming Kurkuto is primarily made of wheat flour, 98g of Kurkuto would have approximately (72 * 0.98) = 70.56g of carbohydrates.
+
+2. Unleavened corn bread: Corn bread typically contains about 60g of carbohydrates per 100g. Therefore, 50g of unleavened corn bread would have (60 * 0.5) = 30g of carbohydrates.
+
+3. Fresh whole cow's milk: Whole milk contains about 5g of carbohydrates per 100g. Therefore, 148g of fresh whole cow's milk would have (5 * 1.48) = 7.4g of carbohydrates.
+
+So the total grams of carbohydrates in the meal = (70.56 + 30 + 7.4) = 107.96
+
+Output: {""total_carbohydrates"": 107.96}",54.75999999999999
+428,44.07,"['1. Identify each food or beverage item and its serving size.\n- 34.5g orange\n- 94g of wheat flour and coconut milk porridge\n- 51g Silk banana\n\n2. Estimate energy contributions per item.\n- Orange: Energy content is about 47 kcal per 100g.\n  For 34.5g: 47 * 0.345 = 16.2 kcal\n- Wheat flour and coconut milk porridge: This can vary, but let\'s assume a moderate energy density of 100 kcal per 100g.\n  For 94g: 100 * 0.94 = 94 kcal\n- Silk banana: Energy content is about 89 kcal per 100g.\n  For 51g: 89 * 0.51 = 45.4 kcal\n\nTotal estimated energy: 16.2 + 94 + 45.4 = 155.6 kcal. This is far below the stated 310 kcal.\n\nAdjustment needed: The porridge likely has a higher energy density due to the coconut milk. Let\'s assume a higher energy density for the porridge, around 200 kcal per 100g.\n- For 94g: 200 * 0.94 = 188 kcal\n\nNew total estimated energy: 16.2 + 188 + 45.4 = 249.6 kcal. This is still below 310 kcal, but closer. The porridge may be even richer or the banana/orange slightly underestimated.\n\n3. Estimate carbohydrate content in grams.\n- Orange: Approximately 12g carbs per 100g.\n  For 34.5g: 12 * 0.345 = 4.14g carbs\n- Wheat flour and coconut milk porridge: Assuming 200 kcal/100g and 60% of energy from carbs:\n  200 kcal * 0.60 = 120 kcal from carbs\n  120 / 4 = 30g carbs per 100g\n  For 94g: 30 * 0.94 = 28.2g carbs\n- Silk banana: Approximately 23g carbs per 100g.\n  For 51g: 23 * 0.51 = 11.73g carbs\n\n4. Add carbohydrate values.\nTotal = 4.14 + 28.2 + 11.73 = 44.07\n\nOutput: {""total_carbohydrates"": 44.07}']","['Orange', 'Porridge, wheat flour and coconut milk ', 'Silk banana']",STP,"For lunch, I have a 34.5g orange, 94g of wheat flour and coconut milk porridge, and a 51g Silk banana.",29.76,19.23,310.0,4.21,14.309999999999999,83.55,"The meal consists of a 34.5g orange, 94g of wheat flour and coconut milk porridge, and a 51g Silk banana.
+
+1. A 34.5g orange: Oranges have approximately 12g of carbs per 100g. Therefore, a 34.5g orange has (12 * 34.5 / 100) = 4.14g of carbs.
+
+2. 94g of wheat flour and coconut milk porridge: Assuming the porridge is made primarily of wheat flour, wheat flour has approximately 72g of carbs per 100g. Therefore, 94g of wheat flour has (72 * 94 / 100) = 67.68g of carbs. Note: This calculation assumes the porridge is mostly wheat flour; the actual carb content may vary based on the recipe.
+
+3. A 51g Silk banana: Bananas have approximately 23g of carbs per 100g. Therefore, a 51g banana has (23 * 51 / 100) = 11.73g of carbs.
+
+So the total grams of carbs in the meal = (4.14 + 67.68 + 11.73) = 83.55
+
+Output: {""total_carbohydrates"": 83.55}",53.78999999999999
+341,160.9,"['1. Identify each food or beverage item and its serving size.\n- 75g cup of unsweetened coffee\n- 364.2g of meatball soup\n- 352.5g of spaghetti and meat\n\n2. Estimate energy contributions per item.\n- Unsweetened coffee: Typically negligible calories, approximately 2 kcal for 75g.\n- Meatball soup: Energy content can vary, but a typical meatball soup might have around 60-80 kcal per 100g.\n  Let\'s assume 70 kcal per 100g for estimation.\n  364.2g * 0.7 = 254.94 kcal.\n- Spaghetti and meat: This can vary widely, but a typical serving might have around 150-200 kcal per 100g.\n  Let\'s assume 180 kcal per 100g for estimation.\n  352.5g * 1.8 = 634.5 kcal.\n\nTotal estimated energy: 2 (coffee) + 255 (soup) + 635 (spaghetti) = 892 kcal.\nThis is below the stated 971 kcal, so let\'s adjust the assumptions slightly.\n\nReconsider:\n- Meatball soup: Assume a slightly higher energy density, 80 kcal per 100g.\n  364.2g * 0.8 = 291.36 kcal.\n- Spaghetti and meat: Assume 190 kcal per 100g.\n  352.5g * 1.9 = 669.75 kcal.\n\nNew total: 2 (coffee) + 291 (soup) + 670 (spaghetti) = 963 kcal, which is close to 971 kcal.\n\n3. Estimate carbohydrate content in grams.\n- Unsweetened coffee: 0g carbs.\n- Meatball soup: Assuming 60% of energy from carbs, 291 kcal * 0.6 = 174.6 kcal from carbs.\n  174.6 / 4 = 43.65g carbs.\n- Spaghetti and meat: Assuming 70% of energy from carbs, 670 kcal * 0.7 = 469 kcal from carbs.\n  469 / 4 = 117.25g carbs.\n\n4. Add carbohydrate values.\nTotal = 0 + 43.65 + 117.25 = 160.9\n\nOutput: {""total_carbohydrates"": 160.9}']","['COFFEE, UNSWEETENED', 'MEATBALL SOUP', 'SPAGHETTI WITH MEAT']",ROU,I’ve got a 75g cup of unsweetened coffee paired with 364.2g of meatball soup and 352.5g of spaghetti and meat for lunch.,74.5,49.6,971.0,54.1,86.4,127.485,"The meal consists of 75g of unsweetened coffee, 364.2g of meatball soup, and 352.5g of spaghetti and meat.
+
+1. Unsweetened coffee typically has 0g of carbohydrates.
+2. Meatball soup: The carbohydrate content can vary widely depending on the recipe, but a general estimate for meatball soup is about 5g of carbohydrates per 100g. Therefore, 364.2g of meatball soup would have approximately (5 * 364.2 / 100) = 18.21g of carbohydrates.
+3. Spaghetti and meat: The carbohydrate content for spaghetti with meat sauce is approximately 31g per 100g. Therefore, 352.5g of spaghetti and meat would have approximately (31 * 352.5 / 100) = 109.275g of carbohydrates.
+
+So the total grams of carbs in the meal = (0 + 18.21 + 109.275) = 127.485
+
+Output: {""total_carbohydrates"": 127.485}",52.985
+463,79.864,"['Let\'s think step by step.\n\n1. Identify each food or beverage item and its serving size.\n- 51.5g of Brinjal Bhaji\n- 8g of assorted cookies\n- 58.9g of Jowar Roti\n- 48g of milk tea\n- 103g of cow\'s milk\n- 55.6g of Sambar\n- 73.8g of rice\n\n2. Estimate energy contributions per item.\n- Brinjal Bhaji: Approximately 100 kcal per 100g.\n  51.5g * 1 kcal/g = 51.5 kcal\n- Assorted cookies: Approximately 500 kcal per 100g.\n  8g * 5 kcal/g = 40 kcal\n- Jowar Roti: Approximately 300 kcal per 100g.\n  58.9g * 3 kcal/g = 176.7 kcal\n- Milk tea: Approximately 50 kcal per 100g.\n  48g * 0.5 kcal/g = 24 kcal\n- Cow\'s milk: Approximately 60 kcal per 100g.\n  103g * 0.6 kcal/g = 61.8 kcal\n- Sambar: Approximately 100 kcal per 100g.\n  55.6g * 1 kcal/g = 55.6 kcal\n- Rice: Approximately 130 kcal per 100g.\n  73.8g * 1.3 kcal/g = 95.94 kcal\n\nTotal estimated energy: 51.5 + 40 + 176.7 + 24 + 61.8 + 55.6 + 95.94 = 505.54 kcal\n\nThe estimated total energy is significantly lower than the stated 705 kcal. This suggests that some items may have higher energy content than assumed, or the serving sizes are more energy-dense.\n\n3. Estimate carbohydrate content in grams.\n- Brinjal Bhaji: Approximately 10g carbs per 100g.\n  51.5g * 0.1 = 5.15g carbs\n- Assorted cookies: Approximately 70g carbs per 100g.\n  8g * 0.7 = 5.6g carbs\n- Jowar Roti: Approximately 60g carbs per 100g.\n  58.9g * 0.6 = 35.34g carbs\n- Milk tea: Approximately 5g carbs per 100g.\n  48g * 0.05 = 2.4g carbs\n- Cow\'s milk: Approximately 5g carbs per 100g.\n  103g * 0.05 = 5.15g carbs\n- Sambar: Approximately 10g carbs per 100g.\n  55.6g * 0.1 = 5.56g carbs\n- Rice: Approximately 28g carbs per 100g.\n  73.8g * 0.28 = 20.664g carbs\n\n4. Add the carbohydrates from all items.\nTotal carbohydrates = 5.15 + 5.6 + 35.34 + 2.4 + 5.15 + 5.56 + 20.664 = 79.864g\n\nOutput: {""total_carbohydrates"": 79.864}']","['Brinjal (badne kai) Bhaji', 'Cookies, assorted ready made ', 'Jowar Roti', 'Milk Tea', 'Milk, cow', 'Red Gram Dhal or Sambar', 'Rice']",IND,"I have a breakfast spread with 51.5 grams of Brinjal Bhaji, 8 grams of assorted cookies, and 58.9 grams of Jowar Roti, along with 48 grams of milk tea, 103 grams of cow's milk, 55.6 grams of Sambar, and 73.8 grams of rice.",109.9,23.9,705.0,16.5,30.036,57.82,"The meal consists of the following items with their respective serving sizes:
+
+1. 51.5 grams of Brinjal Bhaji
+2. 8 grams of assorted cookies
+3. 58.9 grams of Jowar Roti
+4. 48 grams of milk tea
+5. 103 grams of cow's milk
+6. 55.6 grams of Sambar
+7. 73.8 grams of rice
+
+Now, let's calculate the carbohydrates for each item:
+
+1. Brinjal Bhaji: Approximately 6g of carbs per 100g, so 51.5g has (6 * 51.5 / 100) = 3.09g carbs.
+2. Assorted cookies: Approximately 70g of carbs per 100g, so 8g has (70 * 8 / 100) = 5.6g carbs.
+3. Jowar Roti: Approximately 22g of carbs per 100g, so 58.9g has (22 * 58.9 / 100) = 12.96g carbs.
+4. Milk tea: Approximately 10g of carbs per 100g, so 48g has (10 * 48 / 100) = 4.8g carbs.
+5. Cow's milk: Approximately 5g of carbs per 100g, so 103g has (5 * 103 / 100) = 5.15g carbs.
+6. Sambar: Approximately 10g of carbs per 100g, so 55.6g has (10 * 55.6 / 100) = 5.56g carbs.
+7. Rice: Approximately 28g of carbs per 100g, so 73.8g has (28 * 73.8 / 100) = 20.66g carbs.
+
+Now, let's sum up the total carbohydrates:
+
+Total carbs = 3.09 + 5.6 + 12.96 + 4.8 + 5.15 + 5.56 + 20.66 = 57.82
+
+Output: {""total_carbohydrates"": 57.82}",52.080000000000005
+388,63.52,"['1. Identify each food or beverage item and its serving size.\n- 96g of pelargon\n- 8.8g of refined sugar\n\n2. Estimate energy contributions per item.\nRefined sugar: Energy content is about 387 kcal per 100g.\nFor 8.8g: 387 * 0.088 = 34.06 kcal\n\nPelargon: This is a type of fermented milk product, similar to yogurt. The energy content can vary, but a typical value is around 60-80 kcal per 100g.\nAssuming 70 kcal per 100g for pelargon:\n96g * 0.7 = 67.2 kcal\n\nTotal estimated energy: 34.06 (sugar) + 67.2 (pelargon) = 101.26 kcal. This is far below the stated 472 kcal.\n\nAdjustment needed: The pelargon must be more energy-dense. Let\'s assume a higher fat content or additional ingredients.\nIf pelargon is around 400 kcal for the remaining energy (472 - 34.06 = 437.94 kcal needed from pelargon):\n437.94 kcal / 96g = 4.56 kcal/g, or 456 kcal per 100g, which is high but possible for a rich, full-fat version or with added ingredients.\n\n3. Estimate carbohydrate content in grams.\nRefined sugar: 100% carbohydrate, so 8.8g of sugar = 8.8g carbs\n\nPelargon: Assuming the energy density adjustment, let\'s estimate carbs.\nIf pelargon is 456 kcal/100g, and assuming 50% of energy is from carbs (common for rich dairy):\n456 kcal * 0.50 = 228 kcal from carbs\nSo 228 / 4 = 57g carbs per 100g\n96g * 0.57 = 54.72g carbs\n\n4. Add carbohydrate values and respond with total.\nTotal carbohydrates = 8.8 (sugar) + 54.72 (pelargon) = 63.52\n\nOutput: {""total_carbohydrates"": 63.52}']","['PELARGON, WITH IRON', 'SUGAR, WHITE, REFINED']",PHL,"For my snack, I’m having 96g of pelargon along with 8.8g of refined sugar.",64.11,16.32,472.0,15.84,0.5899999999999961,12.64,"The meal consists of 96g of pelargon and 8.8g of refined sugar.
+
+1. Pelargon is a type of yogurt. Typically, 100g of plain yogurt has about 4g of carbohydrates. Therefore, 96g of pelargon would have approximately (4 * (96/100)) = 3.84g of carbohydrates.
+
+2. Refined sugar is pure carbohydrate. Therefore, 8.8g of refined sugar has 8.8g of carbohydrates.
+
+So the total grams of carbs in the meal = (3.84 + 8.8) = 12.64
+
+Output: {""total_carbohydrates"": 12.64}",51.47
+373,100.56,"['1. Identify each food or beverage item and its serving size.\n- 122.6g of chapatti with ghee\n- 35.6g of mango pickle\n- 18.4g of potato curry\n\n2. Estimate energy contributions per item.\n- Chapatti with ghee: A typical chapatti (without ghee) has about 300 kcal per 100g. Adding ghee increases the energy content significantly. Let\'s assume 400 kcal per 100g for chapatti with ghee.\n  For 122.6g: 400 * 1.226 = 490.4 kcal\n\n- Mango pickle: Typically around 150 kcal per 100g.\n  For 35.6g: 150 * 0.356 = 53.4 kcal\n\n- Potato curry: Typically around 100 kcal per 100g.\n  For 18.4g: 100 * 0.184 = 18.4 kcal\n\nTotal estimated energy: 490.4 + 53.4 + 18.4 = 562.2 kcal. This is below the stated 713 kcal.\n\nAdjustment needed: The chapatti with ghee might be richer in energy. Let\'s assume a higher energy density for the chapatti with ghee, say 500 kcal per 100g.\nRecalculate for chapatti with ghee: 500 * 1.226 = 613 kcal\n\nNew total: 613 (chapatti with ghee) + 53.4 (pickle) + 18.4 (curry) = 684.8 kcal. This is closer to 713 kcal, so we assume the chapatti with ghee is around 500 kcal/100g.\n\n3. Estimate carbohydrate content in grams.\n- Chapatti with ghee: Assuming 60% of energy from carbs, 500 kcal * 0.60 = 300 kcal from carbs.\n  300 kcal / 4 = 75g carbs per 100g\n  For 122.6g: 75 * 1.226 = 92g carbs\n\n- Mango pickle: Assuming 40% of energy from carbs, 150 kcal * 0.40 = 60 kcal from carbs.\n  60 kcal / 4 = 15g carbs per 100g\n  For 35.6g: 15 * 0.356 = 5.34g carbs\n\n- Potato curry: Assuming 70% of energy from carbs, 100 kcal * 0.70 = 70 kcal from carbs.\n  70 kcal / 4 = 17.5g carbs per 100g\n  For 18.4g: 17.5 * 0.184 = 3.22g carbs\n\n4. Add carbohydrate values.\nTotal = 92 + 5.34 + 3.22 = 100.56\n\nOutput: {""total_carbohydrates"": 100.56}']","['Chapatti, brown rice flour with ghee', 'Mango pickle', 'Potato curry']",PAK,"I'm enjoying 122.6g of chapatti with ghee, paired with 35.6g of mango pickle and 18.4g of potato curry for dinner.",113.0,23.700000000000003,713.0,10.8,12.439999999999998,62.834,"The meal consists of 122.6g of chapatti with ghee, 35.6g of mango pickle, and 18.4g of potato curry.
+
+1. 100g of chapatti has approximately 49g of carbs. Therefore, 122.6g of chapatti has (49 * 122.6 / 100) = 60.074g of carbs.
+2. Mango pickle typically has a negligible amount of carbohydrates, so we can assume it contributes 0g of carbs for this calculation.
+3. 100g of potato curry has approximately 15g of carbs. Therefore, 18.4g of potato curry has (15 * 18.4 / 100) = 2.76g of carbs.
+
+So the total grams of carbs in the meal = (60.074 + 0 + 2.76) = 62.834
+
+Output: {""total_carbohydrates"": 62.834}",50.166
+148,40.95,"['1. Identify each food or beverage item and its serving size.\n- 200g of lentil curry with rice\n\n2. Estimate energy contributions per item.\nLentil curry with rice: A typical serving can vary, but let\'s assume a moderate energy density. Lentil curry with rice can be around 100-150 kcal per 100g.\nAssuming 117 kcal per 100g for a balanced estimate:\n200g * 1.17 = 234 kcal, which matches the provided total energy.\n\n3. Estimate carbohydrate content in grams.\nLentil curry with rice: Assuming 70% of energy is from carbohydrates:\n117 kcal * 0.70 = 81.9 kcal from carbs per 100g\n81.9 kcal / 4 = 20.475g carbs per 100g\nFor 200g: 200g * 0.20475 = 40.95g carbs\n\n4. Add carbohydrate values and respond with total.\nOutput: {""total_carbohydrates"": 40.95}']",['Lentil curry with rice'],USA,"For dinner, I'm having 200 grams of lentil curry with rice.",37.14,6.96,234.0,6.54,3.8100000000000023,85.0,"The meal consists of 200 grams of lentil curry with rice.
+
+1. Lentil curry: 100 grams of lentil curry typically has around 20 grams of carbohydrates. Therefore, 200 grams of lentil curry would have (20 * 2) = 40 grams of carbohydrates.
+
+2. Rice: A standard serving of rice is about 150 grams, which contains approximately 45 grams of carbohydrates. Since the serving size of rice is not specified, we'll assume a standard serving.
+
+So the total grams of carbs in the meal = (40 + 45) = 85
+
+Output: {""total_carbohydrates"": 85}",47.86
+374,87.04,"['1. Identify each food or beverage item and its serving size.\n- 122.6g of chapatti with ghee\n- 10.2g of split green gram curry\n- 18.4g of potato curry\n\n2. Estimate energy contributions per item.\nChapatti with ghee: A typical chapatti with ghee can have around 300 kcal per 100g.\nFor 122.6g: 300 * 1.226 = 367.8 kcal\n\nSplit green gram curry: Typically around 100 kcal per 100g.\nFor 10.2g: 100 * 0.102 = 10.2 kcal\n\nPotato curry: Typically around 100 kcal per 100g.\nFor 18.4g: 100 * 0.184 = 18.4 kcal\n\nTotal estimated: 367.8 + 10.2 + 18.4 = 396.4 kcal. This is below the stated 576 kcal.\n\nAdjustment needed: The chapatti with ghee might be richer or the curries more concentrated. Let\'s assume the chapatti with ghee is more energy-dense, around 400 kcal per 100g.\nFor 122.6g: 400 * 1.226 = 490.4 kcal\n\nRecalculate total: 490.4 (chapatti) + 10.2 (green gram curry) + 18.4 (potato curry) = 519 kcal. This is still below 576 kcal, but closer.\n\nAssume a slightly higher energy density for the chapatti with ghee, around 450 kcal per 100g.\nFor 122.6g: 450 * 1.226 = 551.7 kcal\n\nNew total: 551.7 (chapatti) + 10.2 (green gram curry) + 18.4 (potato curry) = 580.3 kcal, matching well.\n\n3. Estimate carbohydrate content in grams.\nChapatti with ghee: Assuming 60% of energy from carbs.\n551.7 kcal * 0.60 = 331 kcal from carbs\n331 / 4 = 82.75g carbs\n\nSplit green gram curry: Assuming 60% of energy from carbs.\n10.2 kcal * 0.60 = 6.12 kcal from carbs\n6.12 / 4 = 1.53g carbs\n\nPotato curry: Assuming 60% of energy from carbs.\n18.4 kcal * 0.60 = 11.04 kcal from carbs\n11.04 / 4 = 2.76g carbs\n\n4. Add carbohydrate values.\nTotal = 82.75 + 1.53 + 2.76 = 87.04\n\nOutput: {""total_carbohydrates"": 87.04}']","['Chapatti, brown rice flour with ghee', 'Green gram, split, curry', 'Potato curry']",PAK,"For lunch, I have 122.6 grams of chapatti with ghee, along with a small serving of 10.2g split green gram curry and 18.4g potato curry.",111.3,8.9,576.0,10.7,24.25999999999999,64.262,"The meal consists of 122.6 grams of chapatti with ghee, 10.2 grams of split green gram curry, and 18.4 grams of potato curry.
+
+1. Chapatti with ghee: 
+   - 100 grams of chapatti has approximately 49g of carbs. 
+   - Therefore, 122.6 grams of chapatti has (49 * 122.6 / 100) = 60.074g of carbs.
+
+2. Split green gram curry:
+   - 100 grams of split green gram curry has approximately 14g of carbs.
+   - Therefore, 10.2 grams of split green gram curry has (14 * 10.2 / 100) = 1.428g of carbs.
+
+3. Potato curry:
+   - 100 grams of potato curry has approximately 15g of carbs.
+   - Therefore, 18.4 grams of potato curry has (15 * 18.4 / 100) = 2.76g of carbs.
+
+So the total grams of carbs in the meal = (60.074 + 1.428 + 2.76) = 64.262
+
+Output: {""total_carbohydrates"": 64.262}",47.038
+484,42.6,"['1. Identify each food or beverage item and its serving size.\n- 400g of water\n- 112g omelet\n- 100g of polished steamed rice\n- 180g of yogurt\n\n2. Estimate energy contributions per item.\n- Water: 0 kcal (no energy content)\n- Omelet: Typically around 154 kcal per 100g\n  For 112g: 154 * 1.12 = 172.48 kcal\n- Polished steamed rice: Typically around 130 kcal per 100g\n  For 100g: 130 * 1 = 130 kcal\n- Yogurt: Typically around 59 kcal per 100g\n  For 180g: 59 * 1.8 = 106.2 kcal\n\nTotal estimated energy: 172.48 (omelet) + 130 (rice) + 106.2 (yogurt) = 408.68 kcal\n\nThis is significantly lower than the stated 794 kcal. Let\'s reconsider the items:\n- Omelet: Could be made with additional ingredients like cheese or oil, increasing kcal.\n- Yogurt: Could be a higher-fat version or sweetened, increasing kcal.\n\nAssume omelet and yogurt are more calorie-dense:\n- Omelet: Assume 250 kcal for 112g (with added ingredients)\n- Yogurt: Assume 150 kcal for 180g (higher fat/sweetened)\n\nRecalculate:\n- Omelet: 250 kcal\n- Rice: 130 kcal\n- Yogurt: 150 kcal\n\nNew total: 250 + 130 + 150 = 530 kcal\n\nThis is still below 794 kcal. Assume further calorie density in omelet or yogurt:\n- Omelet: Assume 350 kcal for 112g\n- Yogurt: Assume 200 kcal for 180g\n\nRecalculate:\n- Omelet: 350 kcal\n- Rice: 130 kcal\n- Yogurt: 200 kcal\n\nNew total: 350 + 130 + 200 = 680 kcal\n\nThis is closer but still below 794 kcal. Assume even more calorie density:\n- Omelet: Assume 400 kcal for 112g\n- Yogurt: Assume 250 kcal for 180g\n\nRecalculate:\n- Omelet: 400 kcal\n- Rice: 130 kcal\n- Yogurt: 250 kcal\n\nNew total: 400 + 130 + 250 = 780 kcal\n\nThis is now very close to 794 kcal, so we proceed with these assumptions.\n\n3. Estimate carbohydrate content in grams.\n- Water: 0g carbs\n- Omelet: Typically low in carbs, assume 2g for 112g\n- Rice: Typically around 28g carbs per 100g\n  For 100g: 28g carbs\n- Yogurt: Typically around 7g carbs per 100g\n  For 180g: 7 * 1.8 = 12.6g carbs\n\n4. Add carbohydrate values.\nTotal = 0 + 2 + 28 + 12.6 = 42.6\n\nOutput: {""total_carbohydrates"": 42.6}']","['Drink water/ Nam Deum', 'Omlet hen egg/ Cheun Khai Kai', 'Rice glutinous, polished, steamed/ Khao Niew', 'Yoghurt drinking UHT/ Nom Som UHT']",LAO,"I’m enjoying 400 grams of water with my 112g omelet, 100g of polished steamed rice, and 180g of yogurt for dinner.",83.51,40.63,794.0,24.62,40.910000000000004,37.5,"The meal consists of 400 grams of water, 112 grams of omelet, 100 grams of polished steamed rice, and 180 grams of yogurt.
+
+1. Water has 0g carbs, so 400 grams of water has 0g carbs.
+2. Omelet typically has very low carbs. Assuming a standard omelet, 112 grams of omelet has approximately 2g carbs.
+3. 100 grams of polished steamed rice has about 28g carbs.
+4. 180 grams of yogurt (assuming plain, unsweetened) has about 7.5g carbs.
+
+So the total grams of carbs in the meal = (0 + 2 + 28 + 7.5) = 37.5
+
+Output: {""total_carbohydrates"": 37.5}",46.010000000000005
+432,37.89,"['1. Identify each food or beverage item and its serving size.\n- 132.3g of grapes\n- 77g of Pau vegetable\n\n2. Estimate energy contributions per item.\nGrapes: Energy content is about 69 kcal per 100g.\nFor 132.3g: 69 * 1.323 = 91.29 kcal\n\nPau vegetable: This is less common, but assuming it\'s similar to a leafy green vegetable, it might have around 25 kcal per 100g.\nFor 77g: 25 * 0.77 = 19.25 kcal\n\nTotal estimated: 91.29 + 19.25 = 110.54 kcal. This is far below the stated 240 kcal.\n\nAdjustment needed: The Pau vegetable might be more energy-dense than assumed, or the grapes are a more concentrated variety.\n\nLet\'s assume the Pau vegetable is more energy-dense, similar to a starchy vegetable like a root or tuber, which can have around 100 kcal per 100g.\nFor 77g: 100 * 0.77 = 77 kcal\n\nRecalculate total: 91.29 (grapes) + 77 (Pau vegetable) = 168.29 kcal. This is still below 240 kcal.\n\nReconsider grapes: If they are a more concentrated variety, they might have around 100 kcal per 100g.\nFor 132.3g: 100 * 1.323 = 132.3 kcal\n\nNew total: 132.3 (grapes) + 77 (Pau vegetable) = 209.3 kcal. This is closer but still below 240 kcal.\n\nAssume a slightly higher energy content for Pau vegetable, around 110 kcal per 100g.\nFor 77g: 110 * 0.77 = 84.7 kcal\n\nFinal total: 132.3 (grapes) + 84.7 (Pau vegetable) = 217 kcal. This is within an acceptable range considering possible variations.\n\n3. Estimate carbohydrate content in grams.\nGrapes: Typically have about 17g of carbs per 100g.\nFor 132.3g: 17 * 1.323 = 22.49g carbs\n\nPau vegetable: Assuming it\'s similar to a starchy vegetable, it might have around 20g of carbs per 100g.\nFor 77g: 20 * 0.77 = 15.4g carbs\n\n4. Add carbohydrate values.\nTotal = 22.49 + 15.4 = 37.89\n\nOutput: {""total_carbohydrates"": 37.89}']","['Grapes', 'Pau Vegetable']",MYS,I’m enjoying a snack of 132.3 grams of grapes and 77 grams of Pau vegetable.,44.55,5.0,240.0,5.06,6.659999999999997,-1.0,"The meal consists of 132.3 grams of grapes and 77 grams of Pau vegetable.
+
+1. Grapes: 100 grams of grapes have approximately 17g of carbohydrates. Therefore, 132.3 grams of grapes have (17 * 132.3 / 100) = 22.491g of carbohydrates.
+
+2. Pau vegetable: Unfortunately, I do not have specific carbohydrate information for ""Pau vegetable."" Therefore, I cannot calculate the carbohydrates for this item.
+
+Since I cannot determine the total carbohydrates due to the unknown carbohydrate content of the Pau vegetable, I will set the total carbohydrates to -1.
+
+Output: {""total_carbohydrates"": -1}",45.55
+342,99.345,"['1. Identify each food or beverage item and its serving size.\n- 240.5g grilled pepper salad\n- 397g mixed vegetable soup\n- 100g potato\n- 310g schnitzel\n\n2. Estimate energy contributions per item.\n- Grilled pepper salad: Typically low in calories, around 20-30 kcal per 100g.\n  240.5g * 0.25 = 60.125 kcal\n- Mixed vegetable soup: Typically around 30-50 kcal per 100g.\n  397g * 0.40 = 158.8 kcal\n- Potato: A boiled or baked potato is around 77 kcal per 100g.\n  100g * 0.77 = 77 kcal\n- Schnitzel: Depending on preparation, around 200-300 kcal per 100g.\n  310g * 2.5 = 775 kcal\n\nTotal estimated energy: 60.125 + 158.8 + 77 + 775 = 1070.925 kcal\n\nThis is below the stated 1401 kcal. Let\'s adjust the schnitzel to a higher energy density, assuming more oil or breading.\n- Schnitzel: Assume 300 kcal per 100g.\n  310g * 3 = 930 kcal\n\nNew total: 60.125 + 158.8 + 77 + 930 = 1225.925 kcal\n\nThis is still below 1401 kcal. Let\'s assume the schnitzel is even richer, at 350 kcal per 100g.\n- Schnitzel: 310g * 3.5 = 1085 kcal\n\nNew total: 60.125 + 158.8 + 77 + 1085 = 1380.925 kcal\n\nThis is close enough to 1401 kcal.\n\n3. Estimate carbohydrate content in grams.\n- Grilled pepper salad: Approximately 5g carbs per 100g.\n  240.5g * 0.05 = 12.025g carbs\n- Mixed vegetable soup: Approximately 6g carbs per 100g.\n  397g * 0.06 = 23.82g carbs\n- Potato: Approximately 17g carbs per 100g.\n  100g * 0.17 = 17g carbs\n- Schnitzel: Assuming 20% of energy from carbs, approximately 15g carbs per 100g.\n  310g * 0.15 = 46.5g carbs\n\n4. Add carbohydrate values.\nTotal = 12.025 + 23.82 + 17 + 46.5 = 99.345\n\nOutput: {""total_carbohydrates"": 99.345}']","['GRILLED PEPPER SALAD', 'MIXED VEGETABLES SOUP', 'POTATO', 'SCHNITZEL']",ROU,"I'm enjoying a 240.5g grilled pepper salad, 397g mixed vegetable soup, a 100g potato, and a 310g schnitzel for lunch.",69.89999999999999,93.1,1401.0,70.39999999999999,29.445000000000007,113.28,"The meal consists of a 240.5g grilled pepper salad, 397g mixed vegetable soup, a 100g potato, and a 310g schnitzel.
+
+1. Grilled pepper salad: Assuming the salad is primarily made of bell peppers, which have about 6g of carbs per 100g, the salad would have (240.5 * 6 / 100) = 14.43g of carbs.
+
+2. Mixed vegetable soup: Assuming an average of 5g of carbs per 100g for mixed vegetable soup, the soup would have (397 * 5 / 100) = 19.85g of carbs.
+
+3. Potato: A 100g potato has about 17g of carbs.
+
+4. Schnitzel: Assuming the schnitzel is breaded and fried, it has about 20g of carbs per 100g, so a 310g schnitzel would have (310 * 20 / 100) = 62g of carbs.
+
+So the total grams of carbs in the meal = (14.43 + 19.85 + 17 + 62) = 113.28
+
+Output: {""total_carbohydrates"": 113.28}",43.38000000000001
+198,29.76,"['1. Identify each food or beverage item and its serving size.\n- 248g nutritional drink\n\n2. Estimate energy contributions per item.\nThe total energy provided is 260.4 kcal for the 248g nutritional drink.\n\n3. Estimate carbohydrate content in grams.\nNutritional drinks can vary widely in their macronutrient composition. However, a typical nutritional drink might have around 10-15% of its weight as carbohydrates. Let\'s assume 12% for this calculation:\n248g * 0.12 = 29.76g carbs\n\n4. Add the carbohydrates from all items and respond with the total as a dictionary.\nOutput: {""total_carbohydrates"": 29.76}']","['Nutritional drink or shake, ready-to-drink, NFS']",USA,I’ve got a 248-gram nutritional drink for my snack.,41.86,6.27,260.4,9.42,12.099999999999998,-1.0,"The meal consists of a 248-gram nutritional drink.
+
+Since the specific nutritional information for the drink is not provided, we cannot determine the exact carbohydrate content. 
+
+Output: {""total_carbohydrates"": -1}",42.86
+489,115.81,"['1. Identify each food or beverage item and its serving size.\n- 34.5g of cake sponge\n- 50g of plain water\n- 95.2g of jellies\n- 9g of grilled pork seasoned with salt\n- 97g of steamed glutinous rice\n\n2. Estimate energy contributions per item.\n- Cake sponge: Approximately 350 kcal per 100g.\n  For 34.5g: 350 * 0.345 = 120.75 kcal\n- Plain water: 0 kcal\n- Jellies: Approximately 300 kcal per 100g.\n  For 95.2g: 300 * 0.952 = 285.6 kcal\n- Grilled pork: Approximately 250 kcal per 100g.\n  For 9g: 250 * 0.09 = 22.5 kcal\n- Steamed glutinous rice: Approximately 130 kcal per 100g.\n  For 97g: 130 * 0.97 = 126.1 kcal\n\nTotal estimated energy: 120.75 + 0 + 285.6 + 22.5 + 126.1 = 554.95 kcal\n\nThe estimated total energy is 554.95 kcal, which is close to the provided 594 kcal. The difference is within an acceptable range, considering possible variations in food composition.\n\n3. Estimate carbohydrate content in grams.\n- Cake sponge: Approximately 50g of carbs per 100g.\n  For 34.5g: 50 * 0.345 = 17.25g carbs\n- Jellies: Approximately 75g of carbs per 100g.\n  For 95.2g: 75 * 0.952 = 71.4g carbs\n- Grilled pork: 0g carbs (primarily protein and fat)\n- Steamed glutinous rice: Approximately 28g of carbs per 100g.\n  For 97g: 28 * 0.97 = 27.16g carbs\n\n4. Add the carbohydrates from all items.\nTotal carbohydrates = 17.25 + 71.4 + 0 + 27.16 = 115.81\n\nOutput: {""total_carbohydrates"": 115.81}']","['Cake sponge commercially prepared / Kha Nom Khai', 'Drink water/ Nam Deum', 'Jellies / Jellies', 'Pork meat mixed salt, grilled/ Ping Sin Mou', 'Rice glutinous, polished, steamed/ Khao Niew']",LAO,"My breakfast consists of 34.5g of cake sponge, 50g of plain water, 95.2g of jellies, 9g of grilled pork seasoned with salt, and 97g of steamed glutinous rice.",137.01,2.63,594.0,9.39,21.19999999999999,94.74,"The meal consists of 34.5g of cake sponge, 50g of plain water, 95.2g of jellies, 9g of grilled pork, and 97g of steamed glutinous rice.
+
+1. 34.5g of cake sponge: Cake sponge typically has about 50g of carbs per 100g. Therefore, 34.5g of cake sponge has (50 * 34.5 / 100) = 17.25g of carbs.
+2. 50g of plain water: Water has 0g of carbs.
+3. 95.2g of jellies: Jellies typically have about 60g of carbs per 100g. Therefore, 95.2g of jellies has (60 * 95.2 / 100) = 57.12g of carbs.
+4. 9g of grilled pork: Grilled pork has 0g of carbs.
+5. 97g of steamed glutinous rice: Steamed glutinous rice typically has about 21g of carbs per 100g. Therefore, 97g of steamed glutinous rice has (21 * 97 / 100) = 20.37g of carbs.
+
+So the total grams of carbs in the meal = (17.25 + 0 + 57.12 + 0 + 20.37) = 94.74
+
+Output: {""total_carbohydrates"": 94.74}",42.269999999999996
+401,80.515,"['1. Identify each food or beverage item and its serving size.\n- 290g of injera made from red teff\n- 150.1g of shiro wot pea stew flavored with chili powder and red onion\n\n2. Estimate energy contributions per item.\nInjera made from red teff: Typically around 100 kcal per 100g.\n290g * 1.0 = 290 kcal\n\nShiro wot pea stew: Typically around 150 kcal per 100g.\n150.1g * 1.5 = 225.15 kcal\n\nTotal estimated: 290 + 225.15 = 515.15 kcal. This is below the stated 565 kcal. Let\'s assume a slightly higher energy density for the shiro wot, as it can vary based on preparation.\n\nAdjust shiro wot to 180 kcal per 100g:\n150.1g * 1.8 = 270.18 kcal\n\nNew total: 290 (injera) + 270.18 (shiro wot) ≈ 560.18 kcal, which is close to the stated 565 kcal.\n\n3. Estimate carbohydrate content in grams.\nInjera: Typically around 20g of carbs per 100g.\n290g * 0.20 = 58g carbs\n\nShiro wot: Typically around 15g of carbs per 100g.\n150.1g * 0.15 = 22.515g carbs\n\n4. Add carbohydrate values and respond with total.\nTotal = 58 + 22.515 = 80.515\n\nOutput: {""total_carbohydrates"": 80.515}']","['Injera, red teff, fermented ', 'Pea stew (shiro wot) (with chili powder, salt, oil, red onion)']",ETH,I made a lunch with 290g of injera made from red teff and 150.1g of shiro wot pea stew flavored with chili powder and red onion.,114.5,5.6,565.0,14.2,33.985,73.01,"The meal consists of 290g of injera made from red teff and 150.1g of shiro wot pea stew.
+
+1. Injera made from red teff: 
+   - 100g of injera has approximately 20g of carbohydrates.
+   - Therefore, 290g of injera has (20 * 2.9) = 58g of carbohydrates.
+
+2. Shiro wot pea stew:
+   - 100g of shiro wot has approximately 10g of carbohydrates.
+   - Therefore, 150.1g of shiro wot has (10 * 1.501) = 15.01g of carbohydrates.
+
+So the total grams of carbohydrates in the meal = (58 + 15.01) = 73.01
+
+Output: {""total_carbohydrates"": 73.01}",41.489999999999995
+392,107.4,"['1. Identify each food or beverage item and its serving size.\n- 200g of coffee with milk\n- 30g of breadsticks\n- 195g of porridge\n- 20g of sugar\n\n2. Estimate energy contributions per item.\n- Coffee with milk: Assuming a typical coffee with milk has about 20 kcal per 100g.\n200g * 0.2 = 40 kcal\n- Breadsticks: Approximately 430 kcal per 100g.\n30g * 4.3 = 129 kcal\n- Porridge: Assuming a typical porridge has about 70 kcal per 100g.\n195g * 0.7 = 136.5 kcal\n- Sugar: 387 kcal per 100g.\n20g * 3.87 = 77.4 kcal\n\nTotal estimated energy: 40 + 129 + 136.5 + 77.4 = 382.9 kcal\n\nThe estimated total energy is significantly lower than the stated 585 kcal. Reconsider the porridge energy density:\n- If porridge is more concentrated, it could be around 160 kcal per 100g.\n195g * 1.6 = 312 kcal\n\nRecalculate total energy: 40 (coffee) + 129 (breadsticks) + 312 (porridge) + 77.4 (sugar) = 558.4 kcal, which is closer to 585 kcal.\n\n3. Estimate carbohydrate content in grams.\n- Coffee with milk: Approximately 2g carbs per 100g.\n200g * 0.02 = 4g carbs\n- Breadsticks: Approximately 70g carbs per 100g.\n30g * 0.7 = 21g carbs\n- Porridge: Assuming 160 kcal/100g, with 80% from carbs:\n160 kcal * 0.8 = 128 kcal from carbs\n128 / 4 = 32g carbs per 100g\n195g * 0.32 = 62.4g carbs\n- Sugar: 100% carbs, so 20g sugar = 20g carbs\n\n4. Add carbohydrate values.\nTotal = 4 + 21 + 62.4 + 20 = 107.4\n\nOutput: {""total_carbohydrates"": 107.4}']","['COFFEE WITH MILK, NOT DETERMINED', 'GRESSINI (BREAD STICKS), NOT DETERMINED', 'PORRIDGE (CORNMEAL, OATMEAL, FLOUR, ETC), NOT DETERMINED', 'SUGAR, NOT APPLICABLE']",BRA,"This morning, I enjoyed 200g of coffee with milk, 30g of breadsticks, 195g of porridge, and added 20g of sugar.",107.37,12.45,585.0,11.49,0.030000000000001,66.9,"The meal consists of 200g of coffee with milk, 30g of breadsticks, 195g of porridge, and 20g of sugar.
+
+1. 200g of coffee with milk: Coffee itself has negligible carbs, but milk does. Assuming a typical coffee with milk ratio, let's estimate 50g of milk in the coffee. 100g of milk has about 5g of carbs, so 50g of milk has (5*(50/100)) = 2.5g of carbs.
+
+2. 30g of breadsticks: 100g of breadsticks has about 70g of carbs, so 30g of breadsticks has (70*(30/100)) = 21g of carbs.
+
+3. 195g of porridge: 100g of porridge has about 12g of carbs, so 195g of porridge has (12*(195/100)) = 23.4g of carbs.
+
+4. 20g of sugar: 100g of sugar has about 100g of carbs, so 20g of sugar has (100*(20/100)) = 20g of carbs.
+
+So the total grams of carbs in the meal = (2.5 + 21 + 23.4 + 20) = 66.9
+
+Output: {""total_carbohydrates"": 66.9}",40.47
+438,104.6,"['1. Identify each food or beverage item and its serving size.\n- 10.5g of dried apricot halves (sulfured)\n- 16.88g of instant dry oatmeal\n- 70g of Kellogg\'s Corn Flakes cereal\n- 200g of low-fat pasteurized milk\n- 61.25g of Nestum cereal prepared with water\n- 38.7g of orange\n- 4.92g of raisins\n\n2. Estimate energy contributions per item.\n- Dried apricot halves: Approx. 241 kcal per 100g.\n  10.5g * 2.41 = 25.3 kcal\n- Instant dry oatmeal: Approx. 367 kcal per 100g.\n  16.88g * 3.67 = 61.9 kcal\n- Kellogg\'s Corn Flakes: Approx. 357 kcal per 100g.\n  70g * 3.57 = 249.9 kcal\n- Low-fat milk: Approx. 42 kcal per 100g.\n  200g * 0.42 = 84 kcal\n- Nestum cereal (prepared with water): Approx. 80 kcal per 100g.\n  61.25g * 0.8 = 49 kcal\n- Orange: Approx. 47 kcal per 100g.\n  38.7g * 0.47 = 18.2 kcal\n- Raisins: Approx. 299 kcal per 100g.\n  4.92g * 2.99 = 14.7 kcal\n\nTotal estimated energy: 25.3 + 61.9 + 249.9 + 84 + 49 + 18.2 + 14.7 = 503 kcal. This is close to the stated 516 kcal, so the estimates are reasonable.\n\n3. Estimate carbohydrate content in grams.\n- Dried apricot halves: Approx. 63g carbs per 100g.\n  10.5g * 0.63 = 6.6g carbs\n- Instant dry oatmeal: Approx. 68g carbs per 100g.\n  16.88g * 0.68 = 11.5g carbs\n- Kellogg\'s Corn Flakes: Approx. 84g carbs per 100g.\n  70g * 0.84 = 58.8g carbs\n- Low-fat milk: Approx. 5g carbs per 100g.\n  200g * 0.05 = 10g carbs\n- Nestum cereal (prepared with water): Approx. 15g carbs per 100g.\n  61.25g * 0.15 = 9.2g carbs\n- Orange: Approx. 12g carbs per 100g.\n  38.7g * 0.12 = 4.6g carbs\n- Raisins: Approx. 79g carbs per 100g.\n  4.92g * 0.79 = 3.9g carbs\n\n4. Add carbohydrate values.\nTotal = 6.6 + 11.5 + 58.8 + 10 + 9.2 + 4.6 + 3.9 = 104.6\n\nOutput: {""total_carbohydrates"": 104.6}']","['Dried Apricot Halves Sulfured', 'Instant Oatmeal Dry', ""Kellogg'S Corn Flakes Cereal"", 'Lowfat Milk Pasteurized', 'Nestum Cereal Prepared With Water', 'Orange', 'Raisins']",MYS,"For breakfast, I'm having 10.5g of dried apricot halves (sulfured), 16.88g of instant dry oatmeal, and 70g of Kellogg's Corn Flakes cereal with 200g of low-fat pasteurized milk. I'm also throwing in 61.25g of Nestum cereal prepared with water, a tasty 38.7g of orange, and a sprinkle of 4.92g of raisins for some extra sweetness.",104.54,4.779999999999999,516.0,16.669999999999998,0.05999999999998801,144.4242,"The meal consists of the following items with their respective serving sizes:
+
+1. 10.5g of dried apricot halves (sulfured)
+2. 16.88g of instant dry oatmeal
+3. 70g of Kellogg's Corn Flakes cereal
+4. 200g of low-fat pasteurized milk
+5. 61.25g of Nestum cereal prepared with water
+6. 38.7g of orange
+7. 4.92g of raisins
+
+Now, let's calculate the carbohydrates for each item:
+
+1. Dried apricot halves (sulfured): 100g has approximately 63g of carbs. So, 10.5g has (63 * 10.5 / 100) = 6.615g of carbs.
+2. Instant dry oatmeal: 100g has approximately 68g of carbs. So, 16.88g has (68 * 16.88 / 100) = 11.4784g of carbs.
+3. Kellogg's Corn Flakes cereal: 100g has approximately 84g of carbs. So, 70g has (84 * 70 / 100) = 58.8g of carbs.
+4. Low-fat pasteurized milk: 100g has approximately 5g of carbs. So, 200g has (5 * 200 / 100) = 10g of carbs.
+5. Nestum cereal prepared with water: 100g has approximately 80g of carbs. So, 61.25g has (80 * 61.25 / 100) = 49g of carbs.
+6. Orange: 100g has approximately 12g of carbs. So, 38.7g has (12 * 38.7 / 100) = 4.644g of carbs.
+7. Raisins: 100g has approximately 79g of carbs. So, 4.92g has (79 * 4.92 / 100) = 3.8868g of carbs.
+
+Now, let's sum up the total carbohydrates:
+
+Total carbs = 6.615 + 11.4784 + 58.8 + 10 + 49 + 4.644 + 3.8868 = 144.4242
+
+Output: {""total_carbohydrates"": 144.4242}",39.88420000000001
+270,70.0,"['1. Identify each food or beverage item and its serving size.\n- 250g of pasta with tomato sauce and meat\n\n2. Estimate energy contributions per item.\n- Pasta: Typically, cooked pasta has about 130-160 kcal per 100g. Let\'s assume 150 kcal per 100g for a standard cooked pasta.\n  250g of pasta: 250 * 1.5 = 375 kcal\n- Tomato sauce and meat: The energy content can vary widely depending on the recipe, but a simple tomato sauce with meat might add around 50-100 kcal per 100g. However, since the total meal is stated to be 307.5 kcal, the pasta must be less energy-dense or the sauce and meat are very light in calories.\n\nReconsider pasta: If the total is 307.5 kcal, the pasta must be less energy-dense or the sauce and meat are very light in calories. Let\'s assume the pasta is less energy-dense, around 100 kcal per 100g.\n250g of pasta: 250 * 1.0 = 250 kcal\nTomato sauce and meat: 307.5 - 250 = 57.5 kcal\n\n3. Estimate carbohydrate content in grams.\n- Pasta: Typically, cooked pasta has about 25-30g of carbs per 100g. Let\'s assume 28g of carbs per 100g.\n  250g of pasta: 250 * 0.28 = 70g carbs\n- Tomato sauce and meat: The carbohydrate content is likely minimal compared to the pasta, so we can assume it contributes very little additional carbs.\n\n4. Add the carbohydrates from all items.\nTotal = 70g carbs\n\nOutput: {""total_carbohydrates"": 70}']","['Pasta with tomato-based sauce and meat, home recipe']",USA,Dinner tonight is 250 grams of pasta with a tomato sauce and meat that I made myself.,47.88,6.45,307.5,14.65,22.119999999999997,87.5,"The meal consists of 250 grams of pasta with tomato sauce and meat.
+
+1. 250 grams of pasta: Typically, 100 grams of cooked pasta contains about 31 grams of carbohydrates. Therefore, 250 grams of pasta contains (31 * 2.5) = 77.5 grams of carbohydrates.
+
+2. Tomato sauce and meat: The carbohydrate content can vary significantly based on the recipe, but a standard serving of tomato sauce (about 1/2 cup or 125 grams) contains approximately 10 grams of carbohydrates. Since the serving size and exact recipe are not specified, we will assume a standard serving size for the sauce. The meat typically does not contribute significant carbohydrates.
+
+So the total grams of carbs in the meal = (77.5 + 10) = 87.5
+
+Output: {""total_carbohydrates"": 87.5}",39.62
+419,75.64,"['1. Identify each food or beverage item and its serving size.\n- Egg soup weighing 139.9g\n- Pinol beverage weighing 26.7g\n- Maize tortilla weighing 111g\n\n2. Estimate energy contributions per item.\n- Egg soup: Typically, egg soup has around 50-70 kcal per 100g.\n  Assuming 60 kcal/100g: 139.9g * 0.6 = 83.94 kcal\n- Pinol beverage: Pinol is a traditional drink made from toasted cornmeal and spices, often with sugar. It can have around 350 kcal per 100g.\n  26.7g * 3.5 = 93.45 kcal\n- Maize tortilla: Typically, a maize tortilla has about 218 kcal per 100g.\n  111g * 2.18 = 242.58 kcal\n\nTotal estimated energy: 83.94 (egg soup) + 93.45 (pinol) + 242.58 (tortilla) = 419.97 kcal\n\nThe total estimated energy is below the stated 483 kcal. Let\'s adjust:\n- Assume the pinol beverage is richer or has more sugar, increasing its energy content to 400 kcal per 100g.\n  26.7g * 4 = 106.8 kcal\n\nNew total estimated energy: 83.94 (egg soup) + 106.8 (pinol) + 242.58 (tortilla) = 433.32 kcal\n\nThis is still below 483 kcal, but within a reasonable range considering possible variations in preparation.\n\n3. Estimate carbohydrate content in grams.\n- Egg soup: Assuming 5g carbs per 100g, 139.9g * 0.05 = 7g carbs\n- Pinol beverage: Assuming 70% of energy from carbs, 106.8 kcal * 0.7 = 74.76 kcal from carbs\n  74.76 / 4 = 18.69g carbs\n- Maize tortilla: Typically, 45g carbs per 100g, 111g * 0.45 = 49.95g carbs\n\n4. Add carbohydrate values.\nTotal = 7 + 18.69 + 49.95 = 75.64\n\nOutput: {""total_carbohydrates"": 75.64}']","['EGG SOUP', 'PINOL BEVERAGE W/WATER & SUGAR', 'TORTILLA, MAIZE BASED']",GTM,"For breakfast today, I had egg soup weighing 139.9g, a 26.7g pinol beverage, and a maize tortilla that weighed 111g.",79.39,10.93,483.0,18.950000000000003,3.75,40.18,"The meal consists of 139.9g of egg soup, 26.7g of pinol beverage, and 111g of maize tortilla.
+
+1. Egg soup: Typically, egg soup has about 1.1g of carbohydrates per 100g. Therefore, 139.9g of egg soup has (1.1 * 139.9 / 100) = 1.54g of carbohydrates.
+
+2. Pinol beverage: Pinol, a traditional drink made from toasted cornmeal, can have around 20g of carbohydrates per 100g. Therefore, 26.7g of pinol beverage has (20 * 26.7 / 100) = 5.34g of carbohydrates.
+
+3. Maize tortilla: A maize tortilla typically has about 30g of carbohydrates per 100g. Therefore, 111g of maize tortilla has (30 * 111 / 100) = 33.3g of carbohydrates.
+
+So the total grams of carbohydrates in the meal = (1.54 + 5.34 + 33.3) = 40.18
+
+Output: {""total_carbohydrates"": 40.18}",39.21
+487,36.85,"['1. Identify each food or beverage item and its serving size.\n- 31g of deep-fried bananas\n- 100g of water\n- 55g of steamed glutinous rice\n- 111g of spicy snakehead fish soup\n\n2. Estimate energy contributions per item.\n- Deep-fried bananas: Approx. 250 kcal per 100g.\n  For 31g: 250 * 0.31 = 77.5 kcal\n- Water: 0 kcal\n- Steamed glutinous rice: Approx. 130 kcal per 100g.\n  For 55g: 130 * 0.55 = 71.5 kcal\n- Spicy snakehead fish soup: Approx. 50 kcal per 100g.\n  For 111g: 50 * 1.11 = 55.5 kcal\n\nTotal estimated energy: 77.5 + 0 + 71.5 + 55.5 = 204.5 kcal\n\nThis is significantly lower than the stated 344 kcal. Let\'s reconsider the energy content:\n- Deep-fried bananas might be more calorie-dense due to oil absorption. Assume 350 kcal per 100g.\n  For 31g: 350 * 0.31 = 108.5 kcal\n- Recalculate total: 108.5 + 0 + 71.5 + 55.5 = 235.5 kcal\n\nStill below 344 kcal. Assume a higher energy density for the soup or rice:\n- Assume soup is richer, 100 kcal per 100g.\n  For 111g: 100 * 1.11 = 111 kcal\n\nRecalculate total: 108.5 + 0 + 71.5 + 111 = 291 kcal\n\nStill below 344 kcal. Assume rice is more energy-dense, 180 kcal per 100g.\n- For 55g: 180 * 0.55 = 99 kcal\n\nRecalculate total: 108.5 + 0 + 99 + 111 = 318.5 kcal\n\nThis is closer but still below. Assume a combination of higher density for both rice and soup:\n- Rice: 200 kcal per 100g\n  For 55g: 200 * 0.55 = 110 kcal\n- Soup: 110 kcal per 100g\n  For 111g: 110 * 1.11 = 122.1 kcal\n\nRecalculate total: 108.5 + 0 + 110 + 122.1 = 340.6 kcal\n\nThis is now consistent with the stated 344 kcal.\n\n3. Estimate carbohydrate content in grams.\n- Deep-fried bananas: Approx. 30g carbs per 100g.\n  For 31g: 30 * 0.31 = 9.3g carbs\n- Water: 0g carbs\n- Steamed glutinous rice: Approx. 40g carbs per 100g.\n  For 55g: 40 * 0.55 = 22g carbs\n- Spicy snakehead fish soup: Approx. 5g carbs per 100g.\n  For 111g: 5 * 1.11 = 5.55g carbs\n\n4. Add carbohydrate values.\nTotal = 9.3 + 0 + 22 + 5.55 = 36.85\n\nOutput: {""total_carbohydrates"": 36.85}']","['Deep fired banana / Kuay Cheun', 'Drink water/ Nam Deum', 'Rice glutinous, polished, steamed/ Khao Niew', 'Spicy Striped snakehead fish soup/ Keang Som Pa Kor']",LAO,"I had 31 grams of deep-fried bananas, drank 100 grams of water, ate 55 grams of steamed glutinous rice, and 111 grams of spicy snakehead fish soup for dinner.",59.74,5.489999999999999,344.0,12.65,22.89,20.9,"The meal consists of 31 grams of deep-fried bananas, 100 grams of water, 55 grams of steamed glutinous rice, and 111 grams of spicy snakehead fish soup.
+
+1. 31 grams of deep-fried bananas: Deep-fried bananas have approximately 23g of carbs per 100g. Therefore, 31g of deep-fried bananas have (23 * 31/100) = 7.13g of carbs.
+
+2. 100 grams of water: Water has 0g of carbs.
+
+3. 55 grams of steamed glutinous rice: Steamed glutinous rice has approximately 21g of carbs per 100g. Therefore, 55g of steamed glutinous rice have (21 * 55/100) = 11.55g of carbs.
+
+4. 111 grams of spicy snakehead fish soup: Assuming the soup has minimal carbs, we estimate it to have around 2g of carbs per 100g. Therefore, 111g of soup have (2 * 111/100) = 2.22g of carbs.
+
+So the total grams of carbs in the meal = (7.13 + 0 + 11.55 + 2.22) = 20.9
+
+Output: {""total_carbohydrates"": 20.9}",38.84
+462,37.32,"['Let\'s think step by step.\n\n1. Identify each food or beverage item and its serving size.\n- 24.8g serving of Churmary Chuda\n- 12g of assorted cookies\n- 48g of milk tea\n\n2. Estimate energy contributions per item.\n- Churmary Chuda: Typically, Chuda (flattened rice) has about 370 kcal per 100g.\n  For 24.8g: 370 * 0.248 = 91.76 kcal\n- Assorted cookies: Average cookies have about 500 kcal per 100g.\n  For 12g: 500 * 0.12 = 60 kcal\n- Milk tea: Depending on the milk and sugar content, milk tea can have around 50 kcal per 100g.\n  For 48g: 50 * 0.48 = 24 kcal\n\nTotal estimated energy: 91.76 + 60 + 24 = 175.76 kcal. This is below the stated 242 kcal. Let\'s reconsider the assumptions:\n- Churmary Chuda might be more energy-dense if it includes additional ingredients like oil or sugar. Let\'s assume a higher energy density of 450 kcal per 100g.\n  For 24.8g: 450 * 0.248 = 111.6 kcal\n- Recalculate total energy: 111.6 + 60 + 24 = 195.6 kcal. Still below 242 kcal.\n- Assume milk tea is richer, possibly 100 kcal per 100g.\n  For 48g: 100 * 0.48 = 48 kcal\n\nRecalculate total energy: 111.6 + 60 + 48 = 219.6 kcal. This is closer to 242 kcal, within an acceptable range.\n\n3. Estimate carbohydrate content in grams.\n- Churmary Chuda: Assuming 80% of energy from carbs, 111.6 kcal * 0.8 = 89.28 kcal from carbs.\n  89.28 / 4 = 22.32g carbs\n- Assorted cookies: Assuming 60% of energy from carbs, 60 kcal * 0.6 = 36 kcal from carbs.\n  36 / 4 = 9g carbs\n- Milk tea: Assuming 50% of energy from carbs, 48 kcal * 0.5 = 24 kcal from carbs.\n  24 / 4 = 6g carbs\n\n4. Add carbohydrate values.\nTotal = 22.32 + 9 + 6 = 37.32\n\nOutput: {""total_carbohydrates"": 37.32}']","['Churmary Oggarani or Churmary Chuda', 'Cookies, assorted ready made ', 'Milk Tea']",IND,"I’ve got a 24.8g serving of Churmary Chuda, along with 12g of assorted cookies and 48g of milk tea for breakfast.",37.7,8.2,242.0,5.0,0.380000000000002,-1.0,"The meal consists of 24.8g of Churmary Chuda, 12g of assorted cookies, and 48g of milk tea.
+
+1. 24.8g of Churmary Chuda: The carbohydrate content of Churmary Chuda is not commonly available, so we will assume it is unknown.
+2. 12g of assorted cookies: Assuming an average carbohydrate content of 70g per 100g for cookies, 12g of cookies would have (70 * (12/100)) = 8.4g of carbs.
+3. 48g of milk tea: Assuming an average carbohydrate content of 10g per 100g for milk tea, 48g of milk tea would have (10 * (48/100)) = 4.8g of carbs.
+
+Since the carbohydrate content of Churmary Chuda is unknown, we cannot calculate the total carbohydrates accurately.
+
+Output: {""total_carbohydrates"": -1}",38.7
+31,40.4,"['1. Identify each food or beverage item and its serving size.\n- 200g of raw apple\n- 496g of fruit juice drink\n\n2. Estimate energy contributions per item.\nRaw apple: Energy content is about 52 kcal per 100g.\nFor 200g: 52 * 2 = 104 kcal\n\nFruit juice drink: Energy content can vary, but a typical fruit juice drink has about 45 kcal per 100g.\nFor 496g: 45 * 4.96 = 223.2 kcal\n\nTotal estimated: 104 (apple) + 223.2 (juice) = 327.2 kcal. This is above the stated 153.6 kcal, suggesting the juice might be more diluted or lower in calories.\n\nReconsider fruit juice drink: Assume a more diluted version or a low-calorie drink, around 10 kcal per 100g.\nFor 496g: 10 * 4.96 = 49.6 kcal\n\nNew total: 104 (apple) + 49.6 (juice) = 153.6 kcal, matching the provided total.\n\n3. Estimate carbohydrate content in grams.\nRaw apple: Approximately 14g of carbs per 100g.\nFor 200g: 14 * 2 = 28g carbs\n\nFruit juice drink: Assuming 10 kcal per 100g, and most energy from carbs, approximately 2.5g of carbs per 100g.\nFor 496g: 2.5 * 4.96 = 12.4g carbs\n\n4. Add carbohydrate values.\nTotal = 28 + 12.4 = 40.4\n\nOutput: {""total_carbohydrates"": 40.4}']","['Apple, raw', 'Fruit juice drink']",USA,I have a snack of 200 grams of raw apple paired with a 496-gram fruit juice drink.,40.02,0.34,153.6,0.52,0.379999999999995,77.2,"The meal consists of 200 grams of raw apple and a 496-gram fruit juice drink.
+
+1. 100 grams of raw apple has approximately 13.8g of carbohydrates. Therefore, 200 grams of raw apple has (13.8 * 2) = 27.6g of carbohydrates.
+
+2. 100 grams of fruit juice drink typically has about 10g of carbohydrates. Therefore, a 496-gram fruit juice drink has (10 * 4.96) = 49.6g of carbohydrates.
+
+So the total grams of carbohydrates in the meal = (27.6 + 49.6) = 77.2
+
+Output: {""total_carbohydrates"": 77.2}",37.18

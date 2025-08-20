@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "multi_nutrient"
+version = "0.1.0"
+dependencies = [
+    "pandas",
+    "numpy",
+    "scipy",
+    "python-dotenv",
+    "openai",
+    "tqdm"
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
