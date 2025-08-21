@@ -461,7 +461,29 @@ def process_gt(x):
     else:
         return float(x)
     
+
+
 def query_add_context(doc, context):
+    base_query = doc['queries']
+    base_context = "The meal contained "
+    if len(context) == 1:
+        key = context[0]
+        value = doc[key]
+        if not is_number(value):
+            value = process_gt(value)
+        value = round(value, 2)
+        units = {"energy" : "kcal", 
+                 "carb" : "grams of carbohydrates", 
+                 "fat" : "grams of fat", 
+                 "protein" : "grams of protein"}
+        info = f"{value} {units[key]}"
+    else:
+        raise ValueError("Only 1 context nutrient is supported.")
+    
+    query = base_query + " " + base_context + info + "."
+    return query
+
+def query_add_context0(doc, context):
     base_query = doc['queries']
     base_context = "The following meal contains "
     if len(context) == 1:
@@ -469,9 +491,15 @@ def query_add_context(doc, context):
         value = doc[key]
         if not is_number(value):
             value = process_gt(value)
-        value = round(value, 2)
-        unit = "kcal" if key == "energy" else "grams"
-        info = f"{value} {unit}"
+        value = round(value)
+        # value = round(value, 2)
+        # unit = "kcal" if key == "energy" else "grams"
+        # info = f"{value} {unit}"
+        units = {"energy" : "kcal", 
+                 "carb" : "grams of carbohydrates", 
+                 "fat" : "grams of fat", 
+                 "protein" : "grams of protein"}
+        info = f"{value} {units[key]}"
     elif len(context) == 2:
         key1, key2 = context
         val1 = doc[key1]
@@ -488,9 +516,9 @@ def query_add_context(doc, context):
 
 if __name__ == "__main__":
     # change these params
-    nutrient="carb"
-    prompt = prompt_carb_cot_context_energy7
-    method="CoT"
+    nutrient="energy"
+    prompt = energy_w_carb
+    method="base_w_carb"
     model = "gpt-4o-2024-08-06"
     path = "/data/lucasjia/projects/nutri/src/multi_nutrient/nb_v2_sub_laya.csv"
     # path = "/data/lucasjia/projects/nutri/src/multi_nutrient/sub4_metric.csv"
@@ -498,13 +526,13 @@ if __name__ == "__main__":
 
     test_flag=False
     thresholds = {"carb" : 7.5, "protein" : 2.0, "fat" : 2.5, "energy" : 50.0}
-    results_dir = "/data/lucasjia/projects/nutri/results/multi_nutrient/sub1_rotations/"
+    results_dir = "/data/lucasjia/projects/nutri/results/multi-nutrient/sub1_rotations/"
 
     temp=0.1
     top_p=0.1
     mbr=None
     n=1
-    context = ["energy"]
+    context = ["carb"]
     results = run_eval( prompt=prompt, 
                         nutrient=nutrient, 
                         method_name=method, 
