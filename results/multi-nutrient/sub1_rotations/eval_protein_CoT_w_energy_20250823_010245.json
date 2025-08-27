@@ -1,0 +1,26 @@
+{
+  "nutrient": "protein",
+  "context": [
+    "energy"
+  ],
+  "arguments": {
+    "method": "CoT_w_energy",
+    "prompt": "For the given query including a meal description, think step by step as follows:\n1. Identify each food or beverage item and its serving size. If no size is given, assume one standard serving based on common guidelines. Use USDA references for meals typically associated with Western/U.S. diets. For other regional or traditional meals, prefer FAO/WHO food composition data.\n2. If total energy (in kcal) is provided, estimate the amount of energy each item contributes to the total. If the total energy estimated differs by more than 20%, reconsider the assumed form of every single relevant item (e.g. concentration, dry vs wet vs dehydrated). Repeat this step until a consistent energy estimate is obtained.\n3. For each item settled on, estimate its protein content in grams.\n4. Add the protein values from all items. Respond with a dictionary object containing the total protein in grams as follows:\n{\"total_protein\": total grams of protein for the meal}\nFor the total protein, respond with just the numeric amount of protein without extra text. If you don't know the answer, set the value of \"total_protein\" to -1.\n\nFollow the format of the following examples when answering:\n\nQuery: \"I ate scrambled eggs made with 2 eggs and a toast for breakfast.\"\nAnswer: Let's think step by step.\n1. Identify each food or beverage item and its serving size.\n- Scrambled eggs made with 2 eggs\n- 1 toast\n2. No energy provided.\n3. Estimate protein content in grams.\nScrambled eggs made with 2 eggs has 12.7g protein.\n1 toast has 2.6g protein.\n4. Add protein values and respond with total.\nTotal = 12.7 + 2.6 = 15.3\nOutput: {\"total_protein\": 15.3}\n\nQuery: \"Half a peanut butter and jelly sandwich. The meal contained 202 kcal.\"\nAnswer: Let's think step by step.\n1. Identify each food or beverage item and its serving size.\n- Half a peanut butter and jelly sandwich\n2. Estimate energy contributions per item.\n1 peanut butter and jelly sandwich has 404 kcal so half a peanut butter and jelly sandwich has (404*(1/2)) = 202 kcal.\nMatches the provided total (no need to adjust assumptions).\n3. Estimate protein content in grams.\n1 peanut butter and jelly sandwich has 12.8g protein so half a peanut butter and jelly sandwich has (12.8*(1/2)) = 6.4g protein.\n4. Add protein values and respond with total.\nOutput: {\"total_protein\": 6.4}\n\nQuery: \"For breakfast, I had 61.9g of red palm oil and 729.0g of ready-to-eat maize porridge. The meal contained 1470 kcal.\"\nAnswer: Let's think step by step.\n1. Identify each food or beverage item and its serving size.\n- 61.9g of red palm oil\n- 729g of ready-to-eat maize porridge\n2. Estimate energy contributions per item.\nRed palm oil: Energy content is about 884 kcal per 100g.\nFor 61.9g: 884 * 0.619 = 547 kcal\nReady-to-eat maize porridge: This depends heavily on its water content. A typical maize porridge (thin) has ~50-60 kcal per 100g.\n729g * 0.55 = 400.95 kcal.\nTotal estimated: 547 + 401 = 948 kcal. This is more than 20% below the stated 1470 kcal.\nAdjustment needed: Either the maize porridge is more concentrated or oil quantity/energy is wrong.\nLet's assume a thicker maize porridge or less water content. Dense cooked maize porridge can have up to 160 kcal/100g (closer to stiff ugali consistency).\nTry 729 * 1.27 = 926 kcal. (127 kcal/100g assumption)\nNew total: 547 (oil) + 926 (porridge) \u2248 1473 kcal, matching well. So, we assume maize porridge at 127 kcal/100g.\n3. Estimate protein content in grams.\nRed palm oil: 0g protein (pure fat)\nThick maize porridge: Based on FAO data for stiff maize porridge (e.g. ugali or sadza), protein content is typically 2.8g protein per 100g.\n729g * 0.028 = 20.4g protein.\n4. Add protein values and respond with total.\nTotal = 0 + 20.4 = 20.4\nOutput: {\"total_protein\": 20.4}",
+    "model": "gpt-4o-2024-08-06",
+    "temperature": 0.1,
+    "top_p": 0.1,
+    "mbr": null,
+    "n": 1
+  },
+  "data_path": "/data/lucasjia/projects/nutri/src/multi_nutrient/nb_v2_sub_laya.csv",
+  "test_flag": false,
+  "save_json": true,
+  "threshold": 2.0,
+  "percent": false,
+  "eval_result": {
+    "acc": 0.6811320754716981,
+    "mae": 2.822166811320753,
+    "rmse": 6.409189331479541,
+    "answer_rate": 0.9981132075471698
+  }
+}

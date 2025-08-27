@@ -1,0 +1,26 @@
+{
+  "nutrient": "protein",
+  "context": [
+    "fat"
+  ],
+  "arguments": {
+    "method": "CoT_w_fat",
+    "prompt": "For the given query including a meal description, think step by step as follows:\n1. Identify each food or beverage item and its serving size. If no size is given, assume one standard serving based on common guidelines. Use USDA references for meals typically associated with Western/U.S. diets. For other regional or traditional meals, prefer FAO/WHO food composition data.\n2. If total fat (in grams) is provided, estimate the amount of fat each item contributes to the total. If the total fat estimated differs by more than 20%, reconsider the assumed form of every single relevant item (e.g. concentration, dry vs wet vs dehydrated). Repeat this step until a consistent fat estimate is obtained.\n3. For each item settled on, estimate its protein content in grams.\n4. Add the protein values from all items. Respond with a dictionary object containing the total protein in grams as follows:\n{\"total_protein\": total grams of protein for the meal}\nFor the total protein, respond with just the numeric amount of protein without extra text. If you don't know the answer, set the value of \"total_protein\" to -1.\n\nFollow the format of the following examples when answering:\n\nQuery: \"I ate scrambled eggs made with 2 eggs and a toast for breakfast.\"\nAnswer: Let's think step by step.\n1. Identify each food or beverage item and its serving size.\n- Scrambled eggs made with 2 eggs\n- 1 toast\n2. No fat provided.\n3. Estimate protein content in grams.\nScrambled eggs made with 2 eggs has 12.7g protein.\n1 toast has 2.6g protein.\n4. Add protein values and respond with total.\nTotal = 12.7 + 2.6 = 15.3\nOutput: {\"total_protein\": 15.3}\n\nQuery: \"Half a peanut butter and jelly sandwich. The meal contained 9 grams of fat.\"\nAnswer: Let's think step by step.\n1. Identify each food or beverage item and its serving size.\n- Half a peanut butter and jelly sandwich\n2. Estimate fat contributions per item.\n1 peanut butter and jelly sandwich has 18.6g fat so half a peanut butter and jelly sandwich has (18.6*(1/2)) = 9.3g fat.\nMatches the provided total (no need to adjust assumptions).\n3. Estimate protein content in grams.\n1 peanut butter and jelly sandwich has 12.8g protein so half a peanut butter and jelly sandwich has (12.8*(1/2)) = 6.4g protein.\n4. Add protein values and respond with total.\nOutput: {\"total_protein\": 6.4}\n\nQuery: \"For breakfast, I had 729.0g of ready-to-eat maize porridge. The meal contained 10 grams of fat.\"\nAnswer: Let's think step by step.\n1. Identify each food or beverage item and its serving size.\n- 729g of ready-to-eat maize porridge\n2. Estimate fat contributions per item.\nReady-to-eat maize porridge: This depends heavily on its water content. A typical maize porridge (thin) has 1g fat per 100g.\n729g * 0.01 = 7.3 grams. This is more than 20% below the stated 10g fat.\nAdjustment needed: The maize porridge is likely more concentrated.\nLet's assume a thicker maize porridge or less water content. Dense cooked maize porridge can have up to 1.5 grams/100g (closer to stiff ugali consistency).\nTry 729 * 0.014 = 10.2 grams (1.4g fat per 100g assumption), matching well. So, we assume maize porridge at 1.4g/100g.\n3. Estimate protein content in grams.\nThick maize porridge: Based on FAO data for stiff maize porridge (e.g. ugali or sadza), protein content is typically 2.8g protein per 100g.\n729g * 0.028 = 20.4g protein.\n4. Add protein values and respond with total.\nOutput: {\"total_protein\": 20.4}",
+    "model": "gpt-4o-2024-08-06",
+    "temperature": 0.1,
+    "top_p": 0.1,
+    "mbr": null,
+    "n": 1
+  },
+  "data_path": "/data/lucasjia/projects/nutri/src/multi_nutrient/nb_v2_sub_laya.csv",
+  "test_flag": false,
+  "save_json": true,
+  "threshold": 2.0,
+  "percent": false,
+  "eval_result": {
+    "acc": 0.6735849056603773,
+    "mae": 2.954683584905659,
+    "rmse": 6.89608284737286,
+    "answer_rate": 0.9981132075471698
+  }
+}
