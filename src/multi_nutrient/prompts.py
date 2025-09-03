@@ -1349,3 +1349,201 @@ For 729g: 729 * 1.27 kcal = 926 kcal
 Output: {"total_energy": 926}'''
 
 
+
+
+# ------------------ prompts with "ready-to-eat" added ------------------
+
+prompt_carb2 = '''For the given query including a meal description, calculate the amount of carbohydrates in grams. If the serving size of any item in the meal is not specified, assume it is a single standard serving based on common nutritional guidelines (e.g., USDA). Unless explicitly stated, interpret serving sizes as referring to the edible, ready-to-eat forms of meal items. 
+Respond with a dictionary object containing the total carbohydrates in grams as follows:
+{"total_carbohydrates": total grams of carbohydrates for the serving}
+For the total carbohydrates, respond with just the numeric amount of carbohydrates without extra text. If you don't know the answer, respond with:
+{"total_carbohydrates": -1}.
+
+Query: "This morning, I had a cup of oatmeal with half a sliced banana and a glass of orange juice."
+Answer: {"total_carbohydrates": 66.5}
+
+Query: "I ate scrambled eggs made with 2 eggs and a toast for breakfast"
+Answer: {"total_carbohydrates": 15}
+
+Query: "Half a peanut butter and jelly sandwich."
+Answer: {"total_carbohydrates": 25.3}'''
+
+
+prompt_protein2 = '''For the given query including a meal description, calculate the amount of protein in grams. If the serving size of any item in the meal is not specified, assume it is a single standard serving based on common nutritional guidelines (e.g., USDA). Unless explicitly stated, interpret serving sizes as referring to the edible, ready-to-eat forms of meal items. 
+Respond with a dictionary object containing the total protein in grams as follows:
+{"total_protein": total grams of protein for the serving}
+For the total protein, respond with just the numeric amount of protein without extra text. If you don't know the answer,
+respond with:
+{"total_protein": -1}.
+
+Query: "This morning, I had a cup of oatmeal with half a sliced banana and a glass of orange juice."
+Answer: {"total_protein": 7.65}
+
+Query: "I ate scrambled eggs made with 2 eggs and a toast for breakfast"
+Answer: {"total_protein": 15.3}
+
+Query: "Half a peanut butter and jelly sandwich."
+Answer: {"total_protein": 6.4}'''
+
+prompt_fat2 = '''For the given query including a meal description, calculate the amount of fat in grams. If the serving size of any item in the meal is not specified, assume it is a single standard serving based on common nutritional guidelines (e.g., USDA). Unless explicitly stated, interpret serving sizes as referring to the edible, ready-to-eat forms of meal items. 
+Respond with a dictionary object containing the total fat in grams as follows:
+{"total_fat": total grams of fat for the serving}
+For the total fat, respond with just the numeric amount of fat without extra text. If you don't know the answer, respond with:
+{"total_fat": -1}.
+
+Query: "This morning, I had a cup of oatmeal with half a sliced banana and a glass of orange juice."
+Answer: {"total_fat": 2.14}
+
+Query: "I ate scrambled eggs made with 2 eggs and a toast for breakfast"
+Answer: {"total_fat": 17.5}
+
+Query: "Half a peanut butter and jelly sandwich."
+Answer: {"total_fat": 9.3}'''
+
+prompt_energy2 = '''For the given query including a meal description, calculate the amount of energy in kilocalories (kcal). If the serving size of any item in the meal is not specified, assume it is a single standard serving based on common nutritional guidelines (e.g., USDA). Unless explicitly stated, interpret serving sizes as referring to the edible, ready-to-eat forms of meal items.
+Respond with a dictionary object containing the total energy in kilocalories as follows:
+{"total_energy": total kilocalories for the serving}
+For the total energy, respond with just the numeric amount without extra text. If you don't know the answer, respond with:
+{"total_energy": -1}.
+
+Query: "This morning, I had a cup of oatmeal with half a sliced banana and a glass of orange juice."
+Answer: {"total_energy": 312}
+
+Query: "I ate scrambled eggs made with 2 eggs and a toast for breakfast"
+Answer: {"total_energy": 277.2}
+
+Query: "Half a peanut butter and jelly sandwich."
+Answer: {"total_energy": 202}'''
+
+prompt_carb_cot2 = '''For the given query including a meal description, think step by step as follows:
+1. Parse the meal description into discrete food or beverage items along with their serving size. If the serving size of any item in the meal is not specified, assume it is a single standard serving based on common nutritional guidelines (e.g., USDA). Ignore additional information that doesn't relate to the item name and serving size.
+2. For each food or beverage item in the meal, calculate the amount of carbohydrates in grams for the specific serving size. Unless explicitly stated, interpret serving sizes as referring to the edible, ready-to-eat forms of meal items. 
+3. Respond with a dictionary object containing the total carbohydrates in grams as follows:
+{"total_carbohydrates": total grams of carbohydrates for the serving}
+For the total carbohydrates, respond with just the numeric amount of carbohydrates without extra text. If you don't know the answer, set the value of "total_carbohydrates" to -1.
+
+Follow the format of the following examples when answering
+
+Query: "This morning, I had a cup of oatmeal with half a sliced banana and a glass of orange juice."
+Answer: Let's think step by step.
+The meal consists of 1 cup of oatmeal, 1/2 a banana and 1 glass of orange juice.
+1 cup of oatmeal has 27g carbs.
+1 banana has 27g carbs so half a banana has (27*(1/2)) = 13.5g carbs.
+1 glass of orange juice has 26g carbs.
+So the total grams of carbs in the meal = (27 + 13.5 + 26) = 66.5
+Output: {"total_carbohydrates": 66.5}
+
+Query: "I ate scrambled eggs made with 2 eggs and a toast for breakfast."
+Answer: Let's think step by step.
+The meal consists of scrambled eggs made with 2 eggs and 1 toast.
+Scrambled eggs made with 2 eggs has 2g carbs.
+1 toast has 13g carbs.
+So the total grams of carbs in the meal = (2 + 13) = 15
+Output: {"total_carbohydrates": 15}
+
+Query: "Half a peanut butter and jelly sandwich."
+Answer: Let's think step by step.
+The meal consists of 1/2 a peanut butter and jelly sandwich.
+1 peanut butter and jelly sandwich has 50.6g carbs so half a peanut butter and jelly sandwich has (50.6*(1/2)) = 25.3g carbs.
+So the total grams of carbs in the meal = 25.3
+Output: {"total_carbohydrates": 25.3}'''
+
+prompt_fat_cot2='''For the given query including a meal description, think step by step as follows:
+1. Parse the meal description into discrete food or beverage items along with their serving size. If the serving size of any item in the meal is not specified, assume it is a single standard serving based on common nutritional guidelines (e.g., USDA). Ignore additional information that doesn't relate to the item name and serving size.
+2. For each food or beverage item in the meal, calculate the amount of fat in grams for the specific serving size. Unless explicitly stated, interpret serving sizes as referring to the edible, ready-to-eat forms of meal items.
+3. Respond with a dictionary object containing the total fat in grams as follows:
+{"total_fat": total grams of fat for the serving}
+For the total fat, respond with just the numeric amount of fat without extra text. If you don't know the answer, set the value of "total_fat" to -1.
+
+Follow the format of the following examples when answering
+
+Query: "This morning, I had a cup of oatmeal with half a sliced banana and a glass of orange juice."
+Answer: Let's think step by step.
+The meal consists of 1 cup of oatmeal, 1/2 a banana and 1 glass of orange juice.
+1 cup of oatmeal has 1.1g fat.
+1 banana has 0.4g fat so half a banana has (0.4*(1/2)) = 0.2g fat.
+1 glass of orange juice has 0.84g fat.
+So the total grams of fat in the meal = (1.1 + 0.2 + 0.84) = 2.14
+Output: {"total_fat": 2.14}
+
+Query: "I ate scrambled eggs made with 2 eggs and a toast for breakfast."
+Answer: Let's think step by step.
+The meal consists of scrambled eggs made with 2 eggs and 1 toast.
+Scrambled eggs made with 2 eggs has 16.5g fat.
+1 toast has 0.985g fat.
+So the total grams of fat in the meal = (16.5 + 1) = 17.5
+Output: {"total_fat": 17.5}
+
+Query: "Half a peanut butter and jelly sandwich."
+Answer: Let's think step by step.
+The meal consists of 1/2 a peanut butter and jelly sandwich.
+1 peanut butter and jelly sandwich has 18.6g fat so half a peanut butter and jelly sandwich has (18.6*(1/2)) = 9.3g fat.
+So the total grams of fat in the meal = 9.3
+Output: {"total_fat": 9.3}'''
+
+
+prompt_energy_cot2 = '''For the given query including a meal description, think step by step as follows:
+1. Parse the meal description into discrete food or beverage items along with their serving size. If the serving size of any item in the meal is not specified, assume it is a single standard serving based on common nutritional guidelines (e.g., USDA). Ignore additional information that doesn't relate to the item name and serving size.
+2. For each food or beverage item in the meal, calculate the amount of energy in kilocalories (kcal) for the specific serving size. Unless explicitly stated, interpret serving sizes as referring to the edible, ready-to-eat forms of meal items.
+3. Respond with a dictionary object containing the total energy in kilocalories as follows:
+{"total_energy": total kilocalories for the serving}
+For the total energy, respond with just the numeric amount of kilocalories without extra text. If you don't know the answer, set the value of "total_energy" to -1.
+
+Follow the format of the following examples when answering
+
+Query: "This morning, I had a cup of oatmeal with half a sliced banana and a glass of orange juice."
+Answer: Let's think step by step.
+The meal consists of 1 cup of oatmeal, 1/2 a banana and 1 glass of orange juice.
+1 cup of oatmeal has 134 kcal.
+1 banana has 122 kcal so half a banana has (122*(1/2)) = 61 kcal.
+1 glass of orange juice has 117 kcal.
+So the total kilocalories in the meal = (134 + 61 + 117) = 312
+Output: {"total_energy": 312}
+
+Query: "I ate scrambled eggs made with 2 eggs and a toast for breakfast."
+Answer: Let's think step by step.
+The meal consists of scrambled eggs made with 2 eggs and 1 toast.
+Scrambled eggs made with 2 eggs has 204 kcal.
+1 toast has 73.2 kcal.
+So the total kilocalories in the meal = (204 + 73.2) = 277.2
+Output: {"total_energy": 277.2}
+
+Query: "Half a peanut butter and jelly sandwich."
+Answer: Let's think step by step.
+The meal consists of 1/2 a peanut butter and jelly sandwich.
+1 peanut butter and jelly sandwich has 404 kcal so half a peanut butter and jelly sandwich has (404*(1/2)) = 202 kcal.
+So the total kilocalories in the meal = 202
+Output: {"total_energy": 202}'''
+
+prompt_protein_cot2 = '''For the given query including a meal description, think step by step as follows:
+1. Parse the meal description into discrete food or beverage items along with their serving size. If the serving size of any item in the meal is not specified, assume it is a single standard serving based on common nutritional guidelines (e.g., USDA). Ignore additional information that doesn't relate to the item name and serving size.
+2. For each food or beverage item in the meal, calculate the amount of protein in grams for the specific serving size. Unless explicitly stated, interpret serving sizes as referring to the edible, ready-to-eat forms of meal items.
+3. Respond with a dictionary object containing the total protein in grams as follows:
+{"total_protein": total grams of protein for the serving}
+For the total protein, respond with just the numeric amount of protein without extra text. If you don't know the answer, set the value of "total_protein" to -1.
+
+Follow the format of the following examples when answering
+
+Query: "This morning, I had a cup of oatmeal with half a sliced banana and a glass of orange juice."
+Answer: Let's think step by step.
+The meal consists of 1 cup of oatmeal, 1/2 a banana and 1 glass of orange juice.
+1 cup of oatmeal has 5.1g protein.
+1 banana has 1.3g protein so half a banana has (0.9*(1/2)) = 0.45g protein.
+1 glass of orange juice has 1.9g protein.
+So the total grams of protein in the meal = (5.1 + 0.45 + 1.9) = 7.65
+Output: {"total_protein": 7.65}
+
+Query: "I ate scrambled eggs made with 2 eggs and a toast for breakfast."
+Answer: Let's think step by step.
+The meal consists of scrambled eggs made with 2 eggs and 1 toast.
+Scrambled eggs made with 2 eggs has 12.7g protein.
+1 toast has 2.6g protein.
+So the total grams of protein in the meal = (12.7 + 2.6) = 15.3
+Output: {"total_protein": 15.3}
+
+Query: "Half a peanut butter and jelly sandwich."
+Answer: Let's think step by step.
+The meal consists of 1/2 a peanut butter and jelly sandwich.
+1 peanut butter and jelly sandwich has 12.8g protein so half a peanut butter and jelly sandwich has (12.8*(1/2)) = 6.4g protein.
+So the total grams of protein in the meal = 6.4
+Output: {"total_protein": 6.4}'''
