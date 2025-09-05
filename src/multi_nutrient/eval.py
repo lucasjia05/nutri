@@ -516,9 +516,9 @@ def query_add_context0(doc, context):
 
 if __name__ == "__main__":
     # change these params
-    nutrient="fat"
-    prompt = prompt_fat_cot2
-    method="CoT2"
+    nutrient="carb"
+    prompt = carb_cot_w_protein2
+    method="CoT_w_protein"
     model = "gpt-4o-2024-08-06"
     path = "/data/lucasjia/projects/nutri/src/multi_nutrient/nb_v2_sub_laya.csv"
     # path = "/data/lucasjia/projects/nutri/src/multi_nutrient/sub4_metric.csv"
@@ -526,13 +526,13 @@ if __name__ == "__main__":
 
     test_flag=False
     thresholds = {"carb" : 7.5, "protein" : 2.0, "fat" : 2.5, "energy" : 50.0}
-    results_dir = "/data/lucasjia/projects/nutri/results/multi-nutrient/sub1/"
+    results_dir = "/data/lucasjia/projects/nutri/results/multi-nutrient/sub1_rotations/"
 
     temp=0.1
     top_p=0.1
     mbr=None
     n=1
-    context = None
+    context = ["protein"]
     results = run_eval( prompt=prompt, 
                         nutrient=nutrient, 
                         method_name=method, 
