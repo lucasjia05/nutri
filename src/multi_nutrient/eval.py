@@ -236,7 +236,7 @@ def run_eval(
             mbr=None,
             n=1,
             path="/data/lucasjia/projects/nutri/src/multi_nutrient/nb_v2_sub_laya.csv",
-            test_flag=False,
+            test_flag=None,
             save_json=True,
             thresholds = {"carb" : 7.5, "protein" : 2.0, "fat" : 2.5, "energy" : 50.0},
             # percentage will likely be more informative, probably pass as another argument later
@@ -252,8 +252,14 @@ def run_eval(
     client = OpenAI(api_key=api_key)
 
     data = load_data(path=path)
-    if test_flag:
+    if test_flag==True:
         data = data[1:6]
+    elif isinstance(test_flag, int):
+        k = max(1, min(test_flag, len(data)))
+        rng = np.random.default_rng()
+        idx = rng.choice(len(data), size=k, replace=False)
+        data = [data[i] for i in idx]
+
     threshold = thresholds[nutrient]
     if not mbr:
         n=1
@@ -324,8 +330,10 @@ def run_eval(
         f.write(json.dumps(summary, indent=2))
     print(f"\nSummary results saved to {results_path}")
 
-    return eval_results
-
+    return {
+        "eval_results" : eval_results,
+        "samples_path": output_path if save_json else None
+    }
 
 # ------------------ RUN COMBINED EVAL ------------------
 def run_combined_eval(
@@ -351,6 +359,11 @@ def run_combined_eval(
     data = load_data(path=path)
     if test_flag:
         data = data[1:6]
+    elif isinstance(test_flag, int):
+        k = max(1, min(test_flag, len(data)))
+        rng = np.random.default_rng()
+        idx = rng.choice(len(data), size=k, replace=False)
+        data = [data[i] for i in idx]
     if not mbr:
         n=1
 
@@ -440,8 +453,11 @@ def run_combined_eval(
     with open(results_path, "w") as f:
         f.write(json.dumps(summary, indent=2))
     print(f"\nSummary results saved to {results_path}")
-
-    return eval_results
+    
+    return {
+        "eval_results" : eval_results,
+        "samples_path": output_path if save_json else None
+    }
 
 
 # ------------------ UTILS ------------------
@@ -516,15 +532,15 @@ def query_add_context0(doc, context):
 
 if __name__ == "__main__":
     # change these params
-    nutrient="carb"
-    prompt = carb_cot_w_protein2
-    method="CoT_w_protein"
+    nutrient= "carb"
+    prompt = prompt_carb_cot
+    method="CoT_test"
     model = "gpt-4o-2024-08-06"
-    path = "/data/lucasjia/projects/nutri/src/multi_nutrient/nb_v2_sub_laya.csv"
+    path = "/data/lucasjia/projects/nutri/src/multi_nutrient/nb_sub_laya.csv"
     # path = "/data/lucasjia/projects/nutri/src/multi_nutrient/sub4_metric.csv"
     # path = "/data/lucasjia/projects/nutri/src/multi_nutrient/sub5_natural_language.csv"
 
-    test_flag=False
+    test_flag=6
     thresholds = {"carb" : 7.5, "protein" : 2.0, "fat" : 2.5, "energy" : 50.0}
     results_dir = "/data/lucasjia/projects/nutri/results/multi-nutrient/sub1_rotations/"
 
@@ -532,7 +548,7 @@ if __name__ == "__main__":
     top_p=0.1
     mbr=None
     n=1
-    context = ["protein"]
+    context = None
     results = run_eval( prompt=prompt, 
                         nutrient=nutrient, 
                         method_name=method, 

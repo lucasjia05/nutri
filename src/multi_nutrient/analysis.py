@@ -45,8 +45,8 @@ def get_topk_mae(df, name, k):
 def get_topk_disagreement(dfs, names, k):
     combined_df = combine_dfs(dfs)
     pred_cols = [name + "_pred" for name in names]
-    combined_df["disagreement"] = combined_df[pred_cols].std(axis=1)
-    return combined_df.sort_values(by="disagreement", ascending=False).head(k)
+    combined_df["std"] = combined_df[pred_cols].std(axis=1)
+    return combined_df.sort_values(by="std", ascending=False).head(k)
 
 
 def bar_plot_errors(df, names):

@@ -1633,7 +1633,7 @@ Protein information (6.4g) aligns with half a sandwich, so this estimate is cons
 Output: {"total_fat": 9.3}'''
 
 
-prompt_fat_cot_context_energy = '''For the given query including a meal description, think step by step as follows:
+fat_cot_w_energy2 = '''For the given query including a meal description, think step by step as follows:
 1. Parse the meal description into discrete food or beverage items along with their serving size. If the serving size of any item is not specified, assume it is a single standard serving based on common nutritional guidelines (e.g., USDA).
 2. If the query includes additional known nutrient information (such as total energy in kilocalories), consider this information when estimating the total fat in grams. Use it as supporting context to refine your estimates, but prioritize food-specific fat data when available.
 3. For each food or beverage item, estimate the amount of fat in grams based on its serving size.
@@ -1667,7 +1667,7 @@ The meal consists of 1/2 a peanut butter and jelly sandwich.
 Energy information (202 kcal) aligns with half a sandwich, so this estimate is consistent.
 Output: {"total_fat": 9.3}'''
 
-# ------------------ FAT + CONTEXT PROMPTS ------------------
+# ------------------ PROTEIN + CONTEXT PROMPTS ------------------
 protein_cot_w_carb2 = '''For the given query including a meal description, think step by step as follows:
 1. Parse the meal description into discrete food or beverage items along with their serving size. If the serving size of any item is not specified, assume it is a single standard serving based on common nutritional guidelines (e.g., USDA).
 2. If the query includes additional known nutrient information (such as total carbohydrates in grams), consider this information when estimating the total protein in grams. Use it as supporting context to refine your estimates, but prioritize food-specific protein data when available.
