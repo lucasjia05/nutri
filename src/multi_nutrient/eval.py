@@ -241,20 +241,22 @@ def run_eval(
             thresholds = {"carb" : 7.5, "protein" : 2.0, "fat" : 2.5, "energy" : 50.0},
             # percentage will likely be more informative, probably pass as another argument later
             results_dir="/data/lucasjia/projects/nutri/results/multi_nutrient/",
-            context=None
+            context=None,
+            client=None
             ):
     if nutrient.lower() == "combined":
         return run_combined_eval(prompt=prompt, method_name=method_name, model=model, temp=temp, top_p=top_p, mbr=mbr, n=n, path=path, test_flag=test_flag, save_json=save_json, thresholds=thresholds, results_dir=results_dir)
     
     # OPENAI api
-    load_dotenv()
-    api_key = os.getenv("OPENAI_API_KEY")
-    client = OpenAI(api_key=api_key)
+    if client is None:
+        load_dotenv()
+        api_key = os.getenv("OPENAI_API_KEY")
+        client = OpenAI(api_key=api_key)
 
     data = load_data(path=path)
     if test_flag==True:
         data = data[1:6]
-    elif isinstance(test_flag, int):
+    elif isinstance(test_flag, int) and not isinstance(test_flag, bool):
         k = max(1, min(test_flag, len(data)))
         rng = np.random.default_rng()
         idx = rng.choice(len(data), size=k, replace=False)
@@ -349,17 +351,19 @@ def run_combined_eval(
             save_json=True,
             thresholds = {"carb" : 7.5, "protein" : 2.0, "fat" : 2.5, "energy" : 50.0},
             # percentage will likely be more informative, probably pass as another argument later
-            results_dir="/data/lucasjia/projects/nutri/results/multi_nutrient/"
+            results_dir="/data/lucasjia/projects/nutri/results/multi_nutrient/",
+            client = None
             ):
     
     # load OPENAI api + load data
-    load_dotenv()
-    api_key = os.getenv("OPENAI_API_KEY")
-    client = OpenAI(api_key=api_key)
+    if client is None:
+        load_dotenv()
+        api_key = os.getenv("OPENAI_API_KEY")
+        client = OpenAI(api_key=api_key)
     data = load_data(path=path)
     if test_flag:
         data = data[1:6]
-    elif isinstance(test_flag, int):
+    elif isinstance(test_flag, int) and not isinstance(test_flag, bool):
         k = max(1, min(test_flag, len(data)))
         rng = np.random.default_rng()
         idx = rng.choice(len(data), size=k, replace=False)
