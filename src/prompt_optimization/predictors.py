@@ -15,7 +15,14 @@ class GPT4Predictor(ABC):
 
 
 class RegressionPredictor(GPT4Predictor):
-    def inference(self, ex, prompt):
+    def inference(self, ex, prompt, nutrient="carb", method="base"):
+        prompt = Template(prompt).render(text=ex['text'])
+        response = utils.chatgpt(
+            prompt, max_tokens=4, n=1, timeout=30, 
+            temperature=self.opt['temperature'])[0]
+        pred = utils.clean_output(response, ex, method, nutrient)
+        return pred
+
 
 class BinaryPredictor(GPT4Predictor):
     categories = ['No', 'Yes']

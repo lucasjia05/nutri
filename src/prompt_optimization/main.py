@@ -1,20 +1,21 @@
 import requests
 import os
-import evaluators
 import concurrent.futures
 from tqdm import tqdm
 import time
 import json
 import argparse
+
 import scorers
 import tasks
 import predictors
 import optimizers
+import evaluators
 
 
 def get_task_class(task_name):
-    if task_name == 'nutribench_cot':
-        return
+    if task_name == 'nutribench':
+        return tasks.NutrientTask
     elif task_name == 'liar':
         return tasks.DefaultHFBinaryTask
     else:
@@ -36,10 +37,10 @@ def get_evaluator(evaluator):
 
 
 def get_scorer(scorer):
-    if scorer == '01':
+    if scorer == 'mae':
+        return scorers.CachedMAEScorer
+    elif scorer == '01':
         return scorers.Cached01Scorer
-    elif scorer == 'll':
-        return scorers.CachedLogLikelihoodScorer
     else:
         raise Exception(f'Unsupported scorer: {scorer}')
 
@@ -47,6 +48,7 @@ def get_scorer(scorer):
 def get_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('--task', default='ethos')
+    parser.add_argument('--nutrient', default='carb')
     parser.add_argument('--data_dir', default='data/ethos')
     parser.add_argument('--prompts', default='prompts/ethos.md')
     # parser.add_argument('--config', default='default.json')
@@ -92,14 +94,14 @@ if __name__ == '__main__':
 
     config['eval_budget'] = config['samples_per_eval'] * config['eval_rounds'] * config['eval_prompts_per_round']
     
-    task = get_task_class(args.task)(args.data_dir, args.max_threads)
+    task = get_task_class(args.task)(args.data_dir, args.nutrient, args.max_threads)
     scorer = get_scorer(args.scorer)()
     evaluator = get_evaluator(args.evaluator)(config)
     bf_eval = get_evaluator('bf')(config)
     gpt4 = predictors.BinaryPredictor(config)
 
-    optimizer = optimizers.ProTeGi(
-        config, evaluator, scorer, args.max_threads, bf_eval)
+    # optimizer = optimizers.ProTeGi(
+    #     config, evaluator, scorer, args.max_threads, bf_eval)
 
     train_exs = task.get_train_examples()
     test_exs = task.get_test_examples()
@@ -119,28 +121,28 @@ if __name__ == '__main__':
         start = time.time()
 
         # expand candidates
-        if round > 0:
-            candidates = optimizer.expand_candidates(candidates, task, gpt4, train_exs)
+        # if round > 0:
+        #     candidates = optimizer.expand_candidates(candidates, task, gpt4, train_exs)
 
-        # score candidates
-        scores = optimizer.score_candidates(candidates, task, gpt4, train_exs)
-        [scores, candidates] = list(zip(*sorted(list(zip(scores, candidates)), reverse=True)))
+        # # score candidates
+        # scores = optimizer.score_candidates(candidates, task, gpt4, train_exs)
+        # [scores, candidates] = list(zip(*sorted(list(zip(scores, candidates)), reverse=True)))
 
-        # select candidates
-        candidates = candidates[:config['beam_size']]
-        scores = scores[:config['beam_size']]
+        # # select candidates
+        # candidates = candidates[:config['beam_size']]
+        # scores = scores[:config['beam_size']]
 
-        # record candidates, estimated scores, and true scores
-        with open(args.out, 'a') as outf:
-            outf.write(f"======== ROUND {round}\n")
-            outf.write(f'{time.time() - start}\n')
-            outf.write(f'{candidates}\n')
-            outf.write(f'{scores}\n')
-        metrics = []
-        for candidate, score in zip(candidates, scores):
-            f1, texts, labels, preds = task.evaluate(gpt4, candidate, test_exs, n=args.n_test_exs)
-            metrics.append(f1)
-        with open(args.out, 'a') as outf:  
-            outf.write(f'{metrics}\n')
+        # # record candidates, estimated scores, and true scores
+        # with open(args.out, 'a') as outf:
+        #     outf.write(f"======== ROUND {round}\n")
+        #     outf.write(f'{time.time() - start}\n')
+        #     outf.write(f'{candidates}\n')
+        #     outf.write(f'{scores}\n')
+        # metrics = []
+        # for candidate, score in zip(candidates, scores):
+        #     f1, texts, labels, preds = task.evaluate(gpt4, candidate, test_exs, n=args.n_test_exs)
+        #     metrics.append(f1)
+        # with open(args.out, 'a') as outf:  
+        #     outf.write(f'{metrics}\n')
 
     print("DONE!")
