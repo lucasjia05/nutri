@@ -6,3 +6,4 @@
 dist/
 build/
 results/multi-nutrient/
+.DS_Store
