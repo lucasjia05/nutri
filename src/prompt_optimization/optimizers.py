@@ -20,25 +20,19 @@ class ProTeGi(PromptOptimizer):
     """ ProTeGi: Prompt Optimization with Textual Gradients
     """
     def _sample_error_str(self, texts, labels, preds, task, n=4):
-        """ Sample n error strings from the given texts, labels, and preds"""
-        error_idxs = []
-        for i, (l, p) in enumerate(zip(labels, preds)):
-            if l != p:
-                error_idxs.append(i)
+        """ Sample n highest absolute error strings from the given texts, labels, and preds"""
 
-        sample_idxs = random.sample(error_idxs, min(len(error_idxs), n))
+        errs = [abs(float(l) - float(p)) for l, p in zip(labels, preds)]
+        top_idxs = sorted(range(len(errs)), key=lambda i: errs[i], reverse=True)[:n]
 
-        sample_texts = [texts[i] for i in sample_idxs]
-        sample_labels = [labels[i] for i in sample_idxs]
-        sample_preds = [preds[i] for i in sample_idxs]
         error_string = ''
-        num_errors = 0
-        error_idx = 0
-        for i, (t, l, p) in enumerate(zip(sample_texts, sample_labels, sample_preds)):
-            error_string += f'## Example {error_idx+1}\n'
-            error_string += f'Text: \"{t.strip()}\"\nLabel: {task.stringify_prediction(l)}\nPrediction: {task.stringify_prediction(p)}\n\n'
-            error_idx += 1
+        for k, i in enumerate(top_idxs, 1):
+            error_string += f'## Example {k}\n'
+            error_string += f'Text: "{texts[i].strip()}"\n'
+            error_string += f'Label: {task.stringify_prediction(labels[i])}\n'
+            error_string += f'Prediction: {task.stringify_prediction(preds[i])}\n\n'
         return error_string.strip()
+
 
     def parse_tagged_text(self, text, start_tag, end_tag):
         """ Parse text that is tagged with start and end tags."""
@@ -55,10 +49,10 @@ class ProTeGi(PromptOptimizer):
             text = text[end_index+len(end_tag):]
         return texts
 
-    def _get_gradients(self, prompt, error_string, num_feedbacks=5, n=1):
+    def _get_gradients(self, prompt, error_string, num_feedbacks=5, n=1, model="gpt-4o-mini"):
         """ Get "gradients" for a prompt based on the error string."""
         gradient_prompt = f"""
-        I'm trying to write a zero-shot classifier prompt.
+        I'm trying to write a few-shot nutrition estimation prompt.
     
         My current prompt is:
         "{prompt}"
@@ -70,17 +64,16 @@ class ProTeGi(PromptOptimizer):
         Wrap each reason with <START> and <END>
         """
         gradient_prompt = '\n'.join([line.lstrip() for line in gradient_prompt.split('\n')])
-        res = utils.chatgpt(gradient_prompt, n=n)
+        res = utils.chatgpt(gradient_prompt, n=n, model=model)
         feedbacks = []
-        new_prompts = []
         for r in res:    
             feedbacks += self.parse_tagged_text(r, "<START>", "<END>")
         return feedbacks
 
-    def apply_gradient(self, prompt, error_str, feedback_str, steps_per_gradient, n=1):
+    def apply_gradient(self, prompt, error_str, feedback_str, steps_per_gradient, n=1, model="gpt-4o-mini"):
         """ Incorporate feedback gradient into a prompt."""
         transformation_prompt = f"""
-        I'm trying to write a zero-shot classifier.
+        I'm trying to write a few-shot nutrition estimation prompt.
         
         My current prompt is:
         "{prompt}"
@@ -96,31 +89,31 @@ class ProTeGi(PromptOptimizer):
         The {steps_per_gradient} new prompts are:
         """
         transformation_prompt = '\n'.join([line.lstrip() for line in transformation_prompt.split('\n')])
-        res = utils.chatgpt(transformation_prompt, n=n)
+        res = utils.chatgpt(transformation_prompt, n=n, model=model)
         new_prompts = []
         for r in res:   
             new_prompts += self.parse_tagged_text(r, "<START>", "<END>")
         return new_prompts
 
-    def generate_synonyms(self, prompt_section, n=3):
+    def generate_synonyms(self, prompt_section, n=3, model="gpt-4o-mini"):
         """ Generate synonyms for a prompt section."""
         rewriter_prompt = f"Generate a variation of the following instruction while keeping the semantic meaning.\n\nInput: {prompt_section}\n\nOutput:"
-        new_instructions = utils.chatgpt(rewriter_prompt, n=n)
+        new_instructions = utils.chatgpt(rewriter_prompt, n=n, model=model)
         new_instructions = [x for x in new_instructions if x]
         return new_instructions
 
-    def get_gradients(self, prompt, task_section, task, gpt4, texts, labels, preds):
+    def get_gradients(self, prompt, task_section, task, gpt4, texts, labels, preds, model="gpt-4o-mini"):
         """ Get "gradients" for a prompt based on sampled error strings."""
         prompt_feedbacks = []
         for _ in tqdm(range(self.opt['n_gradients']), total=self.opt['n_gradients'], desc='gradients..'):
             error_string = self._sample_error_str(
                 texts, labels, preds, task, n=self.opt['errors_per_gradient'])
             gradients = self._get_gradients(
-                task_section, error_string, self.opt['gradients_per_error'], n=1)
+                task_section, error_string, self.opt['gradients_per_error'], n=1, model=model)
             prompt_feedbacks += [(t, error_string) for t in gradients]
         return prompt_feedbacks
 
-    def expand_candidates(self, prompts, task, gpt4, train_exs):
+    def expand_candidates(self, prompts, task, gpt4, train_exs, model="gpt-4o-mini"):
         """ Expand a list of prompts by generating gradient-based successors and 
             synonyms for each section.
         """
@@ -128,20 +121,22 @@ class ProTeGi(PromptOptimizer):
 
         new_prompts = []
         for prompt in tqdm(prompts, desc=f'expanding {len(prompts)} prompts'):
-            sections = utils.parse_sectioned_prompt(prompt)
-            task_section = sections['task'].strip()
+            # sections = utils.parse_sectioned_prompt(prompt)
+            # task_section = sections['task'].strip()
+            # this part needs to be cleaned later, remove all the remaining instances of task_section in previous functions, just edit the full prompt instead of just #task section
+            task_section = prompt
 
             # evaluate prompt on minibatch
             _, texts, labels, preds = task.evaluate(gpt4, prompt, minibatch)
 
-            # get gradients
+            # gradient-based rewrites
             new_task_sections = []
             if self.opt['n_gradients'] > 0:
-                gradients = self.get_gradients(prompt, task_section, task, gpt4, texts, labels, preds)
+                gradients = self.get_gradients(prompt, task_section, task, gpt4, texts, labels, preds, model=model)
                 new_task_sections = []
                 for feedback, error_string in tqdm(gradients, desc='applying gradients'):
                     tmp = self.apply_gradient(
-                        task_section, error_string, feedback, self.opt['steps_per_gradient'])
+                        task_section, error_string, feedback, self.opt['steps_per_gradient'], model=model)
                     new_task_sections += tmp
 
             # generate synonyms
@@ -149,10 +144,10 @@ class ProTeGi(PromptOptimizer):
             if self.opt['mc_samples_per_step'] > 0:
                 for sect in tqdm(new_task_sections + [task_section], desc='mc samples'):
                     mc_sects = self.generate_synonyms(
-                        sect, n=self.opt['mc_samples_per_step'])
+                        sect, n=self.opt['mc_samples_per_step'], model=model)
                     mc_sampled_task_sections += mc_sects
 
-            # combine
+            # combine gradient-based rewrites and generated synonym prompts
             new_sections = new_task_sections + mc_sampled_task_sections
             new_sections = list(set(new_sections)) # dedup
             tmp_new_prompts = [

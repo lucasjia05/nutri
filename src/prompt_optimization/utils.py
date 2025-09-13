@@ -89,7 +89,7 @@ def process_gt(x):
         return float(x)
 
 
-
+# to be removed 
 def parse_sectioned_prompt(s):
 
     result = {}
@@ -109,12 +109,12 @@ def parse_sectioned_prompt(s):
     return result
 
 
-def chatgpt(prompt, temperature=0.7, n=1, top_p=1, stop=None, max_tokens=1024, 
+def chatgpt(prompt, model="gpt-4o-mini", temperature=0.7, n=1, top_p=1, stop=None, max_tokens=1024, 
                   presence_penalty=0, frequency_penalty=0, logit_bias={}, timeout=10):
     messages = [{"role": "user", "content": prompt}]
     payload = {
         "messages": messages,
-        "model": "gpt-4o-mini",
+        "model": model,
         "temperature": temperature,
         "n": n,
         "top_p": top_p,
@@ -145,8 +145,3 @@ def chatgpt(prompt, temperature=0.7, n=1, top_p=1, stop=None, max_tokens=1024,
             retries += 1
     r = r.json()
     return [choice['message']['content'] for choice in r['choices']]
-
-
-def instructGPT_logprobs(prompt, temperature=0.7):
-    pass
-
