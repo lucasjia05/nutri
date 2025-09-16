@@ -31,7 +31,10 @@ class DataProcessor(ABC):
 
 # change for other nutrients / methods
 def process_example(ex, predictor, prompt):
-    pred = predictor.inference(ex, prompt)
+    try:
+        pred = predictor.inference(ex, prompt)
+    except Exception:
+        return ex, -1  # catch errors so evaluation continues
     return ex, pred
 
 

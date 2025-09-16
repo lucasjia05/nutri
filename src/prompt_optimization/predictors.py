@@ -15,7 +15,7 @@ class RegressionPredictor(GPT4Predictor):
     def inference(self, ex, prompt, nutrient="carb", method="base"):
         prompt = Template(prompt).render(text=ex['text'])
         response = utils.chatgpt(
-            prompt, max_tokens=1024, n=1, timeout=30, 
+            prompt, model=self.opt['task_model'], max_tokens=2048, n=1, timeout=30, 
             temperature=self.opt['temperature'])[0]
         pred = utils.clean_output(response, ex['text'], method, nutrient)
         return pred

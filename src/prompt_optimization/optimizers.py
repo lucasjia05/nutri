@@ -113,7 +113,7 @@ class ProTeGi(PromptOptimizer):
             prompt_feedbacks += [(t, error_string) for t in gradients]
         return prompt_feedbacks
 
-    def expand_candidates(self, prompts, task, gpt4, train_exs, model="gpt-4o-mini"):
+    def expand_candidates(self, prompts, task, gpt4, train_exs):
         """ Expand a list of prompts by generating gradient-based successors and 
             synonyms for each section.
         """
@@ -121,10 +121,10 @@ class ProTeGi(PromptOptimizer):
 
         new_prompts = []
         for prompt in tqdm(prompts, desc=f'expanding {len(prompts)} prompts'):
-            # sections = utils.parse_sectioned_prompt(prompt)
-            # task_section = sections['task'].strip()
-            # this part needs to be cleaned later, remove all the remaining instances of task_section in previous functions, just edit the full prompt instead of just #task section
-            task_section = prompt
+            sections = utils.parse_sectioned_prompt(prompt)
+            task_section = sections['task'].strip()
+            # this part might be kept or might need to be cleaned later, remove all the remaining instances of task_section in previous functions, just edit the full prompt instead of just #task section
+            # task_section = prompt
 
             # evaluate prompt on minibatch
             _, texts, labels, preds = task.evaluate(gpt4, prompt, minibatch)
@@ -132,11 +132,11 @@ class ProTeGi(PromptOptimizer):
             # gradient-based rewrites
             new_task_sections = []
             if self.opt['n_gradients'] > 0:
-                gradients = self.get_gradients(prompt, task_section, task, gpt4, texts, labels, preds, model=model)
+                gradients = self.get_gradients(prompt, task_section, task, gpt4, texts, labels, preds, model=self.opt['gradient_model'])
                 new_task_sections = []
                 for feedback, error_string in tqdm(gradients, desc='applying gradients'):
                     tmp = self.apply_gradient(
-                        task_section, error_string, feedback, self.opt['steps_per_gradient'], model=model)
+                        task_section, error_string, feedback, self.opt['steps_per_gradient'], model=self.opt['editing_model'])
                     new_task_sections += tmp
 
             # generate synonyms
@@ -144,12 +144,14 @@ class ProTeGi(PromptOptimizer):
             if self.opt['mc_samples_per_step'] > 0:
                 for sect in tqdm(new_task_sections + [task_section], desc='mc samples'):
                     mc_sects = self.generate_synonyms(
-                        sect, n=self.opt['mc_samples_per_step'], model=model)
+                        sect, n=self.opt['mc_samples_per_step'], model=self.opt['synonym_model'])
                     mc_sampled_task_sections += mc_sects
 
             # combine gradient-based rewrites and generated synonym prompts
             new_sections = new_task_sections + mc_sampled_task_sections
             new_sections = list(set(new_sections)) # dedup
+
+            # restitch prompt
             tmp_new_prompts = [
                 prompt.replace(task_section, tmp) 
                 for tmp in new_sections

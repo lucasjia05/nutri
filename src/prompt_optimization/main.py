@@ -40,15 +40,18 @@ def get_scorer(scorer):
 
 
 def get_args():
+
     # task parameters
     parser = argparse.ArgumentParser()
-    parser.add_argument('--task', default='nutri')
+    parser.add_argument('--task', default='nutribench')
     parser.add_argument('--nutrient', default='carb')
+    # parser.add_argument('--method', default='base')
     parser.add_argument('--data_dir', default='data/nutribench_v2')
     parser.add_argument('--prompts', default='prompts/nutri_base.md')
     parser.add_argument('--out', default='test_out.txt')
     parser.add_argument('--task_model', default="gpt-4o-mini", type=str)
     parser.add_argument('--gradient_model', default="gpt-4o-mini", type=str)
+    parser.add_argument('--editing_model', default="gpt-4o-mini", type=str)
     parser.add_argument('--synonym_model', default="gpt-4o-mini", type=str)
     parser.add_argument('--n_test_exs', default=400, type=int)
     # parser.add_argument('--config', default='default.json')
@@ -61,11 +64,11 @@ def get_args():
     parser.add_argument('--optimizer', default='nl-gradient')
 
     parser.add_argument('--minibatch_size', default=64, type=int)
-    parser.add_argument('--n_gradients', default=4, type=int)
-    parser.add_argument('--errors_per_gradient', default=4, type=int)
-    parser.add_argument('--gradients_per_error', default=1, type=int)
-    parser.add_argument('--steps_per_gradient', default=1, type=int)
-    parser.add_argument('--mc_samples_per_step', default=2, type=int)
+    parser.add_argument('--n_gradients', default=4, type=int) # number of times to repeat the gradient generation process
+    parser.add_argument('--errors_per_gradient', default=4, type=int) # errors per gradient round, included in error_string and provided to get_gradients
+    parser.add_argument('--gradients_per_error', default=4, type=int) # number of gradients the model outputs in each call of get_gradients
+    parser.add_argument('--steps_per_gradient', default=1, type=int) # number of new prompts to rewrite for each individual gradient
+    parser.add_argument('--mc_samples_per_step', default=2, type=int) # number of synonyms to generate per rewritten prompt
     parser.add_argument('--max_expansion_factor', default=8, type=int)
 
     parser.add_argument('--evaluator', default="bf", type=str)
@@ -76,12 +79,12 @@ def get_args():
     # calculated by s-sr and sr
     parser.add_argument('--samples_per_eval', default=32, type=int)
     parser.add_argument('--c', default=1.0, type=float, help='exploration param for UCB. higher = more exploration')
-    parser.add_argument('--knn_k', default=2, type=int)
-    parser.add_argument('--knn_t', default=0.993, type=float)
+    # parser.add_argument('--knn_k', default=2, type=int)
+    # parser.add_argument('--knn_t', default=0.993, type=float)
     parser.add_argument('--reject_on_errors', action='store_true') 
     
     # vestigial
-    parser.add_argument('--engine', default="chatgpt", type=str)
+    # parser.add_argument('--engine', default="chatgpt", type=str)
 
     args = parser.parse_args()
 
