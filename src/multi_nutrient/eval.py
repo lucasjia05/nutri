@@ -52,6 +52,8 @@ def get_response(client, prompt, query, method_name, model="gpt-4o-2024-08-06", 
         {"role": "system", "content": prompt},
         {"role": "user", "content": f'Query: {query}\nAnswer: {answer_prompt}'}      
     ]
+    # p = prompt + "\nQuery: " + query + "\nAnswer: "
+    # messages = [{"role" : "user", "content" : p}]
     if "gpt-5" in model:
         response = client.chat.completions.create(
             model=model,
@@ -64,7 +66,7 @@ def get_response(client, prompt, query, method_name, model="gpt-4o-2024-08-06", 
             messages=messages,
             temperature=temp,
             top_p=top_p,
-            n=n
+            n=n,
         )
 
     return [choice.message.content for choice in response.choices]
@@ -538,7 +540,7 @@ if __name__ == "__main__":
     # change these params
     nutrient= "carb"
     prompt = prompt_carb_4o_mini
-    method="base_4o_mini2"
+    method="cot_4o_mini1"
     # model = "gpt-4o-2024-08-06"
     model = "gpt-4o-mini"
     path = "/data/lucasjia/projects/nutri/src/multi_nutrient/nb_sub_laya.csv"
@@ -549,8 +551,8 @@ if __name__ == "__main__":
     thresholds = {"carb" : 7.5, "protein" : 2.0, "fat" : 2.5, "energy" : 50.0}
     results_dir = "/data/lucasjia/projects/nutri/results/multi-nutrient/sub1_gpt4_1/"
 
-    temp=0.1
-    top_p=0.1
+    temp=0
+    top_p=1
     mbr=None
     n=1
     context = None
