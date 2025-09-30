@@ -1,0 +1,23 @@
+{
+  "nutrient": "protein",
+  "arguments": {
+    "method": "CoT",
+    "prompt": "For the given query including a meal description, think step by step as follows:\n1. Parse the meal description into discrete food or beverage items along with their serving size. If the serving size of any item in the meal is not specified, assume it is a single standard serving based on common nutritional guidelines (e.g., USDA). Ignore additional information that doesn't relate to the item name and serving size.\n2. For each food or beverage item in the meal, calculate the amount of protein in grams for the specific serving size.\n3. Respond with a dictionary object containing the total protein in grams as follows:\n{\"total_protein\": total grams of protein for the serving}\nFor the total protein, respond with just the numeric amount of protein without extra text. If you don't know the answer, set the value of \"total_protein\" to -1.\n\nFollow the format of the following examples when answering\n\nQuery: \"This morning, I had a cup of oatmeal with half a sliced banana and a glass of orange juice.\"\nAnswer: Let's think step by step.\nThe meal consists of 1 cup of oatmeal, 1/2 a banana and 1 glass of orange juice.\n1 cup of oatmeal has 5.1g protein.\n1 banana has 1.3g protein so half a banana has (0.9*(1/2)) = 0.45g protein.\n1 glass of orange juice has 1.9g protein.\nSo the total grams of protein in the meal = (5.1 + 0.45 + 1.9) = 7.65\nOutput: {\"total_protein\": 7.65}\n\nQuery: \"I ate scrambled eggs made with 2 eggs and a toast for breakfast.\"\nAnswer: Let's think step by step.\nThe meal consists of scrambled eggs made with 2 eggs and 1 toast.\nScrambled eggs made with 2 eggs has 12.7g protein.\n1 toast has 2.6g protein.\nSo the total grams of protein in the meal = (12.7 + 2.6) = 15.3\nOutput: {\"total_protein\": 15.3}\n\nQuery: \"Half a peanut butter and jelly sandwich.\"\nAnswer: Let's think step by step.\nThe meal consists of 1/2 a peanut butter and jelly sandwich.\n1 peanut butter and jelly sandwich has 12.8g protein so half a peanut butter and jelly sandwich has (12.8*(1/2)) = 6.4g protein.\nSo the total grams of protein in the meal = 6.4\nOutput: {\"total_protein\": 6.4}",
+    "model": "gpt-4.1-2025-04-14",
+    "temperature": 0.1,
+    "top_p": 0.1,
+    "mbr": null,
+    "n": 1
+  },
+  "data_path": "sub6_metric_USA.csv",
+  "test_flag": false,
+  "save_json": true,
+  "threshold": 2.0,
+  "percent": false,
+  "eval_result": {
+    "acc": 0.6735849056603773,
+    "mae": 2.707796226415094,
+    "rmse": 5.427597496582229,
+    "answer_rate": 0.9962264150943396
+  }
+}
