@@ -59,25 +59,27 @@ def get_args():
     # hyperparameters
     parser.add_argument('--max_threads', default=32, type=int)
     parser.add_argument('--temperature', default=0.0, type=float)
-    parser.add_argument('--rounds', default=6, type=int)
+
+    # expansion parameters
+    parser.add_argument('--rounds', default=6, type=int) # default was 6
     parser.add_argument('--beam_size', default=4, type=int)
     parser.add_argument('--optimizer', default='nl-gradient')
-
-    parser.add_argument('--minibatch_size', default=64, type=int)
-    parser.add_argument('--n_gradients', default=4, type=int) # number of times to repeat the gradient generation process
+    parser.add_argument('--minibatch_size', default=64, type=int) 
+    parser.add_argument('--n_gradients', default=1, type=int) # number of times to repeat the gradient generation process (default was 4)
     parser.add_argument('--errors_per_gradient', default=4, type=int) # errors per gradient round, included in error_string and provided to get_gradients
     parser.add_argument('--gradients_per_error', default=4, type=int) # number of gradients the model outputs in each call of get_gradients
     parser.add_argument('--steps_per_gradient', default=1, type=int) # number of new prompts to rewrite for each individual gradient
-    parser.add_argument('--mc_samples_per_step', default=2, type=int) # number of synonyms to generate per rewritten prompt
+    parser.add_argument('--mc_samples_per_step', default=0, type=int) # number of synonyms to generate per rewritten prompt (default was 2)
     parser.add_argument('--max_expansion_factor', default=8, type=int)
 
+    # evaluator parameters
     parser.add_argument('--evaluator', default="bf", type=str)
     parser.add_argument('--scorer', default="mae", type=str)
     parser.add_argument('--eval_rounds', default=8, type=int)
     parser.add_argument('--eval_prompts_per_round', default=8, type=int)
+    parser.add_argument('--samples_per_eval', default=32, type=int)
     
     # calculated by s-sr and sr
-    parser.add_argument('--samples_per_eval', default=32, type=int)
     parser.add_argument('--c', default=1.0, type=float, help='exploration param for UCB. higher = more exploration')
     # parser.add_argument('--knn_k', default=2, type=int)
     # parser.add_argument('--knn_t', default=0.993, type=float)

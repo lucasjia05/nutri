@@ -539,15 +539,15 @@ def query_add_context0(doc, context):
 if __name__ == "__main__":
     # change these params
     nutrient= "carb"
-    prompt = prompt_carb_4o_mini
-    method="cot_4o_mini1"
+    prompt = prompt_carb_4o_mini2
+    method="cot_4o_mini3"
     # model = "gpt-4o-2024-08-06"
     model = "gpt-4o-mini"
-    path = "/data/lucasjia/projects/nutri/src/multi_nutrient/nb_sub_laya.csv"
+    path = "/data/lucasjia/projects/nutri/src/multi_nutrient/nb_v2_test.csv"
     # path = "/data/lucasjia/projects/nutri/src/multi_nutrient/sub4_metric.csv"
     # path = "/data/lucasjia/projects/nutri/src/multi_nutrient/sub5_natural_language.csv"
 
-    test_flag=400
+    test_flag=False
     thresholds = {"carb" : 7.5, "protein" : 2.0, "fat" : 2.5, "energy" : 50.0}
     results_dir = "/data/lucasjia/projects/nutri/results/multi-nutrient/sub1_gpt4_1/"
 

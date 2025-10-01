@@ -15,6 +15,5 @@ Answer: {"total_carbohydrates": 15}
 Query: "Half a peanut butter and jelly sandwich."
 Answer: {"total_carbohydrates": 25.3}
 
-# Prediction
 Query: {{ text }}
 Answer:

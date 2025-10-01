@@ -142,5 +142,7 @@ def chatgpt(prompt, model="gpt-4o-mini", temperature=0.7, n=1, top_p=1, stop=Non
         except requests.exceptions.ReadTimeout:
             time.sleep(1)
             retries += 1
+        if retries > 5:
+            return [""]
     r = r.json()
     return [choice['message']['content'] for choice in r['choices']]
