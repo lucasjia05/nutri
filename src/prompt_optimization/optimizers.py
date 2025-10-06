@@ -22,7 +22,14 @@ class ProTeGi(PromptOptimizer):
     def _sample_error_str(self, texts, labels, preds, task, n=4):
         """ Sample n highest absolute error strings from the given texts, labels, and preds"""
 
-        errs = [abs(float(l) - float(p)) for l, p in zip(labels, preds)]
+        errs = []
+        for l, p in zip(labels, preds):
+            if isinstance(l, list):
+                # average MAE across nutrients
+                err = np.mean([abs(float(x) - float(y)) for x, y in zip(l, p)])
+            else:
+                err = abs(float(l) - float(p))
+            errs.append(err)
         top_idxs = sorted(range(len(errs)), key=lambda i: errs[i], reverse=True)[:n]
 
         error_string = ''

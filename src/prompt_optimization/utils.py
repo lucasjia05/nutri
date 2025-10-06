@@ -109,7 +109,7 @@ def parse_sectioned_prompt(s):
 
 
 def chatgpt(prompt, model="gpt-4o-mini", temperature=0.7, n=1, top_p=1, stop=None, max_tokens=2048, 
-                  presence_penalty=0, frequency_penalty=0, logit_bias={}, timeout=10):
+                  presence_penalty=0, frequency_penalty=0, logit_bias={}, timeout=60):
     messages = [{"role": "user", "content": prompt}]
     payload = {
         "messages": messages,

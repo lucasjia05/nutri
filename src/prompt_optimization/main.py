@@ -128,27 +128,51 @@ if __name__ == '__main__':
         # expand candidates
         if round > 0:
             candidates = optimizer.expand_candidates(candidates, task, gpt4, train_exs)
-
+        
         # score candidates
         scores = optimizer.score_candidates(candidates, task, gpt4, train_exs)
         [scores, candidates] = list(zip(*sorted(list(zip(scores, candidates)), reverse=True)))
-        
 
         # select candidates
         candidates = candidates[:config['beam_size']]
         scores = scores[:config['beam_size']]
 
+        round_time = time.time() - start
+        print(f"Round {round} finished in {round_time:.2f}s")
+
         # record candidates, estimated scores, and true scores
         with open(args.out, 'a') as outf:
-            outf.write(f"======== ROUND {round}\n")
-            outf.write(f'{time.time() - start}\n')
-            outf.write(f'{candidates}\n')
-            outf.write(f'{scores}\n')
+            outf.write(f"======== ROUND {round} ========\n")
+            outf.write(f"Wallclock time: {round_time:.2f}s\n")
+
+            # summary view (just top scores, truncated prompt preview)
+            outf.write("Top candidates (preview):\n")
+            for i, (cand, score) in enumerate(zip(candidates, scores)):
+                preview = cand[:200].replace("\n", " ")  # truncate long prompts
+                outf.write(f"  {i+1:02d}: score={score:.4f}, preview=\"{preview}...\"\n")
+
+            # full raw dump (for later parsing/repro)
+            outf.write("\n-- RAW DATA --\n")
+            outf.write(json.dumps({
+                "candidates": candidates,
+                "scores": scores
+            }, indent=2))
+            outf.write("\n")
+
+        # evaluate each candidate on held-out set
         metrics = []
-        for candidate, score in zip(candidates, scores):
+        for i, (candidate, score) in enumerate(zip(candidates, scores)):
             mae, texts, labels, preds = task.evaluate(gpt4, candidate, test_exs, n=args.n_test_exs)
-            metrics.append(mae)
-        with open(args.out, 'a') as outf:  
-            outf.write(f'{metrics}\n')
+            metrics.append({
+                "rank": i + 1,
+                "beam_score": score,
+                "mae": mae
+            })
+
+        with open(args.out, 'a') as outf:
+            outf.write("Evaluation results:\n")
+            for m in metrics:
+                outf.write(f"  Rank {m['rank']}: score={m['beam_score']:.4f}, MAE={m['mae']:.4f}\n")
+            outf.write("\n")
 
     print("DONE!")
