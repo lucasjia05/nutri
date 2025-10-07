@@ -1,4 +1,4 @@
-{"task": "nutribench", "nutrient": "combined", "data_dir": "data/nutribench_tests", "prompts": "prompts/nutri_combined_base.md", "out": "results/test_run2.out", "task_model": "gpt-4o-mini", "gradient_model": "gpt-4o-mini", "editing_model": "gpt-4o-mini", "synonym_model": "gpt-4o-mini", "n_test_exs": 400, "max_threads": 32, "temperature": 0.0, "rounds": 5, "beam_size": 2, "optimizer": "nl-gradient", "minibatch_size": 64, "n_gradients": 4, "errors_per_gradient": 4, "gradients_per_error": 4, "steps_per_gradient": 1, "mc_samples_per_step": 2, "max_expansion_factor": 8, "evaluator": "ucb", "scorer": "mae", "eval_rounds": 8, "eval_prompts_per_round": 8, "samples_per_eval": 32, "c": 1.0, "reject_on_errors": false, "eval_budget": 2048}
+{"task": "nutribench", "nutrient": "combined", "data_dir": "data/nutribench_tests", "prompts": "prompts/nutri_combined_base.md", "out": "results/test_run2.out", "task_model": "gpt-4o-mini", "gradient_model": "gpt-4o-mini", "editing_model": "gpt-4o-mini", "synonym_model": "gpt-4o-mini", "n_test_exs": 400, "max_threads": 64, "temperature": 0.0, "rounds": 5, "beam_size": 2, "optimizer": "nl-gradient", "minibatch_size": 64, "n_gradients": 2, "errors_per_gradient": 4, "gradients_per_error": 4, "steps_per_gradient": 1, "mc_samples_per_step": 2, "max_expansion_factor": 8, "evaluator": "ucb", "scorer": "mae", "eval_rounds": 8, "eval_prompts_per_round": 8, "samples_per_eval": 16, "c": 1.0, "reject_on_errors": false, "eval_budget": 1024}
 ======== ROUND 0 ========
 Wallclock time: 0.00s
 Top candidates (preview):
@@ -17,36 +17,107 @@ Evaluation results:
   Rank 1: score=1.0000, MAE=105.8277
 
 ======== ROUND 1 ========
-Wallclock time: 539.42s
+Wallclock time: 507.82s
 Top candidates (preview):
-  01: score=1.0000, preview="# Task For the given query including a meal description, calculate the total amounts of carbohydrates (grams), protein (grams), fat (grams), and energy (kilocalories).  If the serving size of any item..."
+  01: score=-1000000.0000, preview="# Task Please analyze the meal description provided below and compute the total quantities of carbohydrates (in grams), protein (in grams), fat (in grams), and energy (in kilocalories). Reference repu..."
+  02: score=-1000000.0000, preview="# Task Input: For the provided meal description, determine the total quantities of carbohydrates (grams), protein (grams), fat (grams), and energy (kilocalories).  If the serving size for any componen..."
 
 -- RAW DATA --
 {
   "candidates": [
-    "# Task\nFor the given query including a meal description, calculate the total amounts of carbohydrates (grams), protein (grams), fat (grams), and energy (kilocalories). \nIf the serving size of any item in the meal is not specified, assume it is a single standard serving based on common nutritional guidelines (e.g., USDA).\nRespond with a dictionary object containing four key-value pairs as follows:\n{\n  \"total_carbohydrates\": total grams of carbohydrates,\n  \"total_protein\": total grams of protein,\n  \"total_fat\": total grams of fat,\n  \"total_energy\": total kilocalories\n}\nFor each value, respond with just the numeric amount without extra text. If you don't know the answer for any value, set it to -1.\n\nQuery: \"This morning, I had a cup of oatmeal with half a sliced banana and a glass of orange juice.\"\nAnswer: {\n  \"total_carbohydrates\": 66.5,\n  \"total_protein\": 7.65,\n  \"total_fat\": 2.14,\n  \"total_energy\": 312\n}\n\nQuery: \"I ate scrambled eggs made with 2 eggs and a toast for breakfast.\"\nAnswer: {\n  \"total_carbohydrates\": 15,\n  \"total_protein\": 15.3,\n  \"total_fat\": 17.5,\n  \"total_energy\": 277.2\n}\n\nQuery: \"Half a peanut butter and jelly sandwich.\"\nAnswer: {\n  \"total_carbohydrates\": 25.3,\n  \"total_protein\": 6.4,\n  \"total_fat\": 9.3,\n  \"total_energy\": 202\n}\n\n# Prediction\nQuery: {{ text }}\nAnswer:"
+    "# Task\nPlease analyze the meal description provided below and compute the total quantities of carbohydrates (in grams), protein (in grams), fat (in grams), and energy (in kilocalories). Reference reputable nutritional databases (such as USDA) for your estimates. If exact nutritional values are not found, make reasonable guesses based on similar food items. In cases where the serving size isn't mentioned, consider it to be a typical serving size.\n\nReturn your results as a dictionary object with four key-value pairs formatted as follows:\n{\n  \"total_carbohydrates\": total grams of carbohydrates,\n  \"total_protein\": total grams of protein,\n  \"total_fat\": total grams of fat,\n  \"total_energy\": total kilocalories\n}\n\nProvide the numeric values directly for each category. If you encounter any challenges estimating a value based on the given description, assign it a value of -1.\n\nQuery: \"I\u2019m having 172.1 grams of fried beef balls in tomato sauce with olive oil for lunch, along with a salad weighing 63.5g made of lettuce and olive oil. I also had oranges totalling 53.4g, 136.6g of potato stew with lamb and olive oil, and finished my meal with 150 grams of white bread.\"\nAnswer: {\n  \"total_carbohydrates\": 131.94,\n  \"total_protein\": 1337.00,\n  \"total_fat\": 72.56,\n  \"total_energy\": 45.17\n}\n\nQuery: \"For lunch, I'm consuming 2.2g of fried chili peppers, 17.4g of steamed chives, and 181.6g of boiled cassava root powder. I also used 71.1g of red palm oil, 8.3g of salt, and 29.2g of smoked fish. Additionally, I added 1.9g of a beef stock cube, 309.1g of boiled sweet potato leaves, and 23.2g of boiled ripe tomatoes.\"\nAnswer: {\n  \"total_carbohydrates\": 77.00,\n  \"total_protein\": 1100.00,\n  \"total_fat\": 77.00,\n  \"total_energy\": 21.60\n}\n\nQuery: \"I have 240 grams of bottled water and a substantial 480-gram chicken, bacon, and tomato club sandwich for lunch.\"\nAnswer: {\n  \"total_carbohydrates\": 95.38,\n  \"total_protein\": 1056.00,\n  \"total_fat\": 38.64,\n  \"total_energy\": 82.51\n}\n\nQuery: \"For my lunch, I'm consuming 322.6g of chicken lasagna, a mixed salad of 97.2g with lettuce, tomatoes, and cucumbers drizzled with lemon, and a 500g cola soft drink.\"\nAnswer: {\n  \"total_carbohydrates\": 93.26,\n  \"total_protein\": 929.00,\n  \"total_fat\": 42.20,\n  \"total_energy\": 45.13\n}\n\nOutput:\n\n# Prediction\nQuery: {{ text }}\nAnswer:",
+    "# Task\nInput: For the provided meal description, determine the total quantities of carbohydrates (grams), protein (grams), fat (grams), and energy (kilocalories).\n\nIf the serving size for any component of the meal is given in grams, utilize that specific weight for your calculations. If no serving size is indicated, assume it is one standard serving based on typical nutritional recommendations (such as those from the USDA).\n\nPlease respond with a dictionary object containing four key-value pairs in the following format:\n{\n\"total_carbohydrates\": total grams of carbohydrates,\n\"total_protein\": total grams of protein,\n\"total_fat\": total grams of fat,\n\"total_energy\": total kilocalories\n}\n\nFor each value, provide only the numerical figure without any additional text. If any value is unknown, assign it a value of -1.\n\nQuery: \"This morning, I had a cup of oatmeal with half a sliced banana and a glass of orange juice.\"\nAnswer: {\n\"total_carbohydrates\": 66.5,\n\"total_protein\": 7.65,\n\"total_fat\": 2.14,\n\"total_energy\": 312\n}\n\nQuery: \"I ate scrambled eggs made with 2 eggs and a toast for breakfast.\"\nAnswer: {\n\"total_carbohydrates\": 15,\n\"total_protein\": 15.3,\n\"total_fat\": 17.5,\n\"total_energy\": 277.2\n}\n\nQuery: \"Half a peanut butter and jelly sandwich.\"\nAnswer: {\n\"total_carbohydrates\": 25.3,\n\"total_protein\": 6.4,\n\"total_fat\": 9.3,\n\"total_energy\": 202\n}\n\nOutput:\n\n# Prediction\nQuery: {{ text }}\nAnswer:"
   ],
   "scores": [
-    1.0
+    -1000000.0,
+    -1000000.0
   ]
 }
 Evaluation results:
-  Rank 1: score=1.0000, MAE=105.8277
+  Rank 1: score=-1000000.0000, MAE=105.8277
+  Rank 2: score=-1000000.0000, MAE=105.8277
 
 ======== ROUND 2 ========
-Wallclock time: 454.42s
+Wallclock time: 3754.87s
 Top candidates (preview):
-  01: score=1.0000, preview="# Task For the given query including a meal description, calculate the total amounts of carbohydrates (grams), protein (grams), fat (grams), and energy (kilocalories).  If the serving size of any item..."
+  01: score=-1000000.0000, preview="# Task Query: "For lunch, I'm having 50g of homemade bread, a 210g cabbage salad, a 310g schnitzel, and 387g of soup with noodles."  # Prediction Query: {{ text }} Answer:..."
+  02: score=-1000000.0000, preview="# Task Query: "For lunch, I had 333.3g of boiled borlotti beans, 240g of drinking water, and 82.4g of fried eggs made from hen eggs. I also included 19.2g of boiled onions, 57.7g of fried onions, and ..."
 
 -- RAW DATA --
 {
   "candidates": [
-    "# Task\nFor the given query including a meal description, calculate the total amounts of carbohydrates (grams), protein (grams), fat (grams), and energy (kilocalories). \nIf the serving size of any item in the meal is not specified, assume it is a single standard serving based on common nutritional guidelines (e.g., USDA).\nRespond with a dictionary object containing four key-value pairs as follows:\n{\n  \"total_carbohydrates\": total grams of carbohydrates,\n  \"total_protein\": total grams of protein,\n  \"total_fat\": total grams of fat,\n  \"total_energy\": total kilocalories\n}\nFor each value, respond with just the numeric amount without extra text. If you don't know the answer for any value, set it to -1.\n\nQuery: \"This morning, I had a cup of oatmeal with half a sliced banana and a glass of orange juice.\"\nAnswer: {\n  \"total_carbohydrates\": 66.5,\n  \"total_protein\": 7.65,\n  \"total_fat\": 2.14,\n  \"total_energy\": 312\n}\n\nQuery: \"I ate scrambled eggs made with 2 eggs and a toast for breakfast.\"\nAnswer: {\n  \"total_carbohydrates\": 15,\n  \"total_protein\": 15.3,\n  \"total_fat\": 17.5,\n  \"total_energy\": 277.2\n}\n\nQuery: \"Half a peanut butter and jelly sandwich.\"\nAnswer: {\n  \"total_carbohydrates\": 25.3,\n  \"total_protein\": 6.4,\n  \"total_fat\": 9.3,\n  \"total_energy\": 202\n}\n\n# Prediction\nQuery: {{ text }}\nAnswer:"
+    "# Task\nQuery: \"For lunch, I'm having 50g of homemade bread, a 210g cabbage salad, a 310g schnitzel, and 387g of soup with noodles.\"\n\n# Prediction\nQuery: {{ text }}\nAnswer:",
+    "# Task\nQuery: \"For lunch, I had 333.3g of boiled borlotti beans, 240g of drinking water, and 82.4g of fried eggs made from hen eggs. I also included 19.2g of boiled onions, 57.7g of fried onions, and 125g of fried potatoes, all fried to perfection, with a bit of 2.7g of safflower oil. I seasoned it with 0.5g of salt and had a 103.8g tortilla made from white maize. Additionally, I used 22.8g of safflower oil while frying the potatoes to enhance the flavor.\"\n\n# Prediction\nQuery: {{ text }}\nAnswer:"
   ],
   "scores": [
-    1.0
+    -1000000.0,
+    -1000000.0
   ]
 }
 Evaluation results:
-  Rank 1: score=1.0000, MAE=105.8277
+  Rank 1: score=-1000000.0000, MAE=105.8277
+  Rank 2: score=-1000000.0000, MAE=105.8277
+
+======== ROUND 3 ========
+Wallclock time: 4572.36s
+Top candidates (preview):
+  01: score=-1000000.0000, preview="# Task Request: For my lunch, I will be consuming 50 grams of homemade bread, a 210-gram cabbage salad, a 310-gram schnitzel, and 387 grams of noodle soup.  Could you please calculate the following nu..."
+  02: score=-1000000.0000, preview="# Task Rephrased Instruction:   Input: "For my lunch, I consumed 333.3g of boiled borlotti beans, 240g of drinking water, and 82.4g of fried hen eggs. Additionally, I added 19.2g of boiled onions, 57...."
+
+-- RAW DATA --
+{
+  "candidates": [
+    "# Task\nRequest: For my lunch, I will be consuming 50 grams of homemade bread, a 210-gram cabbage salad, a 310-gram schnitzel, and 387 grams of noodle soup.\n\nCould you please calculate the following nutritional information (in grams): \n- Calories \n- Protein \n- Carbohydrates \n- Fat \n\nTo assist you, here are a few examples:\n\nExample 1: \"For breakfast, I had 26.8 grams of full-cream milk powder, 5 grams of tea leaves, and 270.3 grams of wheat flour.\"\nEstimated Values: Calories: 216.50, Protein: 1117.00, Carbohydrates: 9.90, Fat: 34.80\n\nExample 2: \"At lunch, I enjoyed a 25-gram piece of bread, a 300-gram grilled pork chop, 387 grams of noodle soup, and a glass of 300 grams of mineral water.\"\nEstimated Values: Calories: 53.40, Protein: 1138.00, Carbohydrates: 59.00, Fat: 93.30\n\nExample 3: \"For a snack, I had 230 grams of orange-flavored drink, 77 grams of water-based bread, 750 grams of atole cereal, and a small piece of green mango weighing 43.5 grams.\"\nEstimated Values: Calories: 176.38, Protein: 882.00, Carbohydrates: 11.42, Fat: 21.11\n\nExample 4: \"During lunch, I consumed 171 grams of boiled fresh groundnuts in their shells and 230 grams of boiled orange sweet potato without skin.\"\nEstimated Values: Calories: 97.80, Protein: 806.00, Carbohydrates: 37.80, Fat: 27.90\n\nNow, using the information from my lunch, please provide your nutritional estimates:\n\n# Prediction\nQuery: {{ text }}\nAnswer:",
+    "# Task\nRephrased Instruction: \n\nInput: \"For my lunch, I consumed 333.3g of boiled borlotti beans, 240g of drinking water, and 82.4g of fried hen eggs. Additionally, I added 19.2g of boiled onions, 57.7g of fried onions, and 125g of perfectly fried potatoes, using 2.7g of safflower oil for cooking. I seasoned the meal with 0.5g of salt and included a 103.8g tortilla made from white maize. To enhance the flavor of the potatoes, I also used 22.8g of safflower oil during frying.\"\n\nPlease compute the estimated nutritional values (calories, protein, carbohydrates, and fats) for the following food items based on the specified weights. Utilize reliable nutritional databases or scientific sources for your calculations. \n\n1. **Food Items:**\n   - Boiled borlotti beans: 333.3g\n   - Fried hen eggs: 82.4g\n   - Boiled onions: 19.2g\n   - Fried onions: 57.7g\n   - Fried potatoes: 125g\n   - Safflower oil: 2.7g + 22.8g\n   - Salt: 0.5g\n   - White maize tortilla: 103.8g\n\n2. **Required Output Format:** \n   - For each food item, present the estimated nutritional values in this sequence:\n     - Calories\n     - Protein (g)\n     - Carbohydrates (g)\n     - Fats (g)\n\nExample Output: \n\"Boiled borlotti beans: [calories, protein, carbohydrates, fat]; Fried hen eggs: [calories, protein, carbohydrates, fat]; ...\"\n\nEnsure that your calculations reflect the total weight of each food item consumed. \n\nOutput:\n\n# Prediction\nQuery: {{ text }}\nAnswer:"
+  ],
+  "scores": [
+    -1000000.0,
+    -1000000.0
+  ]
+}
+Evaluation results:
+  Rank 1: score=-1000000.0000, MAE=105.8277
+  Rank 2: score=-1000000.0000, MAE=105.8277
+
+======== ROUND 4 ========
+Wallclock time: 18723.18s
+Top candidates (preview):
+  01: score=-1000000.0000, preview="# Task Request: For my lunch, I will be consuming 50 grams of homemade bread, a 210-gram cabbage salad, a 310-gram schnitzel, and 387 grams of noodle soup.  Please calculate the following nutritional ..."
+  02: score=-1000000.0000, preview="# Task Request: For my lunch, I will be consuming 50 grams of homemade bread, a 210-gram cabbage salad, a 310-gram schnitzel, and 387 grams of noodle soup.  Could you please calculate the following nu..."
+
+-- RAW DATA --
+{
+  "candidates": [
+    "# Task\nRequest: For my lunch, I will be consuming 50 grams of homemade bread, a 210-gram cabbage salad, a 310-gram schnitzel, and 387 grams of noodle soup.\n\nPlease calculate the following nutritional information (in grams):\n- Calories\n- Protein\n- Carbohydrates\n- Fat\n\nTo assist you, here are some simpler examples that provide clearer context and focus:\n\nExample 1: \"For breakfast, I had 50 grams of oatmeal and 200 grams of skim milk.\"\nEstimated Values: Calories: 210.00, Protein: 12.00, Carbohydrates: 38.00, Fat: 5.00\n\nExample 2: \"At lunch, I enjoyed a 100-gram grilled chicken breast and a 150-gram mixed vegetable salad.\"\nEstimated Values: Calories: 220.00, Protein: 40.00, Carbohydrates: 15.00, Fat: 7.00\n\nExample 3: \"For a snack, I had 30 grams of almonds and a 200-gram apple.\"\nEstimated Values: Calories: 200.00, Protein: 6.00, Carbohydrates: 30.00, Fat: 12.00\n\nExample 4: \"During dinner, I consumed 200 grams of baked salmon and 100 grams of quinoa.\"\nEstimated Values: Calories: 350.00, Protein: 45.00, Carbohydrates: 30.00, Fat: 15.00\n\nNow, using the information from my lunch, please provide your nutritional estimates:\n\n# Prediction\nQuery: {{ text }}\nAnswer:",
+    "# Task\nRequest: For my lunch, I will be consuming 50 grams of homemade bread, a 210-gram cabbage salad, a 310-gram schnitzel, and 387 grams of noodle soup.\n\nCould you please calculate the following nutritional information (in grams): \n- Calories \n- Protein \n- Carbohydrates \n- Fat \n\nTo assist you, here are a few examples:\n\nExample 1: \"For breakfast, I had 26.8 grams of full-cream milk powder, 5 grams of tea leaves, and 270.3 grams of wheat flour.\"\nEstimated Values: Calories: 216.50, Protein: 1117.00, Carbohydrates: 9.90, Fat: 34.80\n\nExample 2: \"At lunch, I enjoyed a 25-gram piece of bread, a 300-gram grilled pork chop, 387 grams of noodle soup, and a glass of 300 grams of mineral water.\"\nEstimated Values: Calories: 53.40, Protein: 1138.00, Carbohydrates: 59.00, Fat: 93.30\n\nExample 3: \"For a snack, I had 230 grams of orange-flavored drink, 77 grams of water-based bread, 750 grams of atole cereal, and a small piece of green mango weighing 43.5 grams.\"\nEstimated Values: Calories: 176.38, Protein: 882.00, Carbohydrates: 11.42, Fat: 21.11\n\nExample 4: \"During lunch, I consumed 171 grams of boiled fresh groundnuts in their shells and 230 grams of boiled orange sweet potato without skin.\"\nEstimated Values: Calories: 97.80, Protein: 806.00, Carbohydrates: 37.80, Fat: 27.90\n\nNow, using the information from my lunch, please provide your nutritional estimates:\n\n# Prediction\nQuery: {{ text }}\nAnswer:"
+  ],
+  "scores": [
+    -1000000.0,
+    -1000000.0
+  ]
+}
+Evaluation results:
+  Rank 1: score=-1000000.0000, MAE=105.8277
+  Rank 2: score=-1000000.0000, MAE=105.8277
+
+======== ROUND 5 ========
+Wallclock time: 2532.60s
+Top candidates (preview):
+  01: score=-1000000.0000, preview="# Task Request: For my midday meal, I will be having the following items: 1. 50 grams of homemade bread 2. 210 grams of cabbage salad 3. 310 grams of schnitzel 4. 387 grams of noodle soup  Kindly calc..."
+  02: score=-1000000.0000, preview="# Task Request: For my lunch, I will be having 50 grams of homemade bread, a 210-gram cabbage salad, a 310-gram schnitzel, and 387 grams of noodle soup.  Could you kindly compute the following nutriti..."
+
+-- RAW DATA --
+{
+  "candidates": [
+    "# Task\nRequest: For my midday meal, I will be having the following items:\n1. 50 grams of homemade bread\n2. 210 grams of cabbage salad\n3. 310 grams of schnitzel\n4. 387 grams of noodle soup\n\nKindly calculate the nutritional information for the entire meal (in grams) as follows:\n- Calories\n- Protein\n- Carbohydrates\n- Fat\n\nTo help you, here are some examples with specified food items and their respective quantities:\n\nExample 1: \nText: \"For breakfast, I had 26.8 grams of full-cream milk powder, 5 grams of tea leaves, and 270.3 grams of wheat flour.\"\nEstimated Values: \n- Calories: 216.50 \n- Protein: 1117.00 \n- Carbohydrates: 9.90 \n- Fat: 34.80\n\nExample 2: \nText: \"At lunch, I enjoyed a 25-gram piece of bread, a 300-gram grilled pork chop, 387 grams of noodle soup, and a glass of 300 grams of mineral water.\"\nEstimated Values: \n- Calories: 53.40 \n- Protein: 1138.00 \n- Carbohydrates: 59.00 \n- Fat: 93.30\n\nExample 3: \nText: \"For a snack, I had 230 grams of orange-flavored drink, 77 grams of water-based bread, 750 grams of atole cereal, and a small piece of green mango weighing 43.5 grams.\"\nEstimated Values: \n- Calories: 176.38 \n- Protein: 882.00 \n- Carbohydrates: 11.42 \n- Fat: 21.11\n\nExample 4: \nText: \"During lunch, I consumed 171 grams of boiled fresh groundnuts in their shells and 230 grams of boiled orange sweet potato without skin.\"\nEstimated Values: \n- Calories: 97.80 \n- Protein: 806.00 \n- Carbohydrates: 37.80 \n- Fat: 27.90\n\nNow, please provide your nutritional estimates based on the details of my lunch.\n\n# Prediction\nQuery: {{ text }}\nAnswer:",
+    "# Task\nRequest: For my lunch, I will be having 50 grams of homemade bread, a 210-gram cabbage salad, a 310-gram schnitzel, and 387 grams of noodle soup.\n\nCould you kindly compute the following nutritional information (in grams):\n- Calories\n- Protein\n- Carbohydrates\n- Fat\n\nTo help you, here are some examples of lunches with similar details:\n\nExample 1: \"For lunch, I had 333 grams of boiled borlotti beans, 82 grams of fried hen eggs, 125 grams of fried potatoes cooked in vegetable oil, 19 grams of boiled onions, and 103 grams of corn tortilla.\"\nEstimated Values: Calories: 279.20, Protein: 1825.00, Carbohydrates: 41.70, Fat: 90.20\n\nExample 2: \"For lunch, I enjoyed a 744-gram serving of a carbonated soft drink, paired with 180 grams of fast-food French fries and a 161-gram fried chicken sandwich with cheese.\"\nEstimated Values: Calories: 191.23, Protein: 1342.59, Carbohydrates: 53.16, Fat: 27.49\n\nExample 3: \"For dinner, I savored 350 grams of Hawaiian Feast Pizza, along with 120 grams of apple green and 0.69 grams of alfalfa sprouts.\"\nEstimated Values: Calories: 109.86, Protein: 1013.00, Carbohydrates: 47.31, Fat: 41.07\n\nExample 4: \"For lunch, I consumed 130 grams of grilled chicken breast, a 620-gram cola, and 243 grams of Spanish rice.\"\nEstimated Values: Calories: 140.07, Protein: 937.45, Carbohydrates: 24.37, Fat: 42.25\n\nNow, based on my lunch information, could you please provide your nutritional estimates?\n\n# Prediction\nQuery: {{ text }}\nAnswer:"
+  ],
+  "scores": [
+    -1000000.0,
+    -1000000.0
+  ]
+}
+Evaluation results:
+  Rank 1: score=-1000000.0000, MAE=105.8277
+  Rank 2: score=-1000000.0000, MAE=105.8277
 

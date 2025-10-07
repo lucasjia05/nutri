@@ -27,35 +27,12 @@ class DataProcessor(ABC):
     def stringify_prediction(self, pred):
         pass
 
-
-
+# change for other nutrients / methods
 def process_example(ex, predictor, prompt):
     try:
-        pred_raw = predictor.inference(ex, prompt)
-
-        # combined nutrient case
-        if isinstance(ex['y'], list):
-            if isinstance(pred_raw, str):
-                # parse comma-separated string
-                parts = [float(x.strip()) for x in pred_raw.split(',')]
-                if len(parts) != 4:
-                    raise ValueError("Expected 4 values for combined prediction")
-                pred = np.array(parts, dtype=float)
-            elif isinstance(pred_raw, list) or isinstance(pred_raw, np.ndarray):
-                pred = np.array(pred_raw, dtype=float)
-            else:
-                raise ValueError("Unexpected prediction format for combined nutrient")
-        else:
-            # single nutrient
-            pred = float(pred_raw)
-
+        pred = predictor.inference(ex, prompt)
     except Exception:
-        # fallback for errors
-        if isinstance(ex['y'], list):
-            pred = np.array([-1]*4, dtype=float)
-        else:
-            pred = -1
-
+        return ex, -1  # catch errors so evaluation continues
     return ex, pred
 
 

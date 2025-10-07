@@ -97,7 +97,6 @@ if __name__ == '__main__':
     config = vars(args)
 
     config['eval_budget'] = config['samples_per_eval'] * config['eval_rounds'] * config['eval_prompts_per_round']
-    
     task = get_task_class(args.task)(args.data_dir, args.nutrient, args.max_threads)
     scorer = get_scorer(args.scorer)()
     evaluator = get_evaluator(args.evaluator)(config)
@@ -120,7 +119,7 @@ if __name__ == '__main__':
         outf.write(json.dumps(config) + '\n')
 
     candidates = [open(fp.strip()).read() for fp in args.prompts.split(',')]
-
+    print("candidates:", candidates)
     for round in tqdm(range(config['rounds'] + 1)):
         print("STARTING ROUND ", round)
         start = time.time()

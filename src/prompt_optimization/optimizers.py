@@ -128,6 +128,7 @@ class ProTeGi(PromptOptimizer):
 
         new_prompts = []
         for prompt in tqdm(prompts, desc=f'expanding {len(prompts)} prompts'):
+            #print("CURRENT PROMPT:", prompt)
             sections = utils.parse_sectioned_prompt(prompt)
             task_section = sections['task'].strip()
             # this part might be kept or might need to be cleaned later, remove all the remaining instances of task_section in previous functions, just edit the full prompt instead of just #task section
@@ -140,11 +141,13 @@ class ProTeGi(PromptOptimizer):
             new_task_sections = []
             if self.opt['n_gradients'] > 0:
                 gradients = self.get_gradients(prompt, task_section, task, gpt4, texts, labels, preds, model=self.opt['gradient_model'])
+                #print("gradient count:", len(gradients))
                 new_task_sections = []
                 for feedback, error_string in tqdm(gradients, desc='applying gradients'):
                     tmp = self.apply_gradient(
                         task_section, error_string, feedback, self.opt['steps_per_gradient'], model=self.opt['editing_model'])
                     new_task_sections += tmp
+                #print("section:", new_task_sections)
 
             # generate synonyms
             mc_sampled_task_sections = []
@@ -156,14 +159,22 @@ class ProTeGi(PromptOptimizer):
 
             # combine gradient-based rewrites and generated synonym prompts
             new_sections = new_task_sections + mc_sampled_task_sections
+            #print("NEW SECTIONS:", new_sections)
             new_sections = list(set(new_sections)) # dedup
+            tmp_new_prompts = []
+            sections = utils.parse_sectioned_prompt(prompt)
 
-            # restitch prompt
-            tmp_new_prompts = [
-                prompt.replace(task_section, tmp) 
-                for tmp in new_sections
-            ]
-            
+            for new_task_text in new_sections:
+                # make a copy of all sections for this variant
+                updated_sections = dict(sections)
+                updated_sections['task'] = new_task_text.strip()
+
+                # rebuild the full prompt from sections
+                new_prompt = ""
+                for header, content in updated_sections.items():
+                    new_prompt += f"# {header.capitalize()}\n{content.strip()}\n\n"
+
+                tmp_new_prompts.append(new_prompt.strip())
             # filter a little
             if len(new_sections) > self.opt['max_expansion_factor']:
                 if self.opt['reject_on_errors']:
@@ -186,7 +197,7 @@ class ProTeGi(PromptOptimizer):
 
         new_prompts += prompts # add originals
         new_prompts = list(set(new_prompts)) # dedup
-
+        #print("NEW PROMPTS:", new_prompts)
         return new_prompts
 
     def score_candidates(self, prompts, task, gpt4, train_exs):
