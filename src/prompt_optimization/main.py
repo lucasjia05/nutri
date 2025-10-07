@@ -73,7 +73,7 @@ def get_args():
     parser.add_argument('--max_expansion_factor', default=8, type=int)
 
     # evaluator parameters
-    parser.add_argument('--evaluator', default="bf", type=str)
+    parser.add_argument('--evaluator', default="ucb", type=str)
     parser.add_argument('--scorer', default="mae", type=str)
     parser.add_argument('--eval_rounds', default=8, type=int)
     parser.add_argument('--eval_prompts_per_round', default=8, type=int)
