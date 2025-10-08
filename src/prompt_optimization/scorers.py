@@ -8,18 +8,14 @@ def predict_on_example(inputs):
     ex, predictor, prompt = inputs
     try:
         pred = predictor.inference(ex, prompt)
-    except Exception:
+    except Exception as e:
         # swallow API/network errors so the ProcessPool doesn't crash
+        print(e)
         return prompt, ex, -1   # sentinel
     return prompt, ex, pred
 
 
-NUTRIENT_WEIGHTS = {
-    "carbs_g": 1.0,
-    "calories_kcal": 1.0,
-    "fat_g": 1.0,
-    "protein_g": 1.0,
-}
+NUTRIENT_WEIGHTS = [1.0, 1.0, 1.0, 1.0]   # carb, energy, fat, protein
 
 class CachedMAEScorer:
     def __init__(self):
@@ -43,42 +39,34 @@ class CachedMAEScorer:
             inputs = [(ex, predictor, prompt) for prompt, ex in prompts_exs]
             with concurrent.futures.ProcessPoolExecutor(max_workers=max_threads) as executor:
                 futures = [executor.submit(predict_on_example, inp) for inp in inputs]
-                for i, future in tqdm(
-                    enumerate(concurrent.futures.as_completed(futures)),
-                    total=len(futures),
-                    desc='4N MAE scorer'
-                ):
-                    prompt, ex, pred_str = future.result()
+                for i, future in tqdm(enumerate(concurrent.futures.as_completed(futures)),
+                                      total=len(futures), desc='MAE scorer'):
+                    prompt, ex, pred = future.result()     
 
-                    # --- Parse prediction JSON safely ---
+                    # --- compute error for single carb value or combined nutrients ---
+                    total_err = 1e6  # default penalty
                     try:
-                        pred = json.loads(pred_str)
-                    except Exception:
-                        # if model output is invalid JSON → assign a big penalty
-                        total_err = 1e6
-                        key = (ex['id'], pids[prompt])
-                        out_scores[key] = -total_err
-                        continue
-
-                    # --- Compute per-nutrient absolute error ---
-                    total_err = 0.0
-                    for nutrient, weight in NUTRIENT_WEIGHTS.items():
-                        if nutrient in pred and nutrient in ex['y']:
-                            try:
-                                pred_val = float(pred[nutrient])
-                                true_val = float(ex['y'][nutrient])
-                                total_err += weight * abs(pred_val - true_val)
-                            except Exception:
-                                total_err += weight * 1e6   # penalty for bad type
+                        # single nutrient case
+                        # print(pred, ex['y'])
+                        if isinstance(ex['y'], (int, float)):
+                            total_err = abs(float(pred) - float(ex['y']))
+                        # combined nutrients case (list of 4)
+                        elif isinstance(ex['y'], list) and isinstance(pred, list) and len(pred) == 4 and len(ex['y']) == 4:
+                            total_err = 0.0
+                            for idx, w in enumerate(NUTRIENT_WEIGHTS):
+                                total_err += w * abs(float(pred[idx]) - float(ex['y'][idx]))
                         else:
-                            total_err += weight * 1e6       # penalty for missing field
+                            total_err = 1e6
+                    except Exception as e:
+                        print(e)
+                        total_err = 1e6
 
                     key = (ex['id'], pids[prompt])
-                    out_scores[key] = -total_err  # negative for "higher is better"
+                    out_scores[key] = -float(total_err)  # negative for "higher is better"
 
             return out_scores
 
-        # --- Use cached scores where possible ---
+        # --- cached scores ---
         cached_scores = defaultdict(list)
         to_compute = []
         for ex in data:
@@ -89,7 +77,7 @@ class CachedMAEScorer:
                 else:
                     to_compute.append((prompt, ex))
         
-        # --- Compute new scores for uncached pairs ---
+        # --- compute new scores ---
         computed = compute_scores(to_compute)  
         for prompt, ex in to_compute:
             key = (ex['id'], pids[prompt])
@@ -97,8 +85,8 @@ class CachedMAEScorer:
             self.cache[key] = val
             cached_scores[prompt].append(val)
 
-        # --- Aggregate per prompt ---
+        # --- aggregate ---
         if agg == 'mean':
             return [np.mean(cached_scores[prompt]) for prompt in prompts]
         else:
-            raise Exception('Unk agg: '+ agg)
+            raise Exception('Unknown aggregation method: ' + agg)

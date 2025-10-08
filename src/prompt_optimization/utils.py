@@ -26,7 +26,29 @@ def clean_output(raw_output, query, method_name, nutrition_name):
         if len(splits) > 1: # split into reasoning and answer part
             raw_output = splits[1]
     raw_output = raw_output.strip()
-    # print(f"Raw output: {raw_output}")
+    if nutrition_name == "combined":
+        # simple case-insensitive regexes (robust to object-like or loose text)
+        patterns = [
+            r'total_carbohydrates["\']?\s*:\s*([-+]?[0-9]*\.?[0-9]+)',
+            r'total_energy["\']?\s*:\s*([-+]?[0-9]*\.?[0-9]+)',
+            r'total_fat["\']?\s*:\s*([-+]?[0-9]*\.?[0-9]+)',
+            r'total_protein["\']?\s*:\s*([-+]?[0-9]*\.?[0-9]+)'
+        ]
+
+        values = []
+        for pat in patterns:
+            m = re.search(pat, raw_output, flags=re.IGNORECASE)
+            if m and is_number(m.group(1)):
+                values.append(float(m.group(1)))
+            else:
+                # fallback: try to find the nth number in the string (if model omitted keys)
+                nums = re.findall(r'[-+]?[0-9]*\.?[0-9]+', raw_output)
+                if len(nums) >= 4:
+                    # assume ordering carb, energy, fat, protein if keys missing
+                    values = [float(x) for x in nums[:4]]
+                    return values
+                values.append(-1.0)
+        return values
     
     # match this pattern to find the total carb estimate
     if nutrition_name == 'fat':

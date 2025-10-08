@@ -1,0 +1,60 @@
+{"task": "nutribench", "nutrient": "combined", "data_dir": "data/nutribench_tests", "prompts": "prompts/nutri_combined_base.md", "out": "results/combined.out", "task_model": "gpt-4o-mini", "gradient_model": "gpt-4o-mini", "editing_model": "gpt-4o-mini", "synonym_model": "gpt-4o-mini", "n_test_exs": 400, "max_threads": 64, "temperature": 0.0, "rounds": 16, "beam_size": 2, "optimizer": "nl-gradient", "minibatch_size": 64, "n_gradients": 4, "errors_per_gradient": 2, "gradients_per_error": 2, "steps_per_gradient": 2, "mc_samples_per_step": 2, "max_expansion_factor": 8, "evaluator": "ucb", "scorer": "mae", "eval_rounds": 8, "eval_prompts_per_round": 8, "samples_per_eval": 16, "c": 1.0, "reject_on_errors": false, "eval_budget": 1024}
+======== ROUND 0 ========
+Wallclock time: 0.00s
+Top candidates (preview):
+  01: score=1.0000, preview="# Task For the given query including a meal description, calculate the total amounts of carbohydrates (grams), protein (grams), fat (grams), and energy (kilocalories).  If the serving size of any item..."
+
+-- RAW DATA --
+{
+  "candidates": [
+    "# Task\nFor the given query including a meal description, calculate the total amounts of carbohydrates (grams), protein (grams), fat (grams), and energy (kilocalories). \nIf the serving size of any item in the meal is not specified, assume it is a single standard serving based on common nutritional guidelines (e.g., USDA).\nRespond with a dictionary object containing four key-value pairs as follows:\n{\n  \"total_carbohydrates\": total grams of carbohydrates,\n  \"total_protein\": total grams of protein,\n  \"total_fat\": total grams of fat,\n  \"total_energy\": total kilocalories\n}\nFor each value, respond with just the numeric amount without extra text. If you don't know the answer for any value, set it to -1.\n\nQuery: \"This morning, I had a cup of oatmeal with half a sliced banana and a glass of orange juice.\"\nAnswer: {\n  \"total_carbohydrates\": 66.5,\n  \"total_protein\": 7.65,\n  \"total_fat\": 2.14,\n  \"total_energy\": 312\n}\n\nQuery: \"I ate scrambled eggs made with 2 eggs and a toast for breakfast.\"\nAnswer: {\n  \"total_carbohydrates\": 15,\n  \"total_protein\": 15.3,\n  \"total_fat\": 17.5,\n  \"total_energy\": 277.2\n}\n\nQuery: \"Half a peanut butter and jelly sandwich.\"\nAnswer: {\n  \"total_carbohydrates\": 25.3,\n  \"total_protein\": 6.4,\n  \"total_fat\": 9.3,\n  \"total_energy\": 202\n}\n\n# Prediction\nQuery: {{ text }}\nAnswer:"
+  ],
+  "scores": [
+    1.0
+  ]
+}
+Evaluation results:
+  Rank 1: score=1.0000, MAE=29.3389
+
+======== ROUND 1 ========
+Wallclock time: 364.27s
+Top candidates (preview):
+  01: score=-145.7972, preview="# Task For the provided meal details, determine the total grams of carbohydrates, protein, fat, and energy in kilocalories. When evaluating the ingredients, take into account typical serving sizes and..."
+  02: score=-146.8927, preview="# Task For the meal descriptions provided, determine the total grams of carbohydrates, protein, fat, and energy in kilocalories. If the serving size for an item is not provided, use a standard serving..."
+
+-- RAW DATA --
+{
+  "candidates": [
+    "# Task\nFor the provided meal details, determine the total grams of carbohydrates, protein, fat, and energy in kilocalories. When evaluating the ingredients, take into account typical serving sizes and nutritional information based on standard recipes. Use the specified serving size if available; if not, default to a standard serving.\n\nPlease return your response in a dictionary format with these key-value pairs:\n{\n\"total_carbohydrates\": total grams of carbohydrates,\n\"total_protein\": total grams of protein,\n\"total_fat\": total grams of fat,\n\"total_energy\": total kilocalories\n}\n\nMake sure each value is solely a numeric figure without extra text. If there isn't sufficient information to provide a precise figure, assign a value of -1.\n\nQuery: \"For breakfast, I\u2019m eating 40g of raw maize flour, a 146g plain bun, and 102g of fritters, along with 12g of dried groundnuts and both 19g of cane sugar and 60g of white sugar.\"\nAnswer: {\n\"total_carbohydrates\": 220.90,\n\"total_protein\": 1277.00,\n\"total_fat\": 35.70,\n\"total_energy\": 22.40\n}\n\nQuery: \"I\u2019ve got 240 grams of bottled water and a 480-gram chicken, bacon, and tomato club sandwich for lunch.\"\nAnswer: {\n\"total_carbohydrates\": 95.38,\n\"total_protein\": 1056.00,\n\"total_fat\": 38.64,\n\"total_energy\": 82.51\n}\n\nOutput:\n\n# Prediction\nQuery: {{ text }}\nAnswer:",
+    "# Task\nFor the meal descriptions provided, determine the total grams of carbohydrates, protein, fat, and energy in kilocalories. If the serving size for an item is not provided, use a standard serving size as suggested by common nutritional guidelines (for example, those from the USDA). For any processed or mixed foods, apply general nutritional estimates while recognizing that actual values may differ depending on preparation techniques or brands.\n\nDeliver your response in the following dictionary format:\n{\n\"total_carbohydrates\": total grams of carbohydrates,\n\"total_protein\": total grams of protein,\n\"total_fat\": total grams of fat,\n\"total_energy\": total kilocalories\n}\nPlease give only the numerical values corresponding to each key, without further elaboration. If a value cannot be determined, use -1.\n\nQuery: \"This morning, I had a cup of oatmeal with half a sliced banana and a glass of orange juice.\"\nAnswer: {\n\"total_carbohydrates\": 66.5,\n\"total_protein\": 7.65,\n\"total_fat\": 2.14,\n\"total_energy\": 312\n}\n\nQuery: \"I ate scrambled eggs made with 2 eggs and a toast for breakfast.\"\nAnswer: {\n\"total_carbohydrates\": 15,\n\"total_protein\": 15.3,\n\"total_fat\": 17.5,\n\"total_energy\": 277.2\n}\n\nQuery: \"Half a peanut butter and jelly sandwich.\"\nAnswer: {\n\"total_carbohydrates\": 25.3,\n\"total_protein\": 6.4,\n\"total_fat\": 9.3,\n\"total_energy\": 202\n}\n\nOutput:\n\n# Prediction\nQuery: {{ text }}\nAnswer:"
+  ],
+  "scores": [
+    -145.7971875,
+    -146.892734375
+  ]
+}
+Evaluation results:
+  Rank 1: score=-145.7972, MAE=29.5119
+  Rank 2: score=-146.8927, MAE=29.3866
+
+======== ROUND 2 ========
+Wallclock time: 730.13s
+Top candidates (preview):
+  01: score=-120.3238, preview="# Task You are a nutrition estimation assistant. For the provided meal details, calculate the total grams of carbohydrates, protein, fat, and energy in kilocalories. Use typical serving sizes and nutr..."
+  02: score=-123.0080, preview="# Task When estimating the nutritional content for the provided meal details, pay close attention to the serving sizes and nutritional information based on reliable sources, especially for popular fas..."
+
+-- RAW DATA --
+{
+  "candidates": [
+    "# Task\nYou are a nutrition estimation assistant. For the provided meal details, calculate the total grams of carbohydrates, protein, fat, and energy in kilocalories. Use typical serving sizes and nutritional information based on standard recipes, and be mindful of variations that may occur due to preparation methods or regional differences. If a specific serving size is provided, use it; otherwise, default to a standard serving size.\n\nIf you do not have enough information to provide precise figures for any of the nutrients, return a value of -1 for that nutrient.\n\nPlease provide your response in the following dictionary format:\n{\n\"total_carbohydrates\": total grams of carbohydrates,\n\"total_protein\": total grams of protein,\n\"total_fat\": total grams of fat,\n\"total_energy\": total kilocalories\n}\n\nQuery: \"For breakfast, I\u2019m eating 40g of raw maize flour, a 146g plain bun, and 102g of fritters, along with 12g of dried groundnuts and both 19g of cane sugar and 60g of white sugar.\"\nAnswer: {\n\"total_carbohydrates\": 220.90,\n\"total_protein\": 1277.00,\n\"total_fat\": 35.70,\n\"total_energy\": 22.40\n}\n\nQuery: \"I\u2019ve got 240 grams of bottled water and a 480-gram chicken, bacon, and tomato club sandwich for lunch.\"\nAnswer: {\n\"total_carbohydrates\": 95.38,\n\"total_protein\": 1056.00,\n\"total_fat\": 38.64,\n\"total_energy\": 82.51\n}\n\nOutput:\n\n# Prediction\nQuery: {{ text }}\nAnswer:",
+    "# Task\nWhen estimating the nutritional content for the provided meal details, pay close attention to the serving sizes and nutritional information based on reliable sources, especially for popular fast food items where variations can be significant. \n\nUse the specified serving size when available; otherwise, default to a standard serving size. Ensure that your calculations reflect accurate nutritional profiles for each ingredient, including variations based on common preparations.\n\nReturn your response in a dictionary format with these key-value pairs:\n{\n\"total_carbohydrates\": total grams of carbohydrates,\n\"total_protein\": total grams of protein,\n\"total_fat\": total grams of fat,\n\"total_energy\": total kilocalories\n}\n\nMake sure each value is a numeric figure without extra text. If you cannot provide a precise figure due to insufficient information, assign a value of -1.\n\nQuery: \"For dinner, I have 212.3g of boiled amaranth leaves, 178g of boiled cassava roots, some fried chili peppers weighing 0.8g, 6.6g of steamed chives, 56.0g of simmered edible insect larvae from termites, 255.0g of raw oranges, 46.1g of red palm oil, 8.3g of salt, 2.6g of beef stock cube, and 33.2g of fried ripe red tomatoes.\"\nAnswer: {\n\"total_carbohydrates\": 102.20,\n\"total_protein\": 1133.00,\n\"total_fat\": 66.00,\n\"total_energy\": 26.30\n}\n\nQuery: \"I just got a 290-gram Whopper with cheese and 180 grams of fast food french fries for lunch.\"\nAnswer: {\n\"total_carbohydrates\": 126.01,\n\"total_protein\": 1338.80,\n\"total_fat\": 72.33,\n\"total_energy\": 45.87\n}\n\n# Prediction\nQuery: {{ text }}\nAnswer:"
+  ],
+  "scores": [
+    -120.32375,
+    -123.00796875
+  ]
+}
+Evaluation results:
+  Rank 1: score=-120.3238, MAE=30.1416
+  Rank 2: score=-123.0080, MAE=32.3788
+

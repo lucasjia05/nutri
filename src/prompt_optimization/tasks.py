@@ -27,14 +27,14 @@ class DataProcessor(ABC):
     def stringify_prediction(self, pred):
         pass
 
-# change for other nutrients / methods
 def process_example(ex, predictor, prompt):
     try:
         pred = predictor.inference(ex, prompt)
+        if not isinstance(pred, list):
+            pred = [pred]
     except Exception:
-        return ex, -1  # catch errors so evaluation continues
+        pred = [-1] * len(ex['y'])
     return ex, pred
-
 
 
 class RegressionTask(DataProcessor):
@@ -81,9 +81,10 @@ class NutrientTask(RegressionTask):
         if self.nutrient == "combined":
             # Return a list of [carb, energy, fat, protein]
             values = [utils.process_gt(row[n]) for n in self.all_nutrients]
-            return values
         else:
-            return utils.process_gt(row[self.nutrient])
+            values = [utils.process_gt(row[self.nutrient])]
+        return values
+
 
     def get_train_examples(self):
         df = pd.read_csv(self.data_dir + '/nb_v2_train.csv')
@@ -101,16 +102,13 @@ class NutrientTask(RegressionTask):
             exs.append({'id': f'test-{i}', 'text': row['queries'], 'y': y})
         return exs
 
+    # needs to be updated so that nutrients get labels
     def stringify_prediction(self, pred):
-        # Override to handle combined case
-        if self.nutrient == "combined":
-            try:
-                vals = [f"{float(x):.2f}" for x in pred]
-                return ", ".join(vals)
-            except Exception:
-                return str(pred)
-        else:
-            return super().stringify_prediction(pred)
+        try:
+            vals = [f"{float(x):.2f}" for x in pred]
+            return ", ".join(vals)
+        except Exception:
+            return str(pred)
 
     def run_evaluate(self, predictor, prompt, test_exs, n=100):
         gt = []
@@ -125,15 +123,8 @@ class NutrientTask(RegressionTask):
                 gt.append(ex['y'])
                 preds.append(pred)
 
-        if self.nutrient == "combined":
-            # Convert to arrays shape (N, 4)
-            gt_arr = np.array(gt, dtype=float)
-            pred_arr = np.array(preds, dtype=float)
-            # Mean absolute error averaged over 4 nutrients
-            mae = float(np.mean(np.abs(gt_arr - pred_arr)))
-        else:
-            gt_arr = np.array(gt, dtype=float)
-            pred_arr = np.array(preds, dtype=float)
-            mae = float(np.mean(np.abs(gt_arr - pred_arr)))
+        gt_arr = np.array(gt, dtype=float)
+        pred_arr = np.array(preds, dtype=float)
+        mae = float(np.mean(np.abs(gt_arr - pred_arr)))
 
         return mae, texts, gt, preds

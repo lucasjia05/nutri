@@ -119,7 +119,6 @@ if __name__ == '__main__':
         outf.write(json.dumps(config) + '\n')
 
     candidates = [open(fp.strip()).read() for fp in args.prompts.split(',')]
-    print("candidates:", candidates)
     for round in tqdm(range(config['rounds'] + 1)):
         print("STARTING ROUND ", round)
         start = time.time()

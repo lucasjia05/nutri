@@ -16,7 +16,7 @@ class RegressionPredictor(GPT4Predictor):
         if nutrient is None:
             nutrient = "carb"
         # detect combined automatically
-        if isinstance(ex['y'], list):
+        if isinstance(ex['y'], list) and len(ex['y']) == 4:
             nutrient = "combined"
 
         # fill in the template
@@ -30,13 +30,6 @@ class RegressionPredictor(GPT4Predictor):
             temperature=self.opt['temperature']
         )[0]
 
-        if nutrient == "combined":
-            # split the response into a list of 4 floats
-            try:
-                pred = [float(x.strip()) for x in response.split(',')]
-            except:
-                pred = [-1] * 4
-        else:
-            pred = utils.clean_output(response, ex['text'], method, nutrient)
+        pred = utils.clean_output(response, ex['text'], method, nutrient)
 
         return pred

@@ -24,11 +24,7 @@ class ProTeGi(PromptOptimizer):
 
         errs = []
         for l, p in zip(labels, preds):
-            if isinstance(l, list):
-                # average MAE across nutrients
-                err = np.mean([abs(float(x) - float(y)) for x, y in zip(l, p)])
-            else:
-                err = abs(float(l) - float(p))
+            err = np.mean([abs(float(x) - float(y)) for x, y in zip(l, p)])
             errs.append(err)
         top_idxs = sorted(range(len(errs)), key=lambda i: errs[i], reverse=True)[:n]
 
