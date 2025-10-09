@@ -58,3 +58,24 @@ Evaluation results:
   Rank 1: score=-120.3238, MAE=30.1416
   Rank 2: score=-123.0080, MAE=32.3788
 
+======== ROUND 3 ========
+Wallclock time: 5937.03s
+Top candidates (preview):
+  01: score=-134.0801, preview="# Task You are tasked with estimating nutritional values. For the meal details you provide, compute the total amounts of carbohydrates, protein, fat, and energy expressed in kilocalories. Utilize stan..."
+  02: score=-148.7491, preview="# Task When calculating the nutritional content for the specified meal components, focus on precise serving sizes and nutritional information derived from reliable sources, particularly taking into ac..."
+
+-- RAW DATA --
+{
+  "candidates": [
+    "# Task\nYou are tasked with estimating nutritional values. For the meal details you provide, compute the total amounts of carbohydrates, protein, fat, and energy expressed in kilocalories. Utilize standard serving sizes and nutritional data derived from typical recipes, while taking into account changes from cooking methods, types of ingredients, and local variations. If a specific serving size is mentioned, use that; if not, revert to standard serving sizes.\n\nShould you be unable to determine precise values for any nutrient, assign a value of -1 for that nutrient. Include a comprehensive explanation of your calculation process, outlining any assumptions made regarding preparation and cooking methods.\n\nPlease present your findings in the following format:\n{\n\"total_carbohydrates\": total grams of carbohydrates,\n\"total_protein\": total grams of protein,\n\"total_fat\": total grams of fat,\n\"total_energy\": total kilocalories,\n\"calculation_details\": breakdown of the calculation process\n}\n\nQuery: \"For lunch, I had 333.3g of boiled borlotti beans, 240g of drinking water, and 82.4g of fried eggs made from hen eggs. I also included 19.2g of boiled onions, 57.7g of fried onions, and 125g of fried potatoes, all fried to perfection, with a bit of 2.7g of safflower oil. I seasoned it with 0.5g of salt and had a 103.8g tortilla made from white maize. Additionally, I used 22.8g of safflower oil while frying the potatoes to enhance the flavor.\"\nAnswer: {\n\"total_carbohydrates\": 279.20,\n\"total_protein\": 1825.00,\n\"total_fat\": 41.70,\n\"total_energy\": 90.20,\n\"calculation_details\": \"Values were calculated based on standard nutritional information for each ingredient, considering the impact of frying and cooking methods on the final nutrient content.\"\n}\n\n# Prediction\nQuery: {{ text }}\nAnswer:",
+    "# Task\nWhen calculating the nutritional content for the specified meal components, focus on precise serving sizes and nutritional information derived from reliable sources, particularly taking into account cooking methods (such as frying, boiling, or roasting) which can greatly influence nutritional values.\n\nUse the provided serving sizes; if none are given, revert to standard serving sizes for your calculations. Ensure that your results accurately reflect the nutritional profiles of each ingredient while considering typical cooking techniques and variations.\n\nPresent your output in a dictionary format with the following key-value pairs:\n{\n\"total_carbohydrates\": total grams of carbohydrates,\n\"total_protein\": total grams of protein,\n\"total_fat\": total grams of fat,\n\"total_energy\": total kilocalories\n}\n\nEnsure that each value is a numeric figure without any additional text. If you cannot determine a specific figure due to insufficient information, use a value of -1.\n\nQuery: \"This morning, I\u2019m eating 119g of white maize flour, 39g of boiled beef, 78g of roasted groundnuts, and 234g of fresh boiled yellow sweet potato.\"\nAnswer: {\n\"total_carbohydrates\": 170.80,\n\"total_protein\": 1266.00,\n\"total_fat\": 51.30,\n\"total_energy\": 41.90\n}\n\n# Prediction\nQuery: {{ text }}\nAnswer:"
+  ],
+  "scores": [
+    -134.08010416666667,
+    -148.749125
+  ]
+}
+Evaluation results:
+  Rank 1: score=-134.0801, MAE=28.0632
+  Rank 2: score=-148.7491, MAE=32.2316
+
