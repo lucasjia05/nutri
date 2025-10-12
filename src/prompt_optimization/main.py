@@ -88,6 +88,9 @@ def get_args():
     # vestigial
     # parser.add_argument('--engine', default="chatgpt", type=str)
 
+    # patience
+    parser.add_argument('--patience', default=8, type=int)
+
     args = parser.parse_args()
 
     return args
@@ -120,7 +123,12 @@ if __name__ == '__main__':
     with open(args.out, 'a') as outf:
         outf.write(json.dumps(config) + '\n')
 
+
     candidates = [open(fp.strip()).read() for fp in args.prompts.split(',')]
+
+    best_mae = float('inf')
+    rounds_without_improvement = 0
+
     for round in tqdm(range(config['rounds'] + 1)):
         print("STARTING ROUND ", round)
         start = time.time()
@@ -174,5 +182,20 @@ if __name__ == '__main__':
             for m in metrics:
                 outf.write(f"  Rank {m['rank']}: score={m['beam_score']:.4f}, MAE={m['mae']:.4f}\n")
             outf.write("\n")
+            
+        # --- EARLY STOPPING LOGIC ---
+        current_best_mae = min(m['mae'] for m in metrics)
+        if current_best_mae < best_mae:
+            best_mae = current_best_mae
+            rounds_without_improvement = 0
+        else:
+            rounds_without_improvement += 1
+
+        if rounds_without_improvement >= args.patience:
+            print(f"Early stopping triggered after {args.patience} rounds without improvement.")
+            with open(args.out, 'a') as outf:
+                outf.write(f"Early stopping after {round} rounds "
+                        f"(no improvement for {args.patience} rounds).\n")
+            break
 
     print("DONE!")

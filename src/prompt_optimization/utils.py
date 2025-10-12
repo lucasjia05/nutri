@@ -18,7 +18,7 @@ def is_number(s):
     except ValueError:
         return False
 
-
+# this function returns a float (single nutrient) or list of 4 floats (combined nutrients), which doesn't really make any sense but whatever
 def clean_output(raw_output, query, method_name, nutrition_name):
     if "cot" in method_name.lower():
         # discard all output which is part of the reasoning process

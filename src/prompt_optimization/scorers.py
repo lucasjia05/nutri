@@ -47,14 +47,16 @@ class CachedMAEScorer:
                     total_err = 1e6  # default penalty
                     try:
                         # single nutrient case
-                        # print(pred, ex['y'])
-                        if isinstance(ex['y'], (int, float)):
-                            total_err = abs(float(pred) - float(ex['y']))
+                        # print(pred, ex['y'])                            
                         # combined nutrients case (list of 4)
-                        elif isinstance(ex['y'], list) and isinstance(pred, list) and len(pred) == 4 and len(ex['y']) == 4:
+                        if isinstance(ex['y'], list) and isinstance(pred, list) and len(pred) == 4 and len(ex['y']) == 4:
                             total_err = 0.0
                             for idx, w in enumerate(NUTRIENT_WEIGHTS):
                                 total_err += w * abs(float(pred[idx]) - float(ex['y'][idx]))
+                                # will both lists here
+                        elif isinstance(ex['y'], list) and isinstance(pred, float) and len(ex['y']) == 1:
+                            total_err = abs(float(pred) - float(ex['y'][0]))
+                            # one is a list, the other is a float, should be the same
                         else:
                             total_err = 1e6
                     except Exception as e:
