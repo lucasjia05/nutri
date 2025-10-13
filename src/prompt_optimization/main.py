@@ -153,12 +153,6 @@ if __name__ == '__main__':
             outf.write(f"======== ROUND {round} ========\n")
             outf.write(f"Wallclock time: {round_time:.2f}s\n")
 
-            # summary view (just top scores, truncated prompt preview)
-            outf.write("Top candidates (preview):\n")
-            for i, (cand, score) in enumerate(zip(candidates, scores)):
-                preview = cand[:200].replace("\n", " ")  # truncate long prompts
-                outf.write(f"  {i+1:02d}: score={score:.4f}, preview=\"{preview}...\"\n")
-
             # full raw dump (for later parsing/repro)
             outf.write("\n-- RAW DATA --\n")
             outf.write(json.dumps({
