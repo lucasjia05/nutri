@@ -45,7 +45,7 @@ def get_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('--task', default='nutribench')
     parser.add_argument('--nutrient', default='carb')
-    # parser.add_argument('--method', default='base')
+    parser.add_argument('--method', default='base')
     parser.add_argument('--data_dir', default='data/nutribench_v2')
     parser.add_argument('--prompts', default='prompts/nutri_base.md')
     parser.add_argument('--out', default='test_out.txt')

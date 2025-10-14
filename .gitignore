@@ -7,3 +7,4 @@ dist/
 build/
 results/multi-nutrient/
 .DS_Store
+/src/prompt_optimization/results/
