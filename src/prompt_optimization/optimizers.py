@@ -22,10 +22,7 @@ class ProTeGi(PromptOptimizer):
     def _sample_error_str(self, texts, labels, preds, task, n=4):
         """ Sample n highest absolute error strings from the given texts, labels, and preds"""
 
-        errs = []
-        for l, p in zip(labels, preds):
-            err = np.mean([abs(float(x) - float(y)) for x, y in zip(l, p)])
-            errs.append(err)
+        errs = [abs(float(l) - float(p)) for l, p in zip(labels, preds)]
         top_idxs = sorted(range(len(errs)), key=lambda i: errs[i], reverse=True)[:n]
 
         error_string = ''
@@ -97,6 +94,34 @@ class ProTeGi(PromptOptimizer):
         for r in res:   
             new_prompts += self.parse_tagged_text(r, "<START>", "<END>")
         return new_prompts
+    
+    def generate_examples(self, new_task_section, prev_examples, error_str, feedback_str, n=1, model="gpt-4o-mini"):
+        generate_examples_prompt = f"""
+        You are helping improve a few-shot prompt for a nutrition estimation task.
+        
+        My previous prompt had these examples:
+        "{prev_examples}"
+
+        However, the following queries were answered incorrectly:
+        {error_str}
+
+        Analysis of these errors suggests:
+        {feedback_str}
+
+        A revised version of the main task instructions is:
+        {new_task_section}
+
+        Using the updated instructions, please create new few-shot examples that:
+        - Follow the structure and reasoning style described in the revised task.
+        - Address the weaknesses identified above.
+        - Demonstrate correct reasoning and clear adherence to the updated prompt.
+        - Include both the input (query) and output in the same format as the intended prompt.
+
+        Provide only the new examples—do not repeat the instructions or analysis.
+        """
+        generate_examples_prompt = '\n'.join([line.lstrip() for line in generate_examples_prompt.split('\n')])
+        new_examples = utils.chatgpt(generate_examples_prompt, n=n, model=model)
+        return new_examples[0]
 
     def generate_synonyms(self, prompt_section, n=3, model="gpt-4o-mini"):
         """ Generate synonyms for a prompt section."""
@@ -124,26 +149,29 @@ class ProTeGi(PromptOptimizer):
 
         new_prompts = []
         for prompt in tqdm(prompts, desc=f'expanding {len(prompts)} prompts'):
-            #print("CURRENT PROMPT:", prompt)
             sections = utils.parse_sectioned_prompt(prompt)
             task_section = sections['task'].strip()
-            # this part might be kept or might need to be cleaned later, remove all the remaining instances of task_section in previous functions, just edit the full prompt instead of just #task section
-            # task_section = prompt
+            examples_section = sections['examples'].strip()
+            
 
             # evaluate prompt on minibatch
             _, texts, labels, preds = task.evaluate(gpt4, prompt, minibatch)
 
             # gradient-based rewrites
+            tmp_new_prompts = []
             new_task_sections = []
             if self.opt['n_gradients'] > 0:
                 gradients = self.get_gradients(prompt, task_section, task, gpt4, texts, labels, preds, model=self.opt['gradient_model'])
-                #print("gradient count:", len(gradients))
-                new_task_sections = []
                 for feedback, error_string in tqdm(gradients, desc='applying gradients'):
+                    # task section rewrite
                     tmp = self.apply_gradient(
                         task_section, error_string, feedback, self.opt['steps_per_gradient'], model=self.opt['editing_model'])
                     new_task_sections += tmp
-                #print("section:", new_task_sections)
+                    # examples section rewrite
+                    for t in tmp:
+                        ex = self.generate_examples(
+                            t, examples_section, error_string, feedback, model=self.opt['editing_model'])
+                        tmp_new_prompts.append(prompt.replace(task_section, t).replace(examples_section, ex))
 
             # generate synonyms
             mc_sampled_task_sections = []
@@ -154,23 +182,16 @@ class ProTeGi(PromptOptimizer):
                     mc_sampled_task_sections += mc_sects
 
             # combine gradient-based rewrites and generated synonym prompts
-            new_sections = new_task_sections + mc_sampled_task_sections
-            #print("NEW SECTIONS:", new_sections)
+            # new_sections = new_task_sections + mc_sampled_task_sections
+            new_sections = mc_sampled_task_sections
             new_sections = list(set(new_sections)) # dedup
-            tmp_new_prompts = []
-            sections = utils.parse_sectioned_prompt(prompt)
 
-            for new_task_text in new_sections:
-                # make a copy of all sections for this variant
-                updated_sections = dict(sections)
-                updated_sections['task'] = new_task_text.strip()
-
-                # rebuild the full prompt from sections
-                new_prompt = ""
-                for header, content in updated_sections.items():
-                    new_prompt += f"# {header.capitalize()}\n{content.strip()}\n\n"
-
-                tmp_new_prompts.append(new_prompt.strip())
+            # restitch prompt
+            tmp_new_prompts += [
+                prompt.replace(task_section, tmp) 
+                for tmp in new_sections
+            ]
+            
             # filter a little
             if len(new_sections) > self.opt['max_expansion_factor']:
                 if self.opt['reject_on_errors']:
@@ -193,7 +214,7 @@ class ProTeGi(PromptOptimizer):
 
         new_prompts += prompts # add originals
         new_prompts = list(set(new_prompts)) # dedup
-        #print("NEW PROMPTS:", new_prompts)
+
         return new_prompts
 
     def score_candidates(self, prompts, task, gpt4, train_exs):

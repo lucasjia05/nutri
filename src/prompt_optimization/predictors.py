@@ -12,24 +12,10 @@ class GPT4Predictor(ABC):
 
 
 class RegressionPredictor(GPT4Predictor):
-    def inference(self, ex, prompt, nutrient=None, method="base"):
-        if nutrient is None:
-            nutrient = "carb"
-        # detect combined automatically
-        if isinstance(ex['y'], list) and len(ex['y']) == 4:
-            nutrient = "combined"
-
-        # fill in the template
-        prompt_filled = Template(prompt).render(text=ex['text'])
+    def inference(self, ex, prompt, nutrient="carb", method="base"):
+        prompt = Template(prompt).render(text=ex['text'])
         response = utils.chatgpt(
-            prompt_filled,
-            model=self.opt['task_model'],
-            max_tokens=2048,
-            n=1,
-            timeout=30,
-            temperature=self.opt['temperature']
-        )[0]
-
+            prompt, model=self.opt['task_model'], max_tokens=2048, n=1, timeout=30, 
+            temperature=self.opt['temperature'])[0]
         pred = utils.clean_output(response, ex['text'], method, nutrient)
-
         return pred

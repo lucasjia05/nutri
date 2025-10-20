@@ -45,7 +45,7 @@ def get_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('--task', default='nutribench')
     parser.add_argument('--nutrient', default='carb')
-    # parser.add_argument('--method', default='base')
+    parser.add_argument('--method', default='base')
     parser.add_argument('--data_dir', default='data/nutribench_v2')
     parser.add_argument('--prompts', default='prompts/nutri_base.md')
     parser.add_argument('--out', default='test_out.txt')
@@ -88,9 +88,6 @@ def get_args():
     # vestigial
     # parser.add_argument('--engine', default="chatgpt", type=str)
 
-    # patience
-    parser.add_argument('--patience', default=8, type=int)
-
     args = parser.parse_args()
 
     return args
@@ -102,6 +99,7 @@ if __name__ == '__main__':
     config = vars(args)
 
     config['eval_budget'] = config['samples_per_eval'] * config['eval_rounds'] * config['eval_prompts_per_round']
+    
     task = get_task_class(args.task)(args.data_dir, args.nutrient, args.max_threads)
     scorer = get_scorer(args.scorer)()
     evaluator = get_evaluator(args.evaluator)(config)
@@ -123,11 +121,7 @@ if __name__ == '__main__':
     with open(args.out, 'a') as outf:
         outf.write(json.dumps(config) + '\n')
 
-
     candidates = [open(fp.strip()).read() for fp in args.prompts.split(',')]
-
-    best_mae = float('inf')
-    rounds_without_improvement = 0
 
     for round in tqdm(range(config['rounds'] + 1)):
         print("STARTING ROUND ", round)
@@ -136,60 +130,27 @@ if __name__ == '__main__':
         # expand candidates
         if round > 0:
             candidates = optimizer.expand_candidates(candidates, task, gpt4, train_exs)
-        
+
         # score candidates
         scores = optimizer.score_candidates(candidates, task, gpt4, train_exs)
         [scores, candidates] = list(zip(*sorted(list(zip(scores, candidates)), reverse=True)))
+        
 
         # select candidates
         candidates = candidates[:config['beam_size']]
         scores = scores[:config['beam_size']]
 
-        round_time = time.time() - start
-        print(f"Round {round} finished in {round_time:.2f}s")
-
         # record candidates, estimated scores, and true scores
         with open(args.out, 'a') as outf:
-            outf.write(f"======== ROUND {round} ========\n")
-            outf.write(f"Wallclock time: {round_time:.2f}s\n")
-
-            # full raw dump (for later parsing/repro)
-            outf.write("\n-- RAW DATA --\n")
-            outf.write(json.dumps({
-                "candidates": candidates,
-                "scores": scores
-            }, indent=2))
-            outf.write("\n")
-
-        # evaluate each candidate on held-out set
+            outf.write(f"======== ROUND {round}\n")
+            outf.write(f'{time.time() - start}\n')
+            outf.write(f'{candidates}\n')
+            outf.write(f'{scores}\n')
         metrics = []
-        for i, (candidate, score) in enumerate(zip(candidates, scores)):
+        for candidate, score in zip(candidates, scores):
             mae, texts, labels, preds = task.evaluate(gpt4, candidate, test_exs, n=args.n_test_exs)
-            metrics.append({
-                "rank": i + 1,
-                "beam_score": score,
-                "mae": mae
-            })
-
-        with open(args.out, 'a') as outf:
-            outf.write("Evaluation results:\n")
-            for m in metrics:
-                outf.write(f"  Rank {m['rank']}: score={m['beam_score']:.4f}, MAE={m['mae']:.4f}\n")
-            outf.write("\n")
-            
-        # --- EARLY STOPPING LOGIC ---
-        current_best_mae = min(m['mae'] for m in metrics)
-        if current_best_mae < best_mae:
-            best_mae = current_best_mae
-            rounds_without_improvement = 0
-        else:
-            rounds_without_improvement += 1
-
-        if rounds_without_improvement >= args.patience:
-            print(f"Early stopping triggered after {args.patience} rounds without improvement.")
-            with open(args.out, 'a') as outf:
-                outf.write(f"Early stopping after {round} rounds "
-                        f"(no improvement for {args.patience} rounds).\n")
-            break
+            metrics.append(mae)
+        with open(args.out, 'a') as outf:  
+            outf.write(f'{metrics}\n')
 
     print("DONE!")
