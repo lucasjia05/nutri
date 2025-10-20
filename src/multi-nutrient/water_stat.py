@@ -3,7 +3,7 @@ from scipy import stats
 import numpy as np
 
 # ---------------- CONFIG ----------------
-nutrient = "protein"  # Change this to "fat", "energy", or "protein" as needed
+nutrient = "protein"
 
 file_without = "../../../nutri/results/multi-nutrient/sub9_no_water/samples_protein_base_20250901_012255.jsonl"  # without water
 file_with = "../../../nutri/results/multi-nutrient/sub10_water/samples_protein_base_20250901_013225.jsonl"      # with water
