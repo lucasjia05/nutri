@@ -24,4 +24,4 @@ df_with_water["queries"] = df_with_water["queries"].str.rstrip(".") + ", and 507
 subset.to_csv("sub9_no_water.csv", index=False)
 df_with_water.to_csv("sub10_with_water.csv", index=False)
 
-print(f"✅ Saved {sample_size} rows in sub9_no_water.csv and {sample_size} rows in sub9_with_water.csv (corresponding rows)")
+print(f"Saved {sample_size} rows in sub9_no_water.csv and {sample_size} rows in sub9_with_water.csv (corresponding rows)")

@@ -1,0 +1,144 @@
+{"task": "nutribench", "nutrient": "combined", "data_dir": "data/nutribench_tests", "prompts": "prompts/nutri_combined_base.md", "out": "results/combined5.out", "task_model": "gpt-4o-mini", "gradient_model": "gpt-4o-mini", "editing_model": "gpt-4o-mini", "synonym_model": "gpt-4o-mini", "n_test_exs": 400, "max_threads": 64, "temperature": 0.0, "rounds": 16, "beam_size": 2, "optimizer": "nl-gradient", "minibatch_size": 64, "n_gradients": 4, "errors_per_gradient": 2, "gradients_per_error": 2, "steps_per_gradient": 2, "mc_samples_per_step": 2, "max_expansion_factor": 8, "evaluator": "ucb", "scorer": "mae", "eval_rounds": 8, "eval_prompts_per_round": 8, "samples_per_eval": 16, "c": 1.0, "reject_on_errors": false, "eval_budget": 1024}
+======== ROUND 0 ========
+Wallclock time: 0.00s
+Top candidates (preview):
+  01: score=1.0000, preview="# Task For the given query including a meal description, calculate the total amounts of carbohydrates (grams), protein (grams), fat (grams), and energy (kilocalories).  If the serving size of any item..."
+
+-- RAW DATA --
+{
+  "candidates": [
+    "# Task\nFor the given query including a meal description, calculate the total amounts of carbohydrates (grams), protein (grams), fat (grams), and energy (kilocalories). \nIf the serving size of any item in the meal is not specified, assume it is a single standard serving based on common nutritional guidelines (e.g., USDA).\nRespond with a dictionary object containing four key-value pairs as follows:\n{\n  \"total_carbohydrates\": total grams of carbohydrates,\n  \"total_protein\": total grams of protein,\n  \"total_fat\": total grams of fat,\n  \"total_energy\": total kilocalories\n}\nFor each value, respond with just the numeric amount without extra text. If you don't know the answer for any value, set it to -1.\n\nQuery: \"This morning, I had a cup of oatmeal with half a sliced banana and a glass of orange juice.\"\nAnswer: {\n  \"total_carbohydrates\": 66.5,\n  \"total_protein\": 7.65,\n  \"total_fat\": 2.14,\n  \"total_energy\": 312\n}\n\nQuery: \"I ate scrambled eggs made with 2 eggs and a toast for breakfast.\"\nAnswer: {\n  \"total_carbohydrates\": 15,\n  \"total_protein\": 15.3,\n  \"total_fat\": 17.5,\n  \"total_energy\": 277.2\n}\n\nQuery: \"Half a peanut butter and jelly sandwich.\"\nAnswer: {\n  \"total_carbohydrates\": 25.3,\n  \"total_protein\": 6.4,\n  \"total_fat\": 9.3,\n  \"total_energy\": 202\n}\n\n# Prediction\nQuery: {{ text }}\nAnswer:"
+  ],
+  "scores": [
+    1.0
+  ]
+}
+Evaluation results:
+  Rank 1: score=1.0000, MAE=29.3790
+
+======== ROUND 1 ========
+Wallclock time: 610.32s
+Top candidates (preview):
+  01: score=-138.0478, preview="# Task For every meal description provided, compute the total quantities of carbohydrates (in grams), protein (in grams), fat (in grams), and energy (in kilocalories).  Make use of trustworthy nutriti..."
+  02: score=-152.0197, preview="# Task For the following meal description, calculate the total amounts of carbohydrates (grams), protein (grams), fat (grams), and energy (kilocalories). Use standard serving sizes from common nutriti..."
+
+-- RAW DATA --
+{
+  "candidates": [
+    "# Task\nFor every meal description provided, compute the total quantities of carbohydrates (in grams), protein (in grams), fat (in grams), and energy (in kilocalories). \nMake use of trustworthy nutritional databases to obtain values for each ingredient, taking into consideration typical cooking methods (such as frying or boiling) when relevant. \nIn cases where the serving size of an ingredient is not indicated, use a standard serving size based on conventional nutritional guidelines.\n\nReturn your results as a dictionary with the following keys:\n{\n\"total_carbohydrates\": total grams of carbohydrates,\n\"total_protein\": total grams of protein,\n\"total_fat\": total grams of fat,\n\"total_energy\": total kilocalories\n}\nIf any value cannot be established, please indicate this with -1.\n\nExamples:\nQuery: \"For lunch, I had 33.1g of boiled eggs, 20.3g of boiled chicken with skin, and some fried chili peppers.\"\nAnswer: {\n\"total_carbohydrates\": 12.00,\n\"total_protein\": 30.00,\n\"total_fat\": 18.00,\n\"total_energy\": 300\n}\n\nQuery: \"I ate scrambled eggs made with 2 eggs and a toast for breakfast.\"\nAnswer: {\n\"total_carbohydrates\": 15,\n\"total_protein\": 15.3,\n\"total_fat\": 17.5,\n\"total_energy\": 277.2\n}\n\nOutput:\n\n# Prediction\nQuery: {{ text }}\nAnswer:",
+    "# Task\nFor the following meal description, calculate the total amounts of carbohydrates (grams), protein (grams), fat (grams), and energy (kilocalories). Use standard serving sizes from common nutritional resources (like USDA) when serving sizes are not specified. For less common ingredients or those with variable nutritional values, make a reasonable estimation based on typical values.\n\nReturn the results in a dictionary format as follows:\n{\n\"total_carbohydrates\": total grams of carbohydrates,\n\"total_protein\": total grams of protein,\n\"total_fat\": total grams of fat,\n\"total_energy\": total kilocalories\n}\n\nIf the nutritional values are uncertain, use -1 for that value. Provide only the numeric amount for each nutritional component with no additional text.\n\nQuery: \"This morning, I had a cup of oatmeal with half a sliced banana and a glass of orange juice.\"\nAnswer: {\n\"total_carbohydrates\": 66.5,\n\"total_protein\": 7.65,\n\"total_fat\": 2.14,\n\"total_energy\": 312\n}\n\nQuery: \"I ate scrambled eggs made with 2 eggs and a toast for breakfast.\"\nAnswer: {\n\"total_carbohydrates\": 15,\n\"total_protein\": 15.3,\n\"total_fat\": 17.5,\n\"total_energy\": 277.2\n}\n\nQuery: \"Half a peanut butter and jelly sandwich.\"\nAnswer: {\n\"total_carbohydrates\": 25.3,\n\"total_protein\": 6.4,\n\"total_fat\": 9.3,\n\"total_energy\": 202\n}\n\n# Prediction\nQuery: {{ text }}\nAnswer:"
+  ],
+  "scores": [
+    -138.0478125,
+    -152.0196875
+  ]
+}
+Evaluation results:
+  Rank 1: score=-138.0478, MAE=24.1552
+  Rank 2: score=-152.0197, MAE=29.0527
+
+======== ROUND 2 ========
+Wallclock time: 944.98s
+Top candidates (preview):
+  01: score=-89.0960, preview="# Task For every meal description you receive, determine the overall amounts of carbohydrates (measured in grams), protein (measured in grams), fat (measured in grams), and energy (measured in kilocal..."
+  02: score=-98.2392, preview="# Task For each meal description given, compute the total amounts of carbohydrates (in grams), protein (in grams), fat (in grams), and energy (in kilocalories). Ensure you obtain accurate nutritional ..."
+
+-- RAW DATA --
+{
+  "candidates": [
+    "# Task\nFor every meal description you receive, determine the overall amounts of carbohydrates (measured in grams), protein (measured in grams), fat (measured in grams), and energy (measured in kilocalories).\n\nWhen assessing each ingredient:\n1. Consult trustworthy nutritional databases to gather information, considering typical cooking methods (such as frying or boiling) that pertain to the ingredient.\n2. If a specific portion size isn't mentioned, use standard serving sizes according to established nutritional guidelines (for example, 1 medium egg = 50g, 1 slice of bread = 30g).\n3. For processed items or beverages, apply common serving sizes (such as 1 cup of juice = 240ml).\n\nPresent your findings as a dictionary with these keys:\n{\n\"total_carbohydrates\": total grams of carbohydrates,\n\"total_protein\": total grams of protein,\n\"total_fat\": total grams of fat,\n\"total_energy\": total kilocalories\n}\nIf any value is indeterminate, please mark it with -1.\n\nExamples:\nQuery: \"I'm enjoying 141g of grapes, 350g of milk powder, and 82g of plain rolls.\"\nAnswer: {\n\"total_carbohydrates\": 78.44,\n\"total_protein\": 14.91,\n\"total_fat\": 18.41,\n\"total_energy\": 517.00\n}\n\nQuery: \"For dinner, I have 320 grams of instant pasta, 200g of acerola juice, and a tiny amount of original sweetener at 1 gram.\"\nAnswer: {\n\"total_carbohydrates\": 75.80,\n\"total_protein\": 20.03,\n\"total_fat\": 10.44,\n\"total_energy\": 509.00\n}\n\n# Prediction\nQuery: {{ text }}\nAnswer:",
+    "# Task\nFor each meal description given, compute the total amounts of carbohydrates (in grams), protein (in grams), fat (in grams), and energy (in kilocalories). Ensure you obtain accurate nutritional information from reliable sources for every ingredient. Pay special attention to uncommon items and verify the accuracy of values, particularly for ingredients like milk powder and acerola juice.\n\nIf the serving size is not provided, utilize a standard serving size based on common recommendations.\n\nPresent your findings as a dictionary structured as follows:\n{\n\"total_carbohydrates\": total grams of carbohydrates,\n\"total_protein\": total grams of protein,\n\"total_fat\": total grams of fat,\n\"total_energy\": total kilocalories\n}\nIn cases where a value cannot be determined, use -1 to indicate this.\n\nExamples:\nQuery: \"I'm snacking on 141g of grapes, 350g of milk powder, and 82g of plain rolls.\"\nExpected Answer: {\n\"total_carbohydrates\": 78.44,\n\"total_protein\": 14.91,\n\"total_fat\": 18.41,\n\"total_energy\": 517.00\n}\n\nQuery: \"For dinner, I have 320 grams of instant pasta, 200g of acerola juice, and a tiny amount of original sweetener at 1 gram.\"\nExpected Answer: {\n\"total_carbohydrates\": 75.80,\n\"total_protein\": 20.03,\n\"total_fat\": 10.44,\n\"total_energy\": 509.00\n}\n\nOutput:\n\n# Prediction\nQuery: {{ text }}\nAnswer:"
+  ],
+  "scores": [
+    -89.09600000000002,
+    -98.23916666666668
+  ]
+}
+Evaluation results:
+  Rank 1: score=-89.0960, MAE=22.9211
+  Rank 2: score=-98.2392, MAE=28.7263
+
+======== ROUND 3 ========
+Wallclock time: 3779.15s
+Top candidates (preview):
+  01: score=-116.5213, preview="# Task Input: "For each meal description provided, calculate the total quantities of carbohydrates (in grams), protein (in grams), fat (in grams), and energy (in kilocalories) based on the listed ingr..."
+  02: score=-128.4014, preview="# Task For every meal description you receive, compute the total quantities of carbohydrates (in grams), protein (in grams), fat (in grams), and energy (in kilocalories). Utilize precise nutritional d..."
+
+-- RAW DATA --
+{
+  "candidates": [
+    "# Task\nInput: \"For each meal description provided, calculate the total quantities of carbohydrates (in grams), protein (in grams), fat (in grams), and energy (in kilocalories) based on the listed ingredients.\n\n1. Evaluate each ingredient by considering typical cooking techniques and variations that may influence their nutritional content (such as different sauces, cooking methods, etc.).\n2. Utilize reliable nutritional databases to obtain precise nutritional data. If needed, make educated assumptions based on standard ingredient properties and cooking practices.\n3. In the absence of a specified portion size, refer to standard serving sizes (for instance, 1 medium egg = 50g, 1 slice of bread = 30g).\n4. For drinks and processed products, use common serving sizes (for example, 1 cup of juice = 240ml).\n\nPresent your findings in the following dictionary format:\n{\n\"total_carbohydrates\": total grams of carbohydrates,\n\"total_protein\": total grams of protein,\n\"total_fat\": total grams of fat,\n\"total_energy\": total kilocalories\n}\nIf any value is ambiguous or cannot be determined, represent it with -1.\n\nExamples:\nQuery: \"For my snack, I used 420 grams of boiled maize flour along with 16 grams of common sugar.\"\nAnswer: {\n\"total_carbohydrates\": 94.50,\n\"total_protein\": 3.40,\n\"total_fat\": 0.00,\n\"total_energy\": 419.00\n}\n\nQuery: \"Tonight\u2019s dinner consists of 250 grams of pasta with cream sauce and seafood, plus 250 grams of pasta with cream sauce and poultry.\"\nAnswer: {\n\"total_carbohydrates\": 83.57,\n\"total_protein\": 30.96,\n\"total_fat\": 33.87,\n\"total_energy\": 767.50\n}\n\nOutput:\n\n# Prediction\nQuery: {{ text }}\nAnswer:",
+    "# Task\nFor every meal description you receive, compute the total quantities of carbohydrates (in grams), protein (in grams), fat (in grams), and energy (in kilocalories). Utilize precise nutritional data from trustworthy sources for each ingredient, ensuring to account for the cooking methods and any supplementary components (like oils or sauces) that could significantly affect the nutritional values.\n\nMake sure to give extra consideration to less common ingredients, confirming their nutritional values. If the serving size isn't clearly stated, refer to standard serving sizes according to widely accepted dietary guidelines.\n\nPresent your results in a dictionary format as follows:\n{\n  \"total_carbohydrates\": total grams of carbohydrates,\n  \"total_protein\": total grams of protein,\n  \"total_fat\": total grams of fat,\n  \"total_energy\": total kilocalories\n}\n\nIf any value cannot be determined, denote it with -1.\n\nExample 1:\nQuery: \"I\u2019m consuming 172.1 grams of fried beef balls in tomato sauce with olive oil for lunch, accompanied by a 63.5g salad of lettuce and olive oil. I also had some oranges weighing 53.4g, along with 136.6g of potato stew with lamb and olive oil, and concluded with 150 grams of white bread.\"\nExpected Answer: {\n  \"total_carbohydrates\": 131.94,\n  \"total_protein\": 1337.00,\n  \"total_fat\": 72.56,\n  \"total_energy\": 45.17\n}\n\nExample 2:\nQuery: \"For my snack, I used 420 grams of boiled maize flour along with 16 grams of common sugar.\"\nExpected Answer: {\n  \"total_carbohydrates\": 94.50,\n  \"total_protein\": 419.00,\n  \"total_fat\": 3.40,\n  \"total_energy\": 11.80\n}\n\nOutput:\n\n# Prediction\nQuery: {{ text }}\nAnswer:"
+  ],
+  "scores": [
+    -116.52125000000001,
+    -128.401425
+  ]
+}
+Evaluation results:
+  Rank 1: score=-116.5213, MAE=24.9893
+  Rank 2: score=-128.4014, MAE=27.9509
+
+======== ROUND 4 ========
+Wallclock time: 2403.59s
+Top candidates (preview):
+  01: score=-106.0761, preview="# Task For every meal description provided, compute the total amounts of carbohydrates (in grams), protein (in grams), fat (in grams), and energy (in kilocalories). Make sure to utilize accurate nutri..."
+  02: score=-118.1869, preview="# Task For each meal description you receive, determine the total amounts of carbohydrates (in grams), protein (in grams), fat (in grams), and energy (in kilocalories). Utilize accurate nutritional in..."
+
+-- RAW DATA --
+{
+  "candidates": [
+    "# Task\nFor every meal description provided, compute the total amounts of carbohydrates (in grams), protein (in grams), fat (in grams), and energy (in kilocalories). Make sure to utilize accurate nutritional information from reliable sources for all ingredients, while carefully accounting for the cooking methods and any supplementary items (such as oils or sauces) that might influence the nutritional values.\n\nPrioritize researching and verifying the nutritional facts for uncommon ingredients that may lack easily accessible data. If you come across an ingredient that appears to be rare or unfamiliar, dedicate time to gather precise nutritional information from reputable databases or scientific literature. In cases where the serving size is not explicitly stated, refer to standard serving sizes based on established dietary guidelines.\n\nPlease present your findings in the following dictionary format:\n{\n\"total_carbohydrates\": total grams of carbohydrates,\n\"total_protein\": total grams of protein,\n\"total_fat\": total grams of fat,\n\"total_energy\": total kilocalories\n}\n\nIf any nutritional value cannot be ascertained, denote it with -1.\n\nExample 1:\nQuery: \"I'm enjoying 200 grams of Nam Deum water alongside 667g of instant rice vermicelli with seasoning for lunch.\"\nExpected Answer: {\n\"total_carbohydrates\": 40.74,\n\"total_protein\": 313.00,\n\"total_fat\": 13.53,\n\"total_energy\": 7.10\n}\n\nExample 2:\nQuery: \"This morning, I enjoyed 200g of tea with milk and sugar, 500g of Uppuna, and washed it down with 325g of water.\"\nExpected Answer: {\n\"total_carbohydrates\": 86.94,\n\"total_protein\": 530.00,\n\"total_fat\": 15.16,\n\"total_energy\": 13.06\n}\n\nOutput:\n\n# Prediction\nQuery: {{ text }}\nAnswer:",
+    "# Task\nFor each meal description you receive, determine the total amounts of carbohydrates (in grams), protein (in grams), fat (in grams), and energy (in kilocalories). Utilize accurate nutritional information from trustworthy sources for every ingredient, taking into account cooking methods and any additional components (such as oils or sauces) that may significantly impact the nutritional values.\n\nBe especially mindful of uncommon or regional ingredients, and conduct comprehensive research to verify their nutritional information. If the serving size is not explicitly stated, default to standard serving sizes as recommended by widely recognized dietary guidelines.\n\nIf you are uncertain about the nutritional values of a specific ingredient, please indicate this by using -1 or seek clarification.\n\nPresent your findings in a dictionary format structured as follows:\n{\n\"total_carbohydrates\": total grams of carbohydrates,\n\"total_protein\": total grams of protein,\n\"total_fat\": total grams of fat,\n\"total_energy\": total kilocalories\n}\n\nExample 1:\nQuery: \"I'm having 200 grams of Nam Deum water along with 667g of instant rice vermicelli seasoned for lunch.\"\nExpected Answer: {\n\"total_carbohydrates\": 40.74,\n\"total_protein\": 313.00,\n\"total_fat\": 13.53,\n\"total_energy\": 7.10\n}\n\nExample 2:\nQuery: \"This morning, I had 200g of tea with milk and sugar, 500g of Uppuna, and drank 325g of water.\"\nExpected Answer: {\n\"total_carbohydrates\": 86.94,\n\"total_protein\": 530.00,\n\"total_fat\": 15.16,\n\"total_energy\": 13.06\n}\n\nOutput:\n\n# Prediction\nQuery: {{ text }}\nAnswer:"
+  ],
+  "scores": [
+    -106.07606041666668,
+    -118.18691964285712
+  ]
+}
+Evaluation results:
+  Rank 1: score=-106.0761, MAE=25.7191
+  Rank 2: score=-118.1869, MAE=27.8571
+
+======== ROUND 5 ========
+Wallclock time: 1258.16s
+Top candidates (preview):
+  01: score=-135.3387, preview="# Task For every meal description provided, assess the total quantities of carbohydrates (in grams), protein (in grams), fat (in grams), and energy (in kilocalories). Use accurate nutritional data fro..."
+  02: score=-135.8960, preview="# Task For every meal description you receive, calculate the total quantities of carbohydrates (in grams), protein (in grams), fat (in grams), and energy (in kilocalories). Focus particularly on the c..."
+
+-- RAW DATA --
+{
+  "candidates": [
+    "# Task\nFor every meal description provided, assess the total quantities of carbohydrates (in grams), protein (in grams), fat (in grams), and energy (in kilocalories). Use accurate nutritional data from reliable sources for each ingredient, and ensure to factor in the cooking techniques (such as boiling or frying) and any additional elements (like oils, sauces, or seasonings) that could significantly influence the nutritional content.\n\nPay special attention to less common or regional ingredients, conducting comprehensive research to verify accurate nutritional information. If a serving size is not clearly specified, use standard serving sizes as recommended by established dietary guidelines.\n\nShould you face any uncertainty regarding the nutritional values of a particular ingredient or its cooking method, please denote this with -1 or seek clarification.\n\nPresent your results in a well-organized dictionary format as shown below:\n{\n\"total_carbohydrates\": total grams of carbohydrates,\n\"total_protein\": total grams of protein,\n\"total_fat\": total grams of fat,\n\"total_energy\": total kilocalories\n}\n\nExample 1:\nQuery: \"For my snack, I used 420 grams of boiled maize flour along with 16 grams of common sugar.\"\nExpected Answer: {\n\"total_carbohydrates\": 94.50,\n\"total_protein\": 419.00,\n\"total_fat\": 3.40,\n\"total_energy\": 11.80\n}\n\nExample 2:\nQuery: \"I ate 89.7g of macaroni prepared with goat and vegetable oil and 92.1g of a Tunisian brick stuffed with turkey and vegetable oil for lunch. Plus, I had 50g of white bread.\"\nExpected Answer: {\n\"total_carbohydrates\": 55.50,\n\"total_protein\": 500.00,\n\"total_fat\": 22.17,\n\"total_energy\": 23.42\n}\n\nOutput:\n\n# Prediction\nQuery: {{ text }}\nAnswer:",
+    "# Task\nFor every meal description you receive, calculate the total quantities of carbohydrates (in grams), protein (in grams), fat (in grams), and energy (in kilocalories). Focus particularly on the cooking methods and preparation techniques used for each ingredient, as these can greatly influence their nutritional values (for instance, oil absorption from frying or nutrient loss during boiling).\n\nMake sure to use reliable nutritional data from reputable sources for all ingredients, including any additional elements like oils, sauces, or seasonings that could impact the overall nutrition. Pay close attention to any unusual or regional ingredients, and perform comprehensive research to confirm their nutritional information.\n\nIf the serving size is not clearly specified, use standard serving sizes as suggested by established dietary guidelines.\n\nIf you are unsure about the nutritional values of a certain ingredient, indicate this by using -1 or seek further clarification.\n\nPresent your results in a dictionary format structured as follows:\n{\n\"total_carbohydrates\": total grams of carbohydrates,\n\"total_protein\": total grams of protein,\n\"total_fat\": total grams of fat,\n\"total_energy\": total kilocalories\n}\n\nExample 1:\nQuery: \"For my snack, I had 420 grams of boiled maize flour along with 16 grams of common sugar.\"\nExpected Answer: {\n\"total_carbohydrates\": 94.50,\n\"total_protein\": 419.00,\n\"total_fat\": 3.40,\n\"total_energy\": 11.80\n}\n\nExample 2:\nQuery: \"I consumed 89.7g of macaroni cooked with goat and vegetable oil and 92.1g of a Tunisian brick stuffed with turkey and vegetable oil for lunch. Additionally, I had 50g of white bread.\"\nExpected Answer: {\n\"total_carbohydrates\": 55.50,\n\"total_protein\": 500.00,\n\"total_fat\": 22.17,\n\"total_energy\": 23.42\n}\n\nOutput:\n\n# Prediction\nQuery: {{ text }}\nAnswer:"
+  ],
+  "scores": [
+    -135.3386979166667,
+    -135.89603749999998
+  ]
+}
+Evaluation results:
+  Rank 1: score=-135.3387, MAE=24.9353
+  Rank 2: score=-135.8960, MAE=25.1656
+
+======== ROUND 6 ========
+Wallclock time: 930.34s
+Top candidates (preview):
+  01: score=-121.1968, preview="# Task "For every meal description you receive, calculate the total quantities of carbohydrates (in grams), protein (in grams), fat (in grams), and energy (in kilocalories). Emphasize the impact of co..."
+  02: score=-128.0588, preview="# Task For each meal description provided, determine the total amounts of carbohydrates (in grams), protein (in grams), fat (in grams), and energy (in kilocalories). Pay special attention to how cooki..."
+
+-- RAW DATA --
+{
+  "candidates": [
+    "# Task\n\"For every meal description you receive, calculate the total quantities of carbohydrates (in grams), protein (in grams), fat (in grams), and energy (in kilocalories). Emphasize the impact of cooking methods and preparation techniques on the nutritional values of each ingredient, as these can alter nutrient content significantly.\n\n1. Utilize reliable and up-to-date nutritional data from reputable sources for all ingredients, especially for complex dishes that may include multiple ingredients and cooking methods.\n2. For mixtures or composite ingredients (e.g., 'syrup water with sugar' or 'corn atole with milk'), try to ascertain the specific brands or recipes to ensure accurate estimates. If exact nutritional values are unclear, approximate using typical values and note any assumptions made.\n3. If the serving size is not clearly defined, refer to standard serving sizes according to established dietary guidelines.\n4. Clearly indicate any uncertain nutritional values with -1 or request more information for clarification.\n\nFormat your results as a dictionary with the following structure:\n{\n\"total_carbohydrates\": total grams of carbohydrates,\n\"total_protein\": total grams of protein,\n\"total_fat\": total grams of fat,\n\"total_energy\": total kilocalories\n}\n\nExample 1:\nQuery: \"I just made a breakfast of 545.26g of egg flat noodles with chili and pork ball, a tiny 1.36g chili, 6g of soy sauce, and 750g of syrup water with sugar.\"\nExpected Answer: {\n\"total_carbohydrates\": 150.79,\n\"total_protein\": 982.00,\n\"total_fat\": 29.14,\n\"total_energy\": 24.45\n}\n\nExample 2:\nQuery: \"I made a 279g serving of corn atole with milk for breakfast.\"\nExpected Answer: {\n\"total_carbohydrates\": 43.20,\n\"total_protein\": 205.00,\n\"total_fat\": 2.80,\n\"total_energy\": 5.63\n}\n\nOutput:\n\n# Prediction\nQuery: {{ text }}\nAnswer:",
+    "# Task\nFor each meal description provided, determine the total amounts of carbohydrates (in grams), protein (in grams), fat (in grams), and energy (in kilocalories). Pay special attention to how cooking methods and preparation techniques can affect the nutritional values of the ingredients, as these can lead to significant changes in nutrient content.\n\n1. Use accurate and current nutritional information from trustworthy sources for all ingredients, particularly for complex recipes that may have several components and cooking techniques.\n2. For blended or composite ingredients (like 'syrup water with sugar' or 'corn atole with milk'), try to identify specific brands or recipes to provide precise estimates. If exact nutritional values are unavailable, use standard values and document any assumptions.\n3. If the serving size is not explicitly stated, consult standard serving sizes based on recognized dietary guidelines.\n4. Mark any uncertain nutritional values with -1 or ask for additional information to clarify.\n\nPresent your findings in a dictionary format as follows:\n{\n\"total_carbohydrates\": total grams of carbohydrates,\n\"total_protein\": total grams of protein,\n\"total_fat\": total grams of fat,\n\"total_energy\": total kilocalories\n}\n\nExample 1:\nQuery: \"I just made a breakfast of 545.26g of egg flat noodles with chili and pork ball, a tiny 1.36g chili, 6g of soy sauce, and 750g of syrup water with sugar.\"\nExpected Answer: {\n\"total_carbohydrates\": 150.79,\n\"total_protein\": 982.00,\n\"total_fat\": 29.14,\n\"total_energy\": 24.45\n}\n\nExample 2:\nQuery: \"I made a 279g serving of corn atole with milk for breakfast.\"\nExpected Answer: {\n\"total_carbohydrates\": 43.20,\n\"total_protein\": 205.00,\n\"total_fat\": 2.80,\n\"total_energy\": 5.63\n}\n\nOutput:\n\n# Prediction\nQuery: {{ text }}\nAnswer:"
+  ],
+  "scores": [
+    -121.19675000000002,
+    -128.05875
+  ]
+}
+Evaluation results:
+  Rank 1: score=-121.1968, MAE=25.8520
+  Rank 2: score=-128.0588, MAE=28.0591
+
